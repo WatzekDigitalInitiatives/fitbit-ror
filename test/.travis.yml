@@ -1,0 +1,32 @@
+language: ruby
+
+sudo: false
+
+notifications:
+  email: false
+
+branches:
+  only:
+    - master
+
+services:
+  - postgresql
+
+rvm:
+    - 2.3.1
+
+cache: bundler
+
+bundler_args: --without production
+
+before_install:
+  - gem install bundler
+  - gem update --system
+
+before_script:
+  - psql -c 'create database fitbit-ror_test;' -U postgres
+
+script:
+  - rake db:create
+  - rake db:test:prepare
+  - rake test
