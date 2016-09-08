@@ -1,6 +1,6 @@
 language: ruby
 
-sudo: false
+sudo: required
 
 notifications:
   email: false
@@ -24,7 +24,7 @@ before_install:
   - gem update --system
 
 before_script:
-  - psql -c 'create database fitbit-ror_test;' -U postgres
+  - psql -c 'create database "fitbit-ror_test";' -U postgres
 
 script:
   - rake db:create
