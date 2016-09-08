@@ -1,0 +1,60 @@
+{
+  "MiniTest": {
+    "coverage": {
+      "/home/watzek343/Documents/fitbit-ror/test/helpers/application_helper_test.rb": [
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null
+      ],
+      "/home/watzek343/Documents/fitbit-ror/app/helpers/application_helper.rb": [
+        1,
+        null,
+        null,
+        1,
+        4,
+        4,
+        1,
+        null,
+        3,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/home/watzek343/Documents/fitbit-ror/app/helpers/pages_helper.rb": [
+        1,
+        null
+      ],
+      "/home/watzek343/Documents/fitbit-ror/app/controllers/pages_controller.rb": [
+        1,
+        null,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null
+      ],
+      "/home/watzek343/Documents/fitbit-ror/app/controllers/application_controller.rb": [
+        1,
+        null,
+        null,
+        1,
+        null
+      ]
+    },
+    "timestamp": 1473355764
+  }
+}
