@@ -1,7 +1,7 @@
 {
   "MiniTest": {
     "coverage": {
-      "/home/watzek343/Documents/fitbit-ror/test/helpers/application_helper_test.rb": [
+      "/home/rishijavia/Documents/fitbit-ror/test/helpers/application_helper_test.rb": [
         1,
         null,
         1,
@@ -17,7 +17,7 @@
         null,
         null
       ],
-      "/home/watzek343/Documents/fitbit-ror/app/helpers/application_helper.rb": [
+      "/home/rishijavia/Documents/fitbit-ror/app/helpers/application_helper.rb": [
         1,
         null,
         null,
@@ -32,11 +32,11 @@
         null,
         null
       ],
-      "/home/watzek343/Documents/fitbit-ror/app/helpers/pages_helper.rb": [
+      "/home/rishijavia/Documents/fitbit-ror/app/helpers/pages_helper.rb": [
         1,
         null
       ],
-      "/home/watzek343/Documents/fitbit-ror/app/controllers/pages_controller.rb": [
+      "/home/rishijavia/Documents/fitbit-ror/app/controllers/pages_controller.rb": [
         1,
         null,
         1,
@@ -47,7 +47,7 @@
         null,
         null
       ],
-      "/home/watzek343/Documents/fitbit-ror/app/controllers/application_controller.rb": [
+      "/home/rishijavia/Documents/fitbit-ror/app/controllers/application_controller.rb": [
         1,
         null,
         null,
@@ -55,6 +55,6 @@
         null
       ]
     },
-    "timestamp": 1473355764
+    "timestamp": 1473391837
   }
 }
