@@ -1,4 +1,9 @@
 <% provide(:title, "Home") %>
+<% if user_signed_in? %>
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+<% else %>
+  <%= link_to('Login', new_user_session_path)  %>
+<% end %>
 <h2>Home Page</h2>
 
 <p>This would be a static home page in WalkLC App.</p>
