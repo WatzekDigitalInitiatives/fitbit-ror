@@ -24,6 +24,11 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'coveralls', require: false
+
+gem 'omniauth-fitbit', '~>2.0.0'
+gem 'figaro'
+gem 'materialize-sass'
+gem 'gon'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -33,8 +38,11 @@ gem 'coveralls', require: false
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'devise'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'mailcatcher'
   gem 'byebug'
   gem 'web-console', '2.1.3'
   gem 'spring', '1.7.2'
