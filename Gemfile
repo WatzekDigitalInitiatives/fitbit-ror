@@ -27,6 +27,8 @@ gem 'coveralls', require: false
 
 gem 'omniauth-fitbit', '~>2.0.0'
 gem 'figaro'
+gem 'materialize-sass'
+gem 'gon'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -75,6 +75,11 @@ GEM
       thor (~> 0.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    gon (6.1.0)
+      actionpack (>= 3.0)
+      json
+      multi_json
+      request_store (>= 1.0)
     guard-compat (1.2.1)
     guard-minitest (2.4.6)
       guard-compat (~> 1.2)
@@ -102,6 +107,8 @@ GEM
       skinny (~> 0.2.3)
       sqlite3 (~> 1.3)
       thin (~> 1.5.0)
+    materialize-sass (0.97.7)
+      sass (~> 3.3)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -171,6 +178,7 @@ GEM
     rake (11.2.2)
     rdoc (4.2.2)
       json (~> 1.4)
+    request_store (1.3.1)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     ruby-progressbar (1.8.1)
@@ -239,10 +247,12 @@ DEPENDENCIES
   coveralls
   devise
   figaro
+  gon
   guard-minitest (= 2.4.6)
   jbuilder (~> 2.0)
   jquery-rails
   mailcatcher
+  materialize-sass
   mini_backtrace (= 0.1.3)
   minitest-reporters (= 1.1.11)
   omniauth-fitbit (~> 2.0.0)
