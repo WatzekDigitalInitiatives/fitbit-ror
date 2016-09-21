@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
 
   has_many :identities, :dependent => :destroy
 
+  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "150x150>" }
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+
   def self.from_omniauth(auth)
    identity = Identity.where(provider: auth.provider, uid: auth.uid).first_or_create do |identity|
      if identity.user == nil
@@ -14,6 +17,10 @@ class User < ActiveRecord::Base
        user.email = auth.info.email || "#{auth.uid}@#{auth.provider}.generated"
        user.password = Devise.friendly_token[0,20]
        user.name = auth['info']['display_name']
+       if auth.info.image.present?
+         avatar_url = process_uri(auth.info.image)
+         user.update_attribute(:avatar, URI.parse(avatar_url))
+       end
      end
      identity.user = user
    end
@@ -38,6 +45,16 @@ class User < ActiveRecord::Base
       client_secret: ENV['FITBIT_CLIENT_SECRET'],
       user_id: fitbit_identity.uid
     )
+  end
+
+  private
+
+  def self.process_uri(uri)
+    require 'open-uri'
+    require 'open_uri_redirections'
+    open(uri, :allow_redirections => :safe) do |r|
+      r.base_uri.to_s
+    end
   end
 
 end
