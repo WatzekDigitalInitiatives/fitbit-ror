@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:fitbit]
 
   has_many :identities, :dependent => :destroy
+  has_many :user_events, :dependent => :destroy
+  has_many :events, through: :user_events
 
   attr_reader :avatar_remote_url
   has_attached_file :avatar
