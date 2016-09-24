@@ -1,11 +1,7 @@
 <% provide(:title, "Home") %>
-<% if user_signed_in? %>
-  <p>Welcome <%= current_user.name %>,</p>
-  <p><%= image_tag current_user.avatar.url %></p>
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-<% else %>
-  <%= link_to('Login with Fitbit', "/users/auth/fitbit")  %>
-<% end %>
+
+<%= link_to('Login with Fitbit', "/users/auth/fitbit")  %>
+
 <h2>Home Page</h2>
 
 <p>This would be a static home page in WalkLC App.</p>

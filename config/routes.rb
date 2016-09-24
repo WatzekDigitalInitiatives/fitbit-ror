@@ -7,8 +7,10 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#home'
 
-  get "/about" => "pages#about"
-  get "/home" => "pages#home"
+  get "/home" => "pages#home", :as => :home
+  get "/dashboard" => "pages#dashboard", :as => :dashboard
+
+  post "/user_events/create" => "user_events#create"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
