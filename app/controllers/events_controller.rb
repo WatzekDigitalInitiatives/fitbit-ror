@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_filter :check_user_event, only: [:edit, :destroy]
 
   # GET /events
   # GET /events.json
@@ -72,5 +73,11 @@ class EventsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params.require(:event).permit(:name, :start_date, :finish_date, :start_location, :end_location)
+    end
+
+    def check_user_event
+      if !current_user.present? || current_user.id != @event.createdby
+        redirect_to @event, notice: 'You dont have permissions to edit this event.'
+      end
     end
 end
