@@ -1,6 +1,6 @@
 class UserEventsController < ApplicationController
     before_action :authenticate_user!
-    
+
     def new
       @user_event = UserEvent.new
     end
@@ -10,6 +10,11 @@ class UserEventsController < ApplicationController
     @user_event = UserEvent.new
     @user_event.user_id = current_user.id
     @event = Event.where(invitecode: params[:invitecode]).first
+    if !@event
+      flash[:notice] = 'Sorry, you were not able to join the event. Please check your code.'
+      redirect_to dashboard_path
+      return
+    end
     @user_event.event_id = @event.id
 
     respond_to do |format|
