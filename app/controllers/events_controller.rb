@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new]
   before_filter :check_user_event, only: [:edit, :destroy]
 
   # GET /events
