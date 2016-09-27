@@ -1,0 +1,10 @@
+<h3>Join an Event</h3>
+<%= form_tag user_events_create_path do %>
+  <p>
+    <%= text_field_tag 'invitecode', nil,  placeholder: 'Enter invite code here', :required => true %>
+    <%= submit_tag "Join event" %>
+  </p>
+<% end %>
+<br />
+<br />
+<%= link_to 'Dashboard', dashboard_path %>

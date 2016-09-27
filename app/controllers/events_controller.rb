@@ -28,6 +28,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.createdby = current_user.id
+    @event.invitecode = [*('A'..'Z'),*('0'..'9')].shuffle[0,5].join
 
     respond_to do |format|
       if @event.save

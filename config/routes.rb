@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get "/home" => "pages#home", :as => :home
   get "/dashboard" => "pages#dashboard", :as => :dashboard
 
+  get "/join" => "user_events#new", :as => :join_event
   post "/user_events/create" => "user_events#create"
 
   # Example of regular route:

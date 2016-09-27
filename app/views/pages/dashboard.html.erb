@@ -6,6 +6,9 @@
 <br />
 <br />
 <%= link_to('Create an event', new_event_path) %>
+<br />
+<br />
+<%= link_to('Join an event', join_event_path) %>
 
 <br />
 <br />
@@ -20,6 +23,7 @@
       <th>Finish date</th>
       <th>Start location</th>
       <th>End location</th>
+      <th>Invite Code</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -32,10 +36,10 @@
         <td><%= event.finish_date %></td>
         <td><%= event.start_location %></td>
         <td><%= event.end_location %></td>
+        <td><%= event.invitecode %></td>
         <td><%= link_to 'Show', event %></td>
         <% if current_user.present? && current_user.id == event.createdby %>
           <td><%= link_to 'Edit', edit_event_path(event) %></td>
-          <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
     <% end %>
@@ -53,6 +57,7 @@
       <th>Finish date</th>
       <th>Start location</th>
       <th>End location</th>
+      <th>Invite Code</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -65,6 +70,7 @@
         <td><%= event.finish_date %></td>
         <td><%= event.start_location %></td>
         <td><%= event.end_location %></td>
+        <td><%= event.invitecode %></td>
         <td><%= link_to 'Show', event %></td>
         <td><%= link_to 'Edit', edit_event_path(event) %></td>
         <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
