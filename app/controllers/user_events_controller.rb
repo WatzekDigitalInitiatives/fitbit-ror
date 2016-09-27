@@ -12,17 +12,17 @@ class UserEventsController < ApplicationController
     @event = Event.where(invitecode: params[:invitecode]).first
     if !@event
       flash[:notice] = 'Sorry, you were not able to join the event. Please check your code.'
-      redirect_to dashboard_path
+      redirect_to join_event_path
       return
     end
     @user_event.event_id = @event.id
 
     respond_to do |format|
       if @user_event.save
-        format.html { redirect_to dashboard_path, notice: 'User successfully added to the event.' }
+        format.html { redirect_to dashboard_path, notice: 'You successfully joined the event!' }
         format.json { render :show, status: :created, location: @user_event }
       else
-        format.html { redirect_to dashboard_path, notice: 'Sorry, you were not able to join the event. Please check your code.' }
+        format.html { redirect_to join_event_path, notice: 'Sorry, you were not able to join the event. Please check your code.' }
         format.json { render json: @user_event.errors, status: :unprocessable_entity }
       end
     end
