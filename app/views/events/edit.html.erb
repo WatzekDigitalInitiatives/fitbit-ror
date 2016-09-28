@@ -1,6 +1,8 @@
 <h1>Editing Event</h1>
-
+<%= link_to 'Dashboard', dashboard_path %> |
+<%= link_to 'Show', @event %>
+<br />
+<br />
 <%= render 'form' %>
 
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>
+<%= render 'create_event_map' %>
