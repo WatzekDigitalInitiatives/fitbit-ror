@@ -11,8 +11,13 @@ class UserEventsController < ApplicationController
     @user_event.user_id = current_user.id
     @event = Event.where(invitecode: params[:invitecode]).first
     if !@event
-      flash[:notice] = 'Sorry, you were not able to join the event. Please check your code.'
+      flash[:notice] = 'Sorry, no event found with that invite code.'
       redirect_to join_event_path
+      return
+    end
+    if UserEvent.find_by(user_id: current_user.id, event_id: @event.id)
+      flash[:notice] = "You are already registered for this event."
+      redirect_to dashboard_path
       return
     end
     @user_event.event_id = @event.id
