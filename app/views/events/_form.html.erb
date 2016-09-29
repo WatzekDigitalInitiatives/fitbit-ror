@@ -31,7 +31,18 @@
     <%= f.label :end_location %><br>
     <%= f.text_field :end_location %>
   </div>
+  <div class="field">
+    <div class="switch">
+      <label>
+        Public
+        <%= f.check_box :private %>
+        <span class="lever"></span>
+        Private
+      </label>
+    </div>
+  </div>
 
+  <br />
   <div id="eventMap" style="height: 400px;"></div>
   <br />
   <div class="actions">
