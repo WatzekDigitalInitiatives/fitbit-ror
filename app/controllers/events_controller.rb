@@ -1,12 +1,13 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :check_private_event_users, only: [:show]
   before_action :authenticate_user!, only: [:new]
-  before_filter :check_user_event, only: [:edit, :destroy]
+  before_action :check_user_event, only: [:edit, :destroy]
 
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = Event.where(private: false).all
   end
 
   # GET /events/1
@@ -77,9 +78,19 @@ class EventsController < ApplicationController
       params.require(:event).permit(:name, :start_date, :finish_date, :start_location, :end_location, :private)
     end
 
+    # Checks if user owns the event to edit and destroy event
     def check_user_event
       if !current_user.present? || current_user.id != @event.createdby
         redirect_to @event, notice: 'You dont have permissions to edit this event.'
+      end
+    end
+
+    # Checks if the event is private and only allow creator or people who joined to see the event
+    def check_private_event_users
+      if !current_user.present? || @event.private && current_user.id != @event.createdby
+        if !@event.users.include?(current_user)
+          redirect_to events_path, notice: 'You dont have permissions to view this event.'
+        end
       end
     end
 end
