@@ -87,7 +87,11 @@ class EventsController < ApplicationController
 
     # Checks if the event is private and only allow creator or people who joined to see the event
     def check_private_event_users
-      if !current_user.present? || @event.private && current_user.id != @event.createdby
+      if @event.private && !current_user.present?
+        redirect_to events_path, notice: 'You dont have access to this event. Please try after logging in.'
+        return
+      end
+      if @event.private && current_user.id != @event.createdby
         if !@event.users.include?(current_user)
           redirect_to events_path, notice: 'You dont have permissions to view this event.'
         end
