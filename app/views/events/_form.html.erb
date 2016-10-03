@@ -41,6 +41,16 @@
       </label>
     </div>
   </div>
+  <div class="field">
+    <div class="switch">
+      <label>
+        Individual Event
+        <%= f.check_box :team_event, {}, "true", "false" %>
+        <span class="lever"></span>
+        Team Event
+      </label>
+    </div>
+  </div>
 
   <br />
   <div id="eventMap" style="height: 400px;"></div>

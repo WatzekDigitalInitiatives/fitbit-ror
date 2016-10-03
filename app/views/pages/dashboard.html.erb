@@ -27,6 +27,7 @@
       <th>Start location</th>
       <th>End location</th>
       <th>Invite Code</th>
+      <th>Event Type</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -40,6 +41,11 @@
         <td><%= event.start_location %></td>
         <td><%= event.end_location %></td>
         <td><%= event.invitecode %></td>
+        <% if event.team_event %>
+          <td>Team</td>
+        <% else %>
+          <td>Individual</td>
+        <% end %>
         <td><%= link_to 'Show', event %></td>
         <% if current_user.present? && current_user.id == event.createdby %>
           <td><%= link_to 'Edit', edit_event_path(event) %></td>
@@ -61,6 +67,7 @@
       <th>Start location</th>
       <th>End location</th>
       <th>Invite Code</th>
+      <th>Event Type</th>
       <th>Visibility</th>
       <th colspan="3"></th>
     </tr>
@@ -75,6 +82,11 @@
         <td><%= event.start_location %></td>
         <td><%= event.end_location %></td>
         <td><%= event.invitecode %></td>
+        <% if event.team_event %>
+          <td>Team</td>
+        <% else %>
+          <td>Individual</td>
+        <% end %>
         <% if event.private%>
           <td><i class="material-icons">visibility_off</i></td>
         <% else %>
