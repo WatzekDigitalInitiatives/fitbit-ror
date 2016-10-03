@@ -19,43 +19,12 @@
 <% if @participating_events.present?%>
 <h4>Events Participating</h4>
 <table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Start date</th>
-      <th>Finish date</th>
-      <th>Start location</th>
-      <th>End location</th>
-      <th>Invite Code</th>
-      <th>Event Type</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+
+  <%= render :partial=>"layouts/events_tablehead" %>
 
   <tbody>
     <% @participating_events.each do |event| %>
-      <tr>
-        <td><%= event.name %></td>
-        <td><%= event.start_date %></td>
-        <td><%= event.finish_date %></td>
-        <td><%= event.start_location %></td>
-        <td><%= event.end_location %></td>
-        <td><%= event.invitecode %></td>
-        <% if event.team_event %>
-          <td><i class="material-icons">supervisor_account</i></td>
-        <% else %>
-          <td><i class="material-icons">perm_identity</i></td>
-        <% end %>
-        <% if event.private%>
-          <td><i class="material-icons">visibility_off</i></td>
-        <% else %>
-          <td><i class="material-icons">visibility</i></td>
-        <% end %>
-        <td><%= link_to 'Show', event %></td>
-        <% if current_user.present? && current_user.id == event.createdby %>
-          <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <% end %>
-      </tr>
+      <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
     <% end %>
   </tbody>
 </table>
@@ -64,43 +33,11 @@
 <% if @user_events.present? %>
 <h4>Events Created by <%= @user.name %></h4>
 <table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Start date</th>
-      <th>Finish date</th>
-      <th>Start location</th>
-      <th>End location</th>
-      <th>Invite Code</th>
-      <th>Event Type</th>
-      <th>Visibility</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <%= render :partial=>"layouts/events_tablehead" %>
 
   <tbody>
     <% @user_events.each do |event| %>
-      <tr>
-        <td><%= event.name %></td>
-        <td><%= event.start_date %></td>
-        <td><%= event.finish_date %></td>
-        <td><%= event.start_location %></td>
-        <td><%= event.end_location %></td>
-        <td><%= event.invitecode %></td>
-        <% if event.team_event %>
-          <td><i class="material-icons">supervisor_account</i></td>
-        <% else %>
-          <td><i class="material-icons">perm_identity</i></td>
-        <% end %>
-        <% if event.private%>
-          <td><i class="material-icons">visibility_off</i></td>
-        <% else %>
-          <td><i class="material-icons">visibility</i></td>
-        <% end %>
-        <td><%= link_to 'Show', event %></td>
-        <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
     <% end %>
   </tbody>
 </table>
