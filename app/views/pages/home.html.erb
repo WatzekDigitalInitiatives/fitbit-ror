@@ -1,13 +1,14 @@
 <% provide(:title, "Home") %>
-
-<%= link_to('Login with Fitbit', "/users/auth/fitbit")  %>
-<br />
-<br />
-<%= link_to('All events', events_path)  %>
-
-<h2>Home Page</h2>
-
-<p>This would be a static home page in WalkLC App.</p>
-
-<p>Gastropub sartorial kogi, pitchfork raclette neutra direct trade freegan roof party brunch keffiyeh forage vaporware. Keffiyeh etsy knausgaard cardigan intelligentsia. Umami neutra trust fund, YOLO tumeric edison bulb butcher raclette beard roof party polaroid truffaut poutine chambray tbh. Cornhole bushwick pok pok offal hot chicken squid. Crucifix intelligentsia pinterest farm-to-table banjo. Pop-up tattooed fam keffiyeh lomo. +1 yuccie twee selfies air plant shabby chic, synth chicharrones gochujang lyft cornhole marfa literally poke.</p>
-<p>Yr asymmetrical retro disrupt. Intelligentsia succulents chicharrones iPhone locavore, knausgaard single-origin coffee gentrify taxidermy. Glossier letterpress trust fund raclette gochujang, whatever everyday carry scenester. Lo-fi migas raw denim, gentrify kombucha four loko truffaut leggings salvia next level la croix hammock tilde. Tote bag meggings +1 lumbersexual locavore tumblr cred intelligentsia, literally hot chicken. Flexitarian pok pok messenger bag, squid pug pour-over subway tile tote bag VHS tattooed sartorial slow-carb vegan. Aesthetic kale chips shoreditch, brooklyn tbh forage leggings celiac polaroid cold-pressed put a bird on it snackwave chartreuse roof party.</p>
+<div class="home"></div>
+<div class="message">
+    <div class="brand">WalkLC</div>
+    <%= link_to events_path, :class => "btn-large waves-effect orange black-text" do %>
+    <i class="material-icons left">map</i>Events
+    <% end %>
+    <%= link_to "/users/auth/fitbit", :class => "btn-large waves-effect orange black-text" do %>
+    <i class="material-icons left">person_pin</i>Login
+    <% end %>
+    <%= link_to about_path, :class => "btn-large waves-effect orange black-text" do %>
+    <i class="material-icons left">info_outline</i>About
+    <% end %>
+</div>

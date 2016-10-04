@@ -6,7 +6,10 @@ body {
   line-height: 18px;
 }
 
-p, ol, ul, td {
+ol,
+p,
+td,
+ul {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
@@ -32,7 +35,8 @@ a {
 }
 
 div {
-  &.field, &.actions {
+  &.actions,
+  &.field {
     margin-bottom: 10px;
   }
 }
@@ -50,8 +54,7 @@ div {
 #error_explanation {
   width: 450px;
   border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 0;
+  padding: 7px 7px 0;
   margin-bottom: 20px;
   background-color: #f0f0f0;
 
@@ -60,8 +63,7 @@ div {
     font-weight: bold;
     padding: 5px 5px 5px 15px;
     font-size: 12px;
-    margin: -7px;
-    margin-bottom: 0px;
+    margin: -7px -7px 0;
     background-color: #c00;
     color: #fff;
   }
