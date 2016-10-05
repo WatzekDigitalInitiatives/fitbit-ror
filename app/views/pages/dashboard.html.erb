@@ -1,44 +1,43 @@
 <% provide(:title, "Dashboard") %>
 
-<p>Welcome <%= @user.name %>,</p>
-<p><%= image_tag @user.avatar.url %></p>
-<%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-<br />
-<br />
-<%= link_to('All Events', events_path) %>
-<br />
-<br />
-<%= link_to('Create an event', new_event_path) %>
-<br />
-<br />
-<%= link_to('Join an event', join_event_path) %>
+<%= render :partial=>"layouts/header" %>
 
-<br />
-<br />
+<div class="container">
+    <div class="row">
+        <div class="profile col s2">
+            <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+        </div>
+        <div class="feed col s9 offset-s1">
 
-<% if @participating_events.present?%>
-<h4>Events Participating</h4>
-<table>
+            <%= render :partial=>"layouts/events_preview" %>
 
-  <%= render :partial=>"layouts/events_tablehead" %>
+            <% if @participating_events.present?%>
+            <h4>Events Participating</h4>
+            <table>
 
-  <tbody>
-    <% @participating_events.each do |event| %>
-      <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
-    <% end %>
-  </tbody>
-</table>
-<% end %>
+                <%= render :partial=>"layouts/events_tablehead" %>
 
-<% if @user_events.present? %>
-<h4>Events Created by <%= @user.name %></h4>
-<table>
-  <%= render :partial=>"layouts/events_tablehead" %>
+                <tbody>
+                    <% @participating_events.each do |event| %>
+                    <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
+                    <% end %>
+                </tbody>
+            </table>
+            <% end %>
 
-  <tbody>
-    <% @user_events.each do |event| %>
-      <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
-    <% end %>
-  </tbody>
-</table>
-<% end %>
+            <% if @user_events.present? %>
+            <h4>Events Created by
+                <%= @user.name %></h4>
+            <table>
+                <%= render :partial=>"layouts/events_tablehead" %>
+
+                <tbody>
+                    <% @user_events.each do |event| %>
+                    <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
+                    <% end %>
+                </tbody>
+            </table>
+            <% end %>
+        </div>
+    </div>
+</div>

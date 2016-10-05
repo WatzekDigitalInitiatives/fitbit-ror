@@ -1,0 +1,14 @@
+<p class="username"><%= @user.name %></p>
+<p class="avatar"><%= image_tag @user.avatar.url %></p>
+<%= link_to destroy_user_session_path, :method => :delete, :class => "btn waves-effect orange black-text" do %>
+<i class="material-icons right">person_pin</i>Logout
+<% end %>
+<%= link_to events_path, :class => "btn waves-effect orange black-text" do %>
+<i class="material-icons right">today</i>Events
+<% end %>
+<%= link_to new_event_path, :class => "btn waves-effect orange black-text" do %>
+<i class="material-icons right">add_circle</i>New Event
+<% end %>
+<%= link_to join_event_path, :class => "btn waves-effect orange black-text" do %>
+<i class="material-icons right">directions_walk</i>Join Event
+<% end %>

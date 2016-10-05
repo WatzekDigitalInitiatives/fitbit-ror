@@ -16,4 +16,6 @@
 @import "materialize/components/color"; // $primary-color: color("blue", "lighten-2") !default;
 @import "materialize";
 @import "materialize/extras/nouislider"; // partials
-@import 'home';
+@import 'partials/home';
+@import 'partials/profile';
+@import 'partials/event_preview';
