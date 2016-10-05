@@ -1,9 +1,17 @@
 .card {
-  .card-image img {
-    top: -13rem;
+  form {
+    display: inline-block;
+
+    .join-button {
+      background: none;
+      border: 0;
+      cursor: pointer;
+      text-transform: uppercase;
+      color: orange;
+    }
   }
 
-  .card-content {
-    padding: 1rem;
+  .collection {
+    margin-top: 2rem;
   }
 }

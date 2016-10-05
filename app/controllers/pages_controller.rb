@@ -8,8 +8,15 @@ class PagesController < ApplicationController
     def dashboard
         @user = current_user
         @participating_events = current_user.events
-        @user_id = current_user.id
-        @user_events = Event.where(createdby: @user_id)
+        @participating_events.each do |event|
+            event.static_map_preview = [
+                'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
+                '&markers=color:green%7Clabel:A%7C', event.start_location,
+                '&markers=color:red%7Clabel:B%7C', event.end_location,
+                '&path=', event.start_location, '|', event.end_location,
+                '&scale=2', '&key=', ENV['GOOGLE_API_KEY']
+            ].join
+        end
     end
 
     def about

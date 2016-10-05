@@ -1,16 +1,24 @@
-<h1>Listing Events</h1>
+<% provide(:title, "All Events") %>
 
-<table>
-  <%= render :partial=>"layouts/events_tablehead" %>
+<%= render :partial=>"layouts/header" %>
 
-  <tbody>
-    <% @events.each do |event| %>
-      <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Event', new_event_path %> |
-<%= link_to 'Dashboard', dashboard_path %>
+<div class="container">
+    <div class="row">
+        <% if current_user.present? %>
+        <div class="profile col s2">
+            <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+        </div>
+        <div class="feed col s9 offset-s1">
+            <% @events.each do |event| %>
+            <%= render :partial=>"layouts/events_preview", :locals => {:event => event} %>
+            <% end %>
+        </div>
+    <% else %>
+        <div class="feed col s12">
+            <% @events.each do |event| %>
+            <%= render :partial=>"layouts/events_preview", :locals => {:event => event} %>
+            <% end %>
+        </div>
+        <% end %>
+    </div>
+</div>

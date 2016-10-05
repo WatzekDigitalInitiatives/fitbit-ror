@@ -1,26 +1,59 @@
-<div class="card small">
+<div class="card small sticky-action">
     <div class="card-image waves-effect waves-block waves-light">
-        <%= image_tag "event1.jpg", :class => "activator" %>
+        <% if event.avatar? %>
+        <%= image_tag event.avatar.url(:preview), :class => "activator" %>
+    <% else %>
+        <%= image_tag event.static_map_preview, :class => "activator" %>
+        <% end %>
     </div>
     <div class="card-content">
         <span class="card-title activator grey-text text-darken-4">
-            Event Title
-            <i class="material-icons">lock</i>
+            <%= event.name %>
+            <% if event.team_event %>
+            <i class="material-icons">supervisor_account</i>
+        <% else %>
             <i class="material-icons">perm_identity</i>
+            <% end %>
+            <% if event.private%>
+            <i class="material-icons">lock</i>
+        <% else %>
+            <i class="material-icons">lock_open</i>
+            <% end %>
             <i class="material-icons right">more_vert</i>
         </span>
         <p>
-            Event description...I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+            <%= event.description %>
         </p>
     </div>
+    <div class="card-action">
+        <%= link_to 'View', event %>
+        <% if current_user.present? && current_user.id == event.createdby %>
+        <%= link_to 'Edit', edit_event_path(event) %>
+        <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <% end %>
+        <% if current_user.present? && !current_user.events.include?(event) %>
+        <%= button_to 'Join', user_events_create_path, :class => 'join-button', params: { 'invitecode' => event.invitecode } %>
+        <% end %>
+    </div>
     <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Event Title<i class="material-icons right">close</i>
+        <span class="card-title grey-text text-darken-4"><%= event.name %>
+            <i class="material-icons right">close</i>
         </span>
         <ul class="collection">
-            <li class="collection-item">Alvin</li>
-            <li class="collection-item">Alvin</li>
-            <li class="collection-item">Alvin</li>
-            <li class="collection-item">Alvin</li>
+            <li class="collection-item">
+                <b>Dates:
+                </b><%= event.start_date %>
+                -
+                <%= event.finish_date %></li>
+            <li class="collection-item">
+                <b>Route:
+                </b><%= event.start_location %>
+                -
+                <%= event.end_location %></li>
+            <li class="collection-item">
+                <b>Code:
+                </b>
+                <%= event.invitecode %></li>
         </ul>
     </div>
 </div>

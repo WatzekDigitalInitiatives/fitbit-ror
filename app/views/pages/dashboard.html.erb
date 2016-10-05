@@ -8,35 +8,10 @@
             <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
         </div>
         <div class="feed col s9 offset-s1">
-
-            <%= render :partial=>"layouts/events_preview" %>
-
             <% if @participating_events.present?%>
-            <h4>Events Participating</h4>
-            <table>
-
-                <%= render :partial=>"layouts/events_tablehead" %>
-
-                <tbody>
-                    <% @participating_events.each do |event| %>
-                    <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
-                    <% end %>
-                </tbody>
-            </table>
+            <% @participating_events.each do |event| %>
+            <%= render :partial=>"layouts/events_preview", :locals => {:event => event, :subset => 'participating_events'} %>
             <% end %>
-
-            <% if @user_events.present? %>
-            <h4>Events Created by
-                <%= @user.name %></h4>
-            <table>
-                <%= render :partial=>"layouts/events_tablehead" %>
-
-                <tbody>
-                    <% @user_events.each do |event| %>
-                    <%= render :partial=>"layouts/events_listing", :locals => {:event => event} %>
-                    <% end %>
-                </tbody>
-            </table>
             <% end %>
         </div>
     </div>

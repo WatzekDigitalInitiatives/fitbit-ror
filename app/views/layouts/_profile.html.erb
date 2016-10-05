@@ -1,10 +1,14 @@
 <p class="username"><%= @user.name %></p>
-<p class="avatar"><%= image_tag @user.avatar.url %></p>
+<p class="avatar"><%= image_tag @user.avatar.url, :class => 'z-depth-2' %></p>
 <%= link_to destroy_user_session_path, :method => :delete, :class => "btn waves-effect orange black-text" do %>
-<i class="material-icons right">person_pin</i>Logout
+<i class="material-icons right">exit_to_app</i>Logout
 <% end %>
+<%= link_to dashboard_path, :class => "btn waves-effect orange black-text" do %>
+<i class="material-icons right">dashboard</i>Dashboard
+<% end %>
+<hr/>
 <%= link_to events_path, :class => "btn waves-effect orange black-text" do %>
-<i class="material-icons right">today</i>Events
+<i class="material-icons right">map</i>All Events
 <% end %>
 <%= link_to new_event_path, :class => "btn waves-effect orange black-text" do %>
 <i class="material-icons right">add_circle</i>New Event
