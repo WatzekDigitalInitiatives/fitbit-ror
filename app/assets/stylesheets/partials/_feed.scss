@@ -1,3 +1,12 @@
 .feed {
-  margin-top: 3.5rem;
+  .feed-title {
+    color: black;
+    font-size: 2rem;
+    font-style: italic;
+    font-variant: small-caps;
+    font-weight: bold;
+    margin: 1.5rem auto;
+    text-align: center;
+  }
+  // margin-top: 3.5rem;
 }

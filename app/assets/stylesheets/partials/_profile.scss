@@ -1,6 +1,7 @@
 .profile {
   .username {
-    font-size: 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 2rem;
     font-variant: small-caps;
     font-style: italic;
     font-weight: bold;
@@ -12,6 +13,7 @@
   }
 
   a {
+    padding-left: 1rem;
     padding-right: 1rem;
     font-weight: bold;
     text-shadow: 1px 1px white;

@@ -2,6 +2,7 @@ class UserEventsController < ApplicationController
     before_action :authenticate_user!
 
     def new
+        @user = current_user
         @user_event = UserEvent.new
     end
 
