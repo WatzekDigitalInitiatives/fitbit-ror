@@ -41,6 +41,10 @@
     <%= f.text_field :end_location %>
 </div>
 <div class="field">
+    <%= f.label :distance, 'Distance (meters)' %><br>
+    <%= f.text_field :distance, :readonly => true %>
+</div>
+<div class="field">
     <div class="switch">
         <label>
             Public

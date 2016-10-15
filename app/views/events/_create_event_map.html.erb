@@ -48,7 +48,7 @@
 				        var totalDistanceStr = route.legs[0].distance["text"];
 				        var totalDistance = totalDistanceStr.match(/\d/g);
 				        totalDistance = parseInt(totalDistance.join(""));
-				        $("#total_distance").attr('value', totalDistance*1000);
+				        $("#event_distance").attr('value', totalDistance*1000);
 			    	}
 			    	else{
 			    		alert("Cannot find origin and destination. Please try new values for origin and destination")
