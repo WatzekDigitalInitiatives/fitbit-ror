@@ -11,6 +11,7 @@
 /log/*
 !/log/.keep
 /tmp
+logfile
 
 # Ignore coveralls result
 /coverage
@@ -20,3 +21,6 @@
 
 # Ignoring users avatar
 /public/system/users
+
+# Ignore database config
+config/database.yml

@@ -1,0 +1,27 @@
+.profile {
+  .username {
+    margin: 1.5rem 0;
+    font-size: 2rem;
+    font-variant: small-caps;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  i {
+    font-size: 1.7rem;
+  }
+
+  a {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-weight: bold;
+    text-shadow: 1px 1px white;
+    margin: .5rem 0;
+    width: 100%;
+  }
+
+  img {
+    width: 100%;
+  }
+}

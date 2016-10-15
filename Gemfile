@@ -29,7 +29,7 @@ gem 'omniauth-fitbit', :git => "git@github.com:rishijavia/omniauth-fitbit.git"
 gem 'figaro'
 gem 'materialize-sass'
 gem 'gon'
-gem 'paperclip', '~> 5.0.0'
+gem 'paperclip', '~> 5.1.0'
 gem 'open_uri_redirections'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

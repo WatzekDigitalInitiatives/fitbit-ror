@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= full_title(yield(:title)) %></title>
-    <%= csrf_meta_tags %>
-    <%= include_gon %>
-    <%= stylesheet_link_tag    'application', media: 'all',
+    <head>
+        <title><%= full_title(yield(:title)) %></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <%= csrf_meta_tags %>
+        <%= include_gon %>
+        <%= stylesheet_link_tag    'application', media: 'all',
                                               'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= render 'layouts/shim' %>
-  </head>
-  <body>
-    <%= render 'layouts/header' %>
-    <%= render 'layouts/notification' %>
-
-    <div class="container">
-      <%= yield %>
-      <%= render 'layouts/footer' %>
-    </div>
-  </body>
+        <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons" %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+        <%= render 'layouts/shim' %>
+    </head>
+    <body>
+        <!--<%= render 'layouts/header' %>-->
+        <%= render 'layouts/notification' %>
+        <%= yield %>
+        <%= render 'layouts/footer' %>
+        <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initialize', defer:true, async:true%>
+    </body>
 </html>

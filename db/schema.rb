@@ -11,10 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921185716) do
+ActiveRecord::Schema.define(version: 20161015222533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.string   "name"
+    t.date     "start_date"
+    t.date     "finish_date"
+    t.string   "start_location"
+    t.string   "end_location"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "createdby"
+    t.string   "invitecode"
+    t.boolean  "private",             default: false
+    t.boolean  "team_event",          default: false
+    t.string   "description"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.integer  "distance"
+  end
 
   create_table "identities", force: :cascade do |t|
     t.string   "uid"
@@ -26,6 +46,13 @@ ActiveRecord::Schema.define(version: 20160921185716) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "timezone"
+  end
+
+  create_table "user_events", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -47,6 +74,7 @@ ActiveRecord::Schema.define(version: 20160921185716) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "avatar"
+    t.string   "hexcolor"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

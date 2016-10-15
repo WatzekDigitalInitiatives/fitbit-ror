@@ -1,0 +1,58 @@
+<script>
+    $( document ).ready(function() {
+      $("#event_start_location").change(function(){
+           if($("#event_end_location").val()){
+             toggleMapCheck();
+           }
+       });
+   		$("#event_end_location").change(function(){
+  	    	  if($("#event_start_location").val()){
+  	    		     toggleMapCheck();
+  	    	  }
+     	});
+    });
+
+    var map;
+    var directionsDisplay;
+
+    function initialize(){
+      directionsDisplay = new google.maps.DirectionsRenderer();
+      var portland = new google.maps.LatLng(45.542415,-122.7244614);
+      var mapOptions = {
+        zoom: 7,
+        center: portland
+      }
+      map = new google.maps.Map(document.getElementById("eventMap"), mapOptions);
+      directionsDisplay.setMap(map);
+
+      if ($("#event_end_location").val() && $("#event_end_location").val()){
+        toggleMapCheck();
+      }
+    }
+
+    function toggleMapCheck(){
+				var startLocation = $("#event_start_location").val();
+				var endLocation = $("#event_end_location").val();
+				var directionsService=new google.maps.DirectionsService();
+				var request = {
+			        origin: startLocation,
+			        destination: endLocation,
+			        optimizeWaypoints: true,
+			        unitSystem: google.maps.UnitSystem.METRIC,
+			        travelMode: google.maps.DirectionsTravelMode.WALKING
+			    };
+			    directionsService.route(request, function(response, status) {
+				    if (status == google.maps.DirectionsStatus.OK) {
+								directionsDisplay.setDirections(response);
+				        var route = response.routes[0];
+				        var totalDistanceStr = route.legs[0].distance["text"];
+				        var totalDistance = totalDistanceStr.match(/\d/g);
+				        totalDistance = parseInt(totalDistance.join(""));
+				        $("#event_distance").attr('value', totalDistance*1000);
+			    	}
+			    	else{
+			    		alert("Cannot find origin and destination. Please try new values for origin and destination")
+			    	}
+				});
+			}
+</script>
