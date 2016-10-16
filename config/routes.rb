@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :teams
     devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }, skip: [:registrations]
     resources :events
     # The priority is based upon order of creation: first created -> highest priority.
