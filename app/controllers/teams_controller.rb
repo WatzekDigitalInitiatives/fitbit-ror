@@ -30,8 +30,14 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.save
-        format.html { redirect_to @team, notice: 'Team was successfully created.' }
-        format.json { render :show, status: :created, location: @team }
+        @user_team = UserTeam.new
+        @user_team.user_id = current_user.id
+        @user_team.team_id = @team.id
+        @user_team.admin = true
+        if @user_team.save
+          format.html { redirect_to @team, notice: 'Team was successfully created.' }
+          format.json { render :show, status: :created, location: @team }
+        end
       else
         format.html { render :new }
         format.json { render json: @team.errors, status: :unprocessable_entity }
