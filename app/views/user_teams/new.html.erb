@@ -1,0 +1,22 @@
+<% provide(:title, "Join Team") %>
+
+<%= render :partial=>"layouts/header" %>
+
+<div class="container">
+    <div class="row">
+        <div class="profile col s2">
+            <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+        </div>
+        <div class="feed col s9 offset-s1">
+            <div class="feed-title">
+                Join A Private Team
+            </div>
+            <%= form_tag user_teams_create_path do %>
+            <p>
+                <%= text_field_tag 'invitecode', nil,  placeholder: 'Enter invite code here', :required => true %>
+                <%= submit_tag "Join event" %>
+            </p>
+            <% end %>
+        </div>
+    </div>
+</div>

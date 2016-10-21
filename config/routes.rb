@@ -11,8 +11,11 @@ Rails.application.routes.draw do
     get '/home' => 'pages#home', :as => :home
     get '/dashboard' => 'pages#dashboard', :as => :dashboard
 
-    get '/join' => 'user_events#new', :as => :join_event
+    get '/joinevent' => 'user_events#new', :as => :join_event
     post '/user_events/create' => 'user_events#create'
+
+    get '/jointeam' => 'user_teams#new', :as => :join_team
+    post '/user_teams/create' => 'user_events#create'
 
     get '/about' => 'pages#about', :as => :about
 

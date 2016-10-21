@@ -87,7 +87,9 @@ class TeamsController < ApplicationController
             redirect_to @team, notice: 'Only team admins can edit or destroy teams.'
         else
           #check if they are admin
-          # if !UserTeam.where(:user_id => user.id, :team_id => team.id).first.admin
+          if !UserTeam.where(:user_id => current_user.id, :team_id => @team.id).first.admin?
+            redirect_to @team, notice: 'Only team admins can edit or destroy teams.'
+          end
         end
     end
 end
