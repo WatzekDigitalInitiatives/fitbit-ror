@@ -1,5 +1,6 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :check_team_admin, only: [:edit, :destroy]
 
   # GET /teams
   # GET /teams.json
@@ -78,5 +79,15 @@ class TeamsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def team_params
       params.require(:team).permit(:name, :private, :avatar)
+    end
+
+    # Checks if user is the admin of the team to edit and destroy event
+    def check_team_admin
+        if !current_user.present? || !@team.users.include?(current_user)
+            redirect_to @team, notice: 'Only team admins can edit or destroy teams.'
+        else
+          #check if they are admin
+          # if !UserTeam.where(:user_id => user.id, :team_id => team.id).first.admin
+        end
     end
 end
