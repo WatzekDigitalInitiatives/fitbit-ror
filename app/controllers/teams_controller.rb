@@ -8,9 +8,14 @@ class TeamsController < ApplicationController
     @teams = Team.where(private: false).all
   end
 
+  def myteams
+    @my_teams = current_user.teams
+  end
+
   # GET /teams/1
   # GET /teams/1.json
   def show
+    @users = @team.users
   end
 
   # GET /teams/new

@@ -5,11 +5,11 @@
 <% end %>
 <br />
 <br />
-<%= link_to my_teams_path, :class => "btn waves-effect orange black-text" do %>
-<i class="material-icons right">directions_walk</i>My Teams
+<%= link_to teams_path, :class => "btn waves-effect orange black-text" do %>
+<i class="material-icons right">directions_walk</i>Public Teams
 <% end %>
 
-<h1>Public Teams</h1>
+<h1>My Teams</h1>
 
 <table>
   <thead>
@@ -17,20 +17,21 @@
       <th>Name</th>
       <th>Private</th>
       <th>Hexcolor</th>
+      <th>Invitecode</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @teams.each do |team| %>
+    <% @my_teams.each do |team| %>
       <tr>
         <td><%= team.name %></td>
         <td><%= team.private %></td>
         <td><%= team.hexcolor %></td>
+        <td><%= team.invitecode %></td>
         <td><%= link_to 'Show', team %></td>
         <td><%= link_to 'Edit', edit_team_path(team) %></td>
         <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => team.invitecode } %><td>
       </tr>
     <% end %>
   </tbody>

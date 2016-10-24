@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     get '/jointeam' => 'user_teams#new', :as => :join_team
     post '/user_teams/create' => 'user_teams#create'
 
+    get '/myteams' => 'teams#myteams', :as => :my_teams
     get '/about' => 'pages#about', :as => :about
 
     # Example of regular route:

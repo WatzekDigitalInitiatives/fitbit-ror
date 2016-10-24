@@ -20,5 +20,24 @@
   <%= @team.invitecode %>
 </p>
 
+<p>
+  <strong>Team members: </strong>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.name %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => @team.invitecode } %>
+
 <%= link_to 'Edit', edit_team_path(@team) %> |
 <%= link_to 'Dashboard', dashboard_path %>

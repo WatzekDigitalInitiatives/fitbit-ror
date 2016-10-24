@@ -16,16 +16,16 @@ class UserTeamsController < ApplicationController
       end
       if UserTeam.find_by(user_id: current_user.id, team_id: @team.id)
         flash[:notice] = 'You are already a member of this team.'
-        redirect_to join_team_path
+        redirect_to :back
         return
       end
       @user_team.team_id = @team.id
       respond_to do |format|
           if @user_team.save
-              format.html { redirect_to dashboard_path, notice: 'You successfully joined the team!' }
+              format.html { redirect_to my_teams_path, notice: 'You successfully joined the team!' }
               format.json { render :show, status: :created, location: @user_event }
           else
-              format.html { redirect_to join_event_path, notice: 'Sorry, you were not able to join the team. Please check your code.' }
+              format.html { redirect_to :back, notice: 'Sorry, you were not able to join the team. Please check your code.' }
               format.json { render json: @user_event.errors, status: :unprocessable_entity }
           end
       end
