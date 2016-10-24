@@ -20,6 +20,17 @@
   <%= @team.invitecode %>
 </p>
 
+<% if @team.users.include?(current_user) %>
+<p>
+  <strong>Team Status:</strong>
+  <% if @current_user_admin %>
+    Admin
+  <% else %>
+    Member
+  <% end %>
+</p>
+<% end %>
+
 <p>
   <strong>Team members: </strong>
 </p>
@@ -33,11 +44,16 @@
   <% @users.each do |user| %>
     <tr>
       <td><%= user.name %></td>
+      <% if @current_user_admin && !user.team_admin %>
+        <td><%= button_to 'Make Admin', user_teams_make_admin_path, :class => 'join-button', params: { 'user_id' => user.id, 'team_id' => @team.id } %></td>
+      <% end %>
     </tr>
   <% end %>
 </table>
 
-<%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => @team.invitecode } %>
+<% if !@team.users.include?(current_user) %>
+  <%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => @team.invitecode } %>
+<% end %>
 
 <%= link_to 'Edit', edit_team_path(@team) %> |
 <%= link_to 'Dashboard', dashboard_path %>

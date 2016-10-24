@@ -21,3 +21,12 @@ event6 = Event.create(name: 'Test Event 6', start_date: '2016-09-28', finish_dat
 UserEvent.create(event_id: event2.id, user_id: 1)
 UserEvent.create(event_id: event4.id, user_id: 1)
 UserEvent.create(event_id: event6.id, user_id: 2)
+
+team1 = Team.create(name: 'Team A', invitecode: [*('A'..'Z'), *('0'..'9')].sample(6).join, hexcolor: '#' + '%06x' % (rand * 0xffffff), private: false)
+team2 = Team.create(name: 'Team B', invitecode: [*('A'..'Z'), *('0'..'9')].sample(6).join, hexcolor: '#' + '%06x' % (rand * 0xffffff), private: true)
+team3 = Team.create(name: 'Team X', invitecode: [*('A'..'Z'), *('0'..'9')].sample(6).join, hexcolor: '#' + '%06x' % (rand * 0xffffff), private: false)
+team4 = Team.create(name: 'Team Y', invitecode: [*('A'..'Z'), *('0'..'9')].sample(6).join, hexcolor: '#' + '%06x' % (rand * 0xffffff), private: true)
+UserTeam.create(team_id: team1.id, user_id: 1, admin: true)
+UserTeam.create(team_id: team2.id, user_id: 1, admin: true)
+UserTeam.create(team_id: team3.id, user_id: 2, admin: true)
+UserTeam.create(team_id: team4.id, user_id: 2, admin: true)

@@ -16,6 +16,12 @@ class TeamsController < ApplicationController
   # GET /teams/1.json
   def show
     @users = @team.users
+    @users.each do |user|
+      user.team_admin = UserTeam.where(:user_id => user.id, :team_id => @team.id).first.admin
+    end
+    if UserTeam.where(:user_id => current_user.id, :team_id => @team.id).first
+      @current_user_admin = UserTeam.where(:user_id => current_user.id, :team_id => @team.id).first.admin
+    end
   end
 
   # GET /teams/new

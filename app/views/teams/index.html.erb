@@ -30,7 +30,9 @@
         <td><%= link_to 'Show', team %></td>
         <td><%= link_to 'Edit', edit_team_path(team) %></td>
         <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => team.invitecode } %><td>
+        <% if !team.users.include?(current_user) %>
+          <td><%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => team.invitecode } %><td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
