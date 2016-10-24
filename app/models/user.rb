@@ -11,7 +11,6 @@ class User < ActiveRecord::Base
 
     has_many :user_teams, dependent: :destroy
     has_many :teams, through: :user_teams
-    attr_accessor :team_admin
 
     attr_reader :avatar_remote_url
     has_attached_file :avatar

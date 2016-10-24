@@ -16,7 +16,6 @@ Rails.application.routes.draw do
 
     get '/jointeam' => 'user_teams#new', :as => :join_team
     post '/user_teams/create' => 'user_teams#create'
-    post '/user_teams/make_admin' => 'user_teams#make_admin'
 
     get '/myteams' => 'teams#myteams', :as => :my_teams
     get '/about' => 'pages#about', :as => :about

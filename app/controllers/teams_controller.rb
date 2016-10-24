@@ -1,11 +1,12 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :edit, :update, :destroy]
   before_action :check_team_admin, only: [:edit, :destroy]
+  before_action :authenticate_user!, only: [:new, :show, :myteams]
 
   # GET /teams
   # GET /teams.json
   def index
-    @teams = Team.where(private: false).all
+    @teams = Team.all
   end
 
   def myteams
@@ -16,9 +17,6 @@ class TeamsController < ApplicationController
   # GET /teams/1.json
   def show
     @users = @team.users
-    @users.each do |user|
-      user.team_admin = UserTeam.where(:user_id => user.id, :team_id => @team.id).first.admin
-    end
     if UserTeam.where(:user_id => current_user.id, :team_id => @team.id).first
       @current_user_admin = UserTeam.where(:user_id => current_user.id, :team_id => @team.id).first.admin
     end

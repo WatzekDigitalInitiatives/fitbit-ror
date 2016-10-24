@@ -15,7 +15,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Private</th>
       <th>Hexcolor</th>
       <th colspan="3"></th>
     </tr>
@@ -25,11 +24,10 @@
     <% @teams.each do |team| %>
       <tr>
         <td><%= team.name %></td>
-        <td><%= team.private %></td>
         <td><%= team.hexcolor %></td>
         <td><%= link_to 'Show', team %></td>
-        <% if !team.users.include?(current_user) %>
-          <td><%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => team.invitecode } %><td>
+        <% if !team.users.include?(current_user) && !team.private %>
+          <td><%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => team.invitecode } %><td>    
         <% end %>
       </tr>
     <% end %>

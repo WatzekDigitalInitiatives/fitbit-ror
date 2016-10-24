@@ -15,11 +15,6 @@
   <%= @team.hexcolor %>
 </p>
 
-<p>
-  <strong>Invitecode:</strong>
-  <%= @team.invitecode %>
-</p>
-
 <% if @team.users.include?(current_user) %>
 <p>
   <strong>Team Status:</strong>
@@ -44,14 +39,11 @@
   <% @users.each do |user| %>
     <tr>
       <td><%= user.name %></td>
-      <% if @current_user_admin && !user.team_admin %>
-        <td><%= button_to 'Make Admin', user_teams_make_admin_path, :class => 'join-button', params: { 'user_id' => user.id, 'team_id' => @team.id } %></td>
-      <% end %>
     </tr>
   <% end %>
 </table>
 
-<% if !@team.users.include?(current_user) %>
+<% if !@team.users.include?(current_user) && !@team.private %>
   <%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => @team.invitecode } %>
 <% end %>
 

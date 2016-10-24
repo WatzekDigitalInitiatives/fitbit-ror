@@ -31,20 +31,6 @@ class UserTeamsController < ApplicationController
       end
     end
 
-    def make_admin
-      @user_team = UserTeam.where(user_id: params[:user_id], team_id: params[:team_id]).first
-      @user_team.admin = true
-      respond_to do |format|
-        if @user_team.save
-            format.html { redirect_to :back, notice: 'User successfully made team admin.' }
-            format.json { render :show, status: :ok, location: @user_team }
-        else
-            format.html { redirect_to :back, notice: 'Sorry, we were not able to make user team admin.' }
-            format.json { render json: @user_team.errors, status: :unprocessable_entity }
-        end
-      end
-    end
-
     private
 
     # Never trust parameters from the scary internet, only allow the white list through.
