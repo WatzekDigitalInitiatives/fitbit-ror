@@ -14,7 +14,7 @@ class UserTeamsController < ApplicationController
         redirect_to join_team_path
         return
       end
-      if UserTeam.find_by(user_id: current_user.id, event_id: @event.id)
+      if UserTeam.find_by(user_id: current_user.id, team_id: @team.id)
         flash[:notice] = 'You are already a member of this team.'
         redirect_to join_team_path
         return

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     post '/user_events/create' => 'user_events#create'
 
     get '/jointeam' => 'user_teams#new', :as => :join_team
-    post '/user_teams/create' => 'user_events#create'
+    post '/user_teams/create' => 'user_teams#create'
 
     get '/about' => 'pages#about', :as => :about
 
