@@ -55,5 +55,8 @@
   <%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => @team.invitecode } %>
 <% end %>
 
-<%= link_to 'Edit', edit_team_path(@team) %> |
+<% if @current_user_admin %>
+<td><%= link_to 'Edit', edit_team_path(@team) %></td>
+<td><%= link_to 'Destroy', @team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<% end %>
 <%= link_to 'Dashboard', dashboard_path %>
