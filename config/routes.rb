@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
     get '/jointeam' => 'user_teams#new', :as => :join_team
     post '/user_teams/create' => 'user_teams#create'
-    delete '/user_teams/:user_id(.:format)/:team_id(.:format)' => 'user_teams#destroy'
+    delete '/user/:user_id/team/:team_id(.:format)' => 'user_teams#destroy', :as => :user_teams_destroy
 
     get '/myteams' => 'teams#myteams', :as => :my_teams
     get '/about' => 'pages#about', :as => :about
