@@ -31,6 +31,15 @@ class UserTeamsController < ApplicationController
       end
     end
 
+    def destroy
+      # @user_team = UserTeam.find(user_id: params[user.id], team_id: params[team.id])
+      UserTeam.find_by(user_id: params[:user_id], team_id: params[:team_id]).destroy
+      respond_to do |format|
+        format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    end
+
     private
 
     # Never trust parameters from the scary internet, only allow the white list through.
