@@ -16,6 +16,5 @@
         <%= render 'layouts/notification' %>
         <%= yield %>
         <%= render 'layouts/footer' %>
-        <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initialize', defer:true, async:true%>
     </body>
 </html>
