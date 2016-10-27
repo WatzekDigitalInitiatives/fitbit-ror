@@ -7,19 +7,20 @@
         <% if current_user.present? %>
         <div class="profile col s2">
             <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+            <%= render :partial=>"layouts/sidenav" %>
         </div>
         <div class="feed col s9 offset-s1">
             <div class="feed-title">
                 Public Events
             </div>
             <% @events.each do |event| %>
-            <%= render :partial=>"layouts/events_preview", :locals => {:event => event} %>
+            <%= render :partial=>"events/events_preview", :locals => {:event => event} %>
             <% end %>
         </div>
     <% else %>
         <div class="feed col s12">
             <% @events.each do |event| %>
-            <%= render :partial=>"layouts/events_preview", :locals => {:event => event} %>
+            <%= render :partial=>"events/events_preview", :locals => {:event => event} %>
             <% end %>
         </div>
         <% end %>

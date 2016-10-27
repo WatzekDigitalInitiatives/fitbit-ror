@@ -1,6 +1,20 @@
-<h1>Editing Team</h1>
+<% provide(:title, "Edit Team") %>
 
-<%= render 'form' %>
+<%= render :partial=>"layouts/header" %>
 
-<%= link_to 'Show', @team %> |
-<%= link_to 'Back', teams_path %>
+<div class="container">
+    <div class="row">
+        <div class="profile col s2">
+            <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+            <%= render :partial=>"layouts/sidenav" %>
+        </div>
+        <div class="feed col s9 offset-s1">
+            <div class="feed-title">
+                Edit Team
+            </div>
+
+            <%= render 'form' %>
+
+        </div>
+    </div>
+</div>

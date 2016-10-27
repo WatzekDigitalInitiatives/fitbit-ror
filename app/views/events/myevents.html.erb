@@ -1,28 +1,22 @@
-<% provide(:title, "Leaderboard") %>
+<% provide(:title, "My Events") %>
 
 <%= render :partial=>"layouts/header" %>
 
 <div class="container">
     <div class="row">
-        <% if current_user.present? %>
         <div class="profile col s2">
             <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
             <%= render :partial=>"layouts/sidenav" %>
         </div>
         <div class="feed col s9 offset-s1">
             <div class="feed-title">
-                Leaderboard
+                My Events
             </div>
-            <% @teams.each do |team| %>
-            <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
+            <% if @participating_events.present?%>
+            <% @participating_events.each do |event| %>
+            <%= render :partial=>"events/events_preview", :locals => {:event => event, :subset => 'participating_events'} %>
+            <% end %>
             <% end %>
         </div>
-    <% else %>
-        <div class="feed col s12">
-            <% @events.each do |event| %>
-            <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
-            <% end %>
-        </div>
-        <% end %>
     </div>
 </div>

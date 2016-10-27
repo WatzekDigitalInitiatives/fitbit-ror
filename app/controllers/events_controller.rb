@@ -20,6 +20,20 @@ class EventsController < ApplicationController
         end
     end
 
+    def myevents
+        @user = current_user
+        @participating_events = current_user.events
+        @participating_events.each do |event|
+            event.static_map_preview = [
+                'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
+                '&markers=color:green%7Clabel:A%7C', event.start_location,
+                '&markers=color:red%7Clabel:B%7C', event.end_location,
+                '&path=', event.start_location, '|', event.end_location,
+                '&scale=2', '&key=', ENV['GOOGLE_API_KEY']
+            ].join
+        end
+    end
+
     # GET /events/1
     # GET /events/1.json
     def show

@@ -1,41 +1,21 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "My Teams") %>
 
-<%= link_to join_team_path, :class => "btn waves-effect orange black-text" do %>
-<i class="material-icons right">directions_walk</i>Join Private Team
-<% end %>
-<br />
-<br />
-<%= link_to teams_path, :class => "btn waves-effect orange black-text" do %>
-<i class="material-icons right">directions_walk</i>Public Teams
-<% end %>
+<%= render :partial=>"layouts/header" %>
 
-<h1>My Teams</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Private</th>
-      <th>Hexcolor</th>
-      <th>Invitecode</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @my_teams.each do |team| %>
-      <tr>
-        <td><%= team.name %></td>
-        <td><%= team.private %></td>
-        <td><%= team.hexcolor %></td>
-        <td><%= team.invitecode %></td>
-        <td><%= link_to 'Show', team %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Team', new_team_path %>
-<%= link_to 'Dashboard', dashboard_path %>
+<div class="container">
+    <div class="row">
+        <div class="profile col s2">
+            <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+            <%= render :partial=>"layouts/events_nav" %>
+            <%= render :partial=>"layouts/teams_nav" %>
+        </div>
+        <div class="feed col s9 offset-s1">
+            <div class="feed-title">
+                My Teams
+            </div>
+            <% @my_teams.each do |team| %>
+            <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
+            <% end %>
+        </div>
+    </div>
+</div>
