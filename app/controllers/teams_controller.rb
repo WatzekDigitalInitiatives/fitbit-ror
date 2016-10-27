@@ -7,6 +7,14 @@ class TeamsController < ApplicationController
   # GET /teams.json
   def index
     @teams = Team.all
+    current_user_id = current_user.id
+    @teams.each do |team|
+      if UserTeam.where(:user_id => current_user_id, :team_id => team.id).first
+        team.is_current_user_admin = UserTeam.where(:user_id => current_user.id, :team_id => @team.id).first.admin
+      else
+        team.is_current_user_admin = false
+      end
+    end
   end
 
   def myteams

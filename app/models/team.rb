@@ -6,4 +6,6 @@ class Team < ActiveRecord::Base
 
   has_many :user_teams, dependent: :destroy
   has_many :users, through: :user_teams
+
+  attr_accessor :is_current_user_admin
 end
