@@ -30,6 +30,15 @@
       </div>
   </div>
 
+<% if @team.avatar? %>
+
+  <p>
+      <strong>Current Team Logo:</strong>
+      <%= image_tag @team.avatar.url(:thumb) %>
+  </p>
+
+<% end %>
+
   <div class="field">
       <%= f.label :avatar, 'Team logo' %><br/>
       <%= f.file_field :avatar %>

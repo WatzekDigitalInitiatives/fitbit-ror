@@ -18,8 +18,8 @@ event5 = Event.create(name: 'Test Event 5', start_date: '2016-10-28', finish_dat
                       end_location: 'Nice', createdby: 2, invitecode: 'MK30PK', private: false, team_event: true, description: 'Nulla a porta mauris. Suspendisse lacus nulla, laoreet sed lacinia eget, dignissim sodales odio. Fusce pellentesque cursus neque eget tincidunt.', distance: 835000)
 event6 = Event.create(name: 'Test Event 6', start_date: '2016-09-28', finish_date: '2016-10-11', start_location: 'Berlin',
                       end_location: 'Munich', createdby: 2, invitecode: 'TLA03K', private: true, team_event: false, description: 'Mauris a purus condimentum nulla dictum aliquet. Vestibulum interdum non metus id ultrices. Praesent sodales nibh sapien, eu eleifend metus rutrum et.', distance: 568000)
+UserEvent.create(event_id: event1.id, user_id: 1)
 UserEvent.create(event_id: event2.id, user_id: 1)
-UserEvent.create(event_id: event4.id, user_id: 1)
 UserEvent.create(event_id: event6.id, user_id: 2)
 
 team1 = Team.create(name: 'Team A', createdby: 1, invitecode: [*('A'..'Z'), *('0'..'9')].sample(6).join, hexcolor: '#' + '%06x' % (rand * 0xffffff), private: false)
