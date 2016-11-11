@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111192141) do
+ActiveRecord::Schema.define(version: 20161111202457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20161111192141) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "description"
+    t.integer  "createdby"
   end
 
   create_table "user_events", force: :cascade do |t|
@@ -72,9 +73,8 @@ ActiveRecord::Schema.define(version: 20161111192141) do
   create_table "user_teams", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
-    t.boolean  "admin",      default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

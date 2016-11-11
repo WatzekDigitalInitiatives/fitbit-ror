@@ -8,10 +8,9 @@ class TeamsController < ApplicationController
     def index
         @user = current_user
         @teams = Team.all
-        current_user_id = current_user.id
         @teams.each do |team|
-            if UserTeam.where(user_id: current_user_id, team_id: team.id).first
-                team.is_current_user_admin = UserTeam.where(user_id: current_user_id, team_id: team.id).first.admin
+            if team.createdby == current_user.id
+                team.is_current_user_admin = true
             else
                 team.is_current_user_admin = false
             end
@@ -21,10 +20,9 @@ class TeamsController < ApplicationController
     def myteams
         @my_teams = current_user.teams
         @user = current_user
-        current_user_id = current_user.id
         @my_teams.each do |team|
-            if UserTeam.where(user_id: current_user_id, team_id: team.id).first
-                team.is_current_user_admin = UserTeam.where(user_id: current_user_id, team_id: team.id).first.admin
+            if team.createdby == current_user.id
+                team.is_current_user_admin = true
             else
                 team.is_current_user_admin = false
             end
@@ -35,8 +33,10 @@ class TeamsController < ApplicationController
     # GET /teams/1.json
     def show
         @users = @team.users
-        if UserTeam.where(user_id: current_user.id, team_id: @team.id).first
-            @current_user_admin = UserTeam.where(user_id: current_user.id, team_id: @team.id).first.admin
+        if @team.createdby == current_user.id
+            @current_user_admin = true
+          else
+            @current_user_admin = false
         end
     end
 
@@ -56,6 +56,7 @@ class TeamsController < ApplicationController
     def create
         @user = current_user
         @team = Team.new(team_params)
+        @team.createdby = current_user.id
         @team.invitecode = [*('A'..'Z'), *('0'..'9')].sample(6).join
         @team.hexcolor = '#' + '%06x' % (rand * 0xffffff)
 

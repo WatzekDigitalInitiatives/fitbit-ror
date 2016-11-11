@@ -43,7 +43,7 @@
   </thead>
   <% @users.each do |user| %>
     <tr>
-      <td><%= user.name %><% if @current_user_admin %><%= link_to ' | Delete', user_teams_destroy_path(user_id: user.id, team_id: @team.id), method: :delete, data: { confirm: 'Are you sure?' } %><% end %></td>
+      <td><%= user.name %><% if @current_user_admin && user != current_user %><%= link_to ' | Remove User', user_teams_destroy_path(user_id: user.id, team_id: @team.id), method: :delete, data: { confirm: 'Are you sure?' } %><% end %></td>
     </tr>
   <% end %>
 </table>
