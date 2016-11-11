@@ -109,7 +109,7 @@ class TeamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def team_params
-        params.require(:team).permit(:name, :private, :avatar)
+        params.require(:team).permit(:name, :description, :private, :avatar)
     end
 
     # Checks if user is the admin of the team to edit and destroy event

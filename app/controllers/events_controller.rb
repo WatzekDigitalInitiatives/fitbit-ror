@@ -61,6 +61,9 @@ class EventsController < ApplicationController
 
         respond_to do |format|
             if @event.save
+              if @event.team_event
+                  format.html { redirect_to @event, notice: 'Event was successfully created.' }
+                else
                 @user_event = UserEvent.new
                 @user_event.user_id = current_user.id
                 @user_event.event_id = @event.id
@@ -68,6 +71,7 @@ class EventsController < ApplicationController
                     format.html { redirect_to @event, notice: 'Event was successfully created.' }
                     format.json { render :show, status: :created, location: @event }
                 end
+              end
             else
                 format.html { render :new }
                 format.json { render json: @event.errors, status: :unprocessable_entity }
