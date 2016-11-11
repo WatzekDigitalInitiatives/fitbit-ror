@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
      if user_signed_in?
        super
      else
-       redirect_to root_path, :notice => 'Please login to access your dashboard'
+       redirect_to root_path, :notice => 'Please login to continue that action.'
      end
    end
 end
