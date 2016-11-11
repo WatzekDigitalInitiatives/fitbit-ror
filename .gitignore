@@ -21,6 +21,7 @@ logfile
 
 # Ignoring users avatar
 /public/system/users
+/public/system/events
 
 # Ignore database config
 config/database.yml
