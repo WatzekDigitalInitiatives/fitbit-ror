@@ -9,11 +9,15 @@ class TeamsController < ApplicationController
         @user = current_user
         @teams = Team.all
         @teams.each do |team|
+          if current_user.present?
             if team.createdby == current_user.id
                 team.is_current_user_admin = true
             else
                 team.is_current_user_admin = false
             end
+          else
+            team.is_current_user_admin = false
+          end
         end
     end
 
@@ -115,11 +119,11 @@ class TeamsController < ApplicationController
 
     # Checks if user is the admin of the team to edit and destroy event
     def check_team_admin
-        if !current_user.present? || !@team.users.include?(current_user)
-            redirect_to @team, notice: 'Only team admins can edit or destroy teams.'
+        if !current_user.present?
+            redirect_to @team, notice: 'Only team admin can edit or destroy teams.'
         else
             # check if they are admin
-            unless UserTeam.where(user_id: current_user.id, team_id: @team.id).first.admin?
+            unless @team.createdby == current_user.id
                 redirect_to @team, notice: 'Only team admins can edit or destroy teams.'
             end
         end

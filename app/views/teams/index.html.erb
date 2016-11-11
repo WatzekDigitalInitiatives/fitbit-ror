@@ -19,7 +19,7 @@
         </div>
     <% else %>
         <div class="feed col s12">
-            <% @events.each do |event| %>
+            <% @teams.each do |team| %>
             <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
             <% end %>
         </div>
