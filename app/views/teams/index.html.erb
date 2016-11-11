@@ -1,4 +1,4 @@
-<% provide(:title, "All Events") %>
+<% provide(:title, "Leaderboard") %>
 
 <%= render :partial=>"layouts/header" %>
 
@@ -11,16 +11,16 @@
         </div>
         <div class="feed col s9 offset-s1">
             <div class="feed-title">
-                Public Events
+                Leaderboard
             </div>
-            <% @events.each do |event| %>
-            <%= render :partial=>"events/events_preview", :locals => {:event => event} %>
+            <% @teams.each do |team| %>
+            <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
             <% end %>
         </div>
     <% else %>
         <div class="feed col s12">
-            <% @events.each do |event| %>
-            <%= render :partial=>"events/events_preview", :locals => {:event => event} %>
+            <% @teams.each do |team| %>
+            <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
             <% end %>
         </div>
         <% end %>

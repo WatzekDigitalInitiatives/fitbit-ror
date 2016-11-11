@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @team.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @team.description %>
+</p>
+
+<p>
+  <strong>Private:</strong>
+  <%= @team.private %>
+</p>
+
+<p>
+  <strong>Hexcolor:</strong>
+  <%= @team.hexcolor %>
+</p>
+
+<% if @team.users.include?(current_user) %>
+<p>
+  <strong>Team Status:</strong>
+  <% if @current_user_admin %>
+    Admin
+  <% else %>
+    Member
+  <% end %>
+</p>
+<% end %>
+
+<p>
+  <strong>Team members: </strong>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.name %><% if @current_user_admin && user != current_user %><%= link_to ' | Remove User', user_teams_destroy_path(user_id: user.id, team_id: @team.id), method: :delete, data: { confirm: 'Are you sure?' } %><% end %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if !@team.users.include?(current_user) && !@team.private %>
+  <%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => @team.invitecode } %>
+<% end %>
+
+<% if @current_user_admin %>
+<td><%= link_to 'Edit', edit_team_path(@team) %></td>
+<td><%= link_to 'Destroy', @team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<% end %>
+<%= link_to 'Dashboard', dashboard_path %>

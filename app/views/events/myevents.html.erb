@@ -1,4 +1,4 @@
-<% provide(:title, "Join Event") %>
+<% provide(:title, "My Events") %>
 
 <%= render :partial=>"layouts/header" %>
 
@@ -10,13 +10,12 @@
         </div>
         <div class="feed col s9 offset-s1">
             <div class="feed-title">
-                Join Event
+                My Events
             </div>
-            <%= form_tag user_events_create_path do %>
-            <p>
-                <%= text_field_tag 'invitecode', nil,  placeholder: 'Enter invite code here', :required => true %>
-                <%= submit_tag "Join event" %>
-            </p>
+            <% if @participating_events.present?%>
+            <% @participating_events.each do |event| %>
+            <%= render :partial=>"events/events_preview", :locals => {:event => event, :subset => 'participating_events'} %>
+            <% end %>
             <% end %>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<% provide(:title, "Join Event") %>
+<% provide(:title, "Join Team") %>
 
 <%= render :partial=>"layouts/header" %>
 
@@ -10,12 +10,12 @@
         </div>
         <div class="feed col s9 offset-s1">
             <div class="feed-title">
-                Join Event
+                Join A Private Team
             </div>
-            <%= form_tag user_events_create_path do %>
+            <%= form_tag user_teams_create_path do %>
             <p>
                 <%= text_field_tag 'invitecode', nil,  placeholder: 'Enter invite code here', :required => true %>
-                <%= submit_tag "Join event" %>
+                <%= submit_tag "Join team" %>
             </p>
             <% end %>
         </div>

@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
     has_many :user_events, dependent: :destroy
     has_many :events, through: :user_events
 
+    has_many :user_teams, dependent: :destroy
+    has_many :teams, through: :user_teams
+
     attr_reader :avatar_remote_url
     has_attached_file :avatar
     validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/

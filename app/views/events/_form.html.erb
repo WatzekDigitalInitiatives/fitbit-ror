@@ -20,6 +20,16 @@
     <%= f.label :description %><br>
     <%= f.text_field :description, :maxlength => 200 %>
 </div>
+
+<% if @event.avatar? %>
+
+  <p>
+      <strong>Current Team Logo:</strong>
+      <%= image_tag @event.avatar.url(:thumb) %>
+  </p>
+
+<% end %>
+
 <div class="field">
     <%= f.label :avatar, 'Event logo' %><br/>
     <%= f.file_field :avatar %>

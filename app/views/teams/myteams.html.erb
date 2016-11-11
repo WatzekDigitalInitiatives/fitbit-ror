@@ -1,4 +1,4 @@
-<% provide(:title, "Dashboard") %>
+<% provide(:title, "My Teams") %>
 
 <%= render :partial=>"layouts/header" %>
 
@@ -11,8 +11,11 @@
         </div>
         <div class="feed col s9 offset-s1">
             <div class="feed-title">
-                My Dashboard
+                My Teams
             </div>
+            <% @my_teams.each do |team| %>
+            <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
+            <% end %>
         </div>
     </div>
 </div>

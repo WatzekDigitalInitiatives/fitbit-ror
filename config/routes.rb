@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+    resources :teams
     devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }, skip: [:registrations]
     resources :events
     # The priority is based upon order of creation: first created -> highest priority.
@@ -10,9 +11,15 @@ Rails.application.routes.draw do
     get '/home' => 'pages#home', :as => :home
     get '/dashboard' => 'pages#dashboard', :as => :dashboard
 
-    get '/join' => 'user_events#new', :as => :join_event
+    get '/joinevent' => 'user_events#new', :as => :join_event
     post '/user_events/create' => 'user_events#create'
 
+    get '/jointeam' => 'user_teams#new', :as => :join_team
+    post '/user_teams/create' => 'user_teams#create'
+    delete '/user/:user_id/team/:team_id(.:format)' => 'user_teams#destroy', :as => :user_teams_destroy
+
+    get '/myevents' => 'events#myevents', :as => :my_events
+    get '/myteams' => 'teams#myteams', :as => :my_teams
     get '/about' => 'pages#about', :as => :about
 
     # Example of regular route:
