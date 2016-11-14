@@ -8,7 +8,7 @@ class EventsController < ApplicationController
     # GET /events.json
     def index
         @user = current_user
-        @events = Event.where(private: false).all
+        @events = Event.all
         @events.each do |event|
             event.static_map_preview = [
                 'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
