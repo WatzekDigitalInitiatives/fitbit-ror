@@ -69,7 +69,6 @@ class TeamsController < ApplicationController
                 @user_team = UserTeam.new
                 @user_team.user_id = current_user.id
                 @user_team.team_id = @team.id
-                @user_team.admin = true
                 if @user_team.save
                     format.html { redirect_to @team, notice: 'Team was successfully created.' }
                     format.json { render :show, status: :created, location: @team }

@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     get '/joinevent' => 'user_events#new', :as => :join_event
     post '/user_events/create' => 'user_events#create'
 
+    get '/jointeamevent/:id' => 'team_events#new', :as => :join_team_event
+    post '/team_events/create' => 'team_events#create'
+
     get '/jointeam' => 'user_teams#new', :as => :join_team
     post '/user_teams/create' => 'user_teams#create'
     delete '/user/:user_id/team/:team_id(.:format)' => 'user_teams#destroy', :as => :user_teams_destroy

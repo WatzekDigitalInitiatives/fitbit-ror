@@ -1,0 +1,39 @@
+<% provide(:title, "Join Team Event") %>
+
+<%= render :partial=>"layouts/header" %>
+
+<div class="container">
+    <div class="row">
+        <div class="profile col s2">
+            <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+            <%= render :partial=>"layouts/sidenav" %>
+        </div>
+        <div class="feed col s9 offset-s1">
+            <div class="feed-title">
+                Join <%= @event.name %>
+            </div>
+            <%= form_tag team_events_create_path do %>
+            <p>
+
+                <% if @event.private %>
+                  <p>Enter invitecode:</p>
+                  <%= text_field_tag 'invitecode', nil,  placeholder: 'Enter invite code here', :required => true %>
+                <% else%>
+                  <%= hidden_field_tag 'invitecode', @event.invitecode %>
+                <% end %>
+
+                <p>Select a team you want to enroll:</p>
+
+                <% @teams.each do |team|%>
+                <p>
+                  <input type="radio" name="team_id" value="<%= team.id %>" id ="<%= team.id %>">
+                  <label for="<%= team.id %>"><%= team.name %></label>
+                </p>
+                <% end %>
+
+                <%= submit_tag "Join event" %>
+            </p>
+            <% end %>
+        </div>
+    </div>
+</div>
