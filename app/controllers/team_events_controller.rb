@@ -10,12 +10,25 @@ class TeamEventsController < ApplicationController
     end
 
     @user = current_user
-    @teams = Team.where(createdby: @user.id).all
+    @all_teams = Team.where(createdby: @user.id).all
 
-    if @teams.empty?
+    if @all_teams.empty?
       flash[:notice] = "Sorry, you don't have any teams to join team event."
       redirect_to new_team_path
     end
+
+    @teams = []
+    @all_teams.each do |team|
+      if !@event.teams.include?(team)
+        @teams << team
+      end
+    end
+
+    if @teams.empty?
+      flash[:notice] = "Sorry, all of your teams are registered for this event."
+      redirect_to events_path
+    end
+
 
     @team_event = TeamEvent.new
 
@@ -32,7 +45,7 @@ class TeamEventsController < ApplicationController
     end
     if TeamEvent.find_by(team_id: params[:team_id], event_id: @event.id)
         flash[:notice] = 'You are already registered for this event.'
-        redirect_to dashboard_path
+        redirect_to events_path
         return
     end
     @team_event.team_id = params[:team_id]
@@ -40,7 +53,7 @@ class TeamEventsController < ApplicationController
 
     respond_to do |format|
         if @team_event.save
-            format.html { redirect_to dashboard_path, notice: 'Your team successfully joined the event!' }
+            format.html { redirect_to events_path, notice: 'Your team successfully joined the event!' }
             format.json { render :show, status: :created, location: @user_event }
         else
             format.html { redirect_to join_event_path, notice: 'Sorry, your team was not able to join the event.' }

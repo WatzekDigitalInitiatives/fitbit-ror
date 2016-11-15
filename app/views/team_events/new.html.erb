@@ -25,10 +25,12 @@
                 <p>Select a team you want to enroll:</p>
 
                 <% @teams.each do |team|%>
-                <p>
-                  <input type="radio" name="team_id" value="<%= team.id %>" id ="<%= team.id %>">
-                  <label for="<%= team.id %>"><%= team.name %></label>
-                </p>
+                  <% if !@event.teams.include?(team) %>
+                    <p>
+                      <input type="radio" name="team_id" value="<%= team.id %>" id ="<%= team.id %>">
+                      <label for="<%= team.id %>"><%= team.name %></label>
+                    </p>
+                  <% end %>
                 <% end %>
 
                 <%= submit_tag "Join event" %>
