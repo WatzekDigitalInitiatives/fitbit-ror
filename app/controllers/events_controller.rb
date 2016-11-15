@@ -23,6 +23,16 @@ class EventsController < ApplicationController
     def myevents
         @user = current_user
         @participating_events = current_user.events
+        @user_teams = current_user.teams
+        @user_teams.each do |team|
+          @eve = team.events
+          @eve.each do |event|
+            if !@participating_events.include?(event)
+              @participating_events << event if event
+            end
+          end
+        end
+
         @participating_events.each do |event|
             event.static_map_preview = [
                 'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
