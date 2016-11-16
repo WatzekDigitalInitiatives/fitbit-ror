@@ -61,6 +61,7 @@ class EventsController < ApplicationController
     # GET /events/1/edit
     def edit
         @user = current_user
+        @teams = Team.where(createdby: @user.id).all
     end
 
     # POST /events
