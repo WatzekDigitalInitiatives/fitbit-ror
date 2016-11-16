@@ -73,8 +73,14 @@ class EventsController < ApplicationController
         respond_to do |format|
             if @event.save
               if @event.team_event
-                  format.html { redirect_to @event, notice: 'Event was successfully created.' }
-                else
+                @team_event = TeamEvent.new
+                @team_event.team_id = params[:team_id]
+                @team_event.event_id = @event.id
+                if @team_event.save
+                    format.html { redirect_to @event, notice: 'Event was successfully created.' }
+                    format.json { render :show, status: :created, location: @event }
+                end
+              else
                 @user_event = UserEvent.new
                 @user_event.user_id = current_user.id
                 @user_event.event_id = @event.id
@@ -123,7 +129,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-        params.require(:event).permit(:name, :start_date, :finish_date, :start_location, :end_location, :private, :team_event, :avatar, :description)
+        params.require(:event).permit(:name, :start_date, :finish_date, :start_location, :end_location, :private, :team_event, :team_id, :avatar, :description)
     end
 
     # Checks if user owns the event to edit and destroy event
