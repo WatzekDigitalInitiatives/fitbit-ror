@@ -66,6 +66,9 @@
 </div>
 <div class="field">
     <div class="switch">
+      <% if @teams.empty? %>
+      <p>Sorry you don't have any teams to create a team event. Create your first team <%= link_to 'here', new_team_path %>!</p>
+      <% end %>
         <label>
             Individual Event
             <% if @teams.empty? %>
@@ -75,11 +78,20 @@
             <span class="lever"></span>
             Team Event
         </label>
-        <% if @teams.empty? %>
-          <p>Sorry you don't have any teams to create a team event.</p>
-        <% end %>
     </div>
 </div>
+
+<% if !@teams.empty? %>
+  <div class="field teams" style="display: none;">
+    <p>You must select a team enroll:</p>
+    <% @teams.each do |team|%>
+        <p>
+          <input type="radio" name="team_id" value="<%= team.id %>" id ="<%= team.id %>">
+          <label for="<%= team.id %>"><%= team.name %></label>
+        </p>
+    <% end %>
+  </div>
+<% end %>
 
 <!-- add radio to select teams and change create controller to add that team when event is created -->
 

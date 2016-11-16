@@ -10,6 +10,9 @@
                 toggleMapCheck();
             }
         });
+        $("#event_team_event").change(function () {
+            $(".teams").toggle("slow");
+        });
     });
 
     var map;
