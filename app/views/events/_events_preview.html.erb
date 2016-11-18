@@ -26,13 +26,27 @@
         </p>
     </div>
     <div class="card-action">
-        <%= link_to 'View', event %>
+        <% if current_user.present? %>
+          <% if event.users.include?(current_user) || !event.private || event.createdby == current_user.id %>
+            <%= link_to 'View', event %>
+          <% end %>
+        <% end %>
+
         <% if current_user.present? && current_user.id == event.createdby %>
         <%= link_to 'Edit', edit_event_path(event) %>
         <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
         <% end %>
-        <% if current_user.present? && !current_user.events.include?(event) %>
-        <%= button_to 'Join', user_events_create_path, :class => 'join-button', params: { 'invitecode' => event.invitecode } %>
+
+        <% if event.team_event %>
+          <%= button_to 'Join', join_team_event_path(event), method: :get, :class => 'join-button'%>
+        <% else %>
+          <% if current_user.present? && !current_user.events.include?(event) %>
+            <% if event.private %>
+              <%= button_to 'Join', join_event_path, method: :get, :class => 'join-button' %>
+            <% else %>
+              <%= button_to 'Join', user_events_create_path, :class => 'join-button', params: { 'invitecode' => event.invitecode } %>
+            <% end %>
+          <% end %>
         <% end %>
     </div>
     <div class="card-reveal">

@@ -1,14 +1,14 @@
 class EventsController < ApplicationController
     before_action :set_event, only: [:show, :edit, :update, :destroy]
     before_action :check_private_event_users, only: [:show]
-    before_action :authenticate_user!, only: [:new]
+    before_action :authenticate_user!, only: [:new, :myevents]
     before_action :check_user_event, only: [:edit, :destroy]
 
     # GET /events
     # GET /events.json
     def index
         @user = current_user
-        @events = Event.where(private: false).all
+        @events = Event.all
         @events.each do |event|
             event.static_map_preview = [
                 'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
@@ -23,6 +23,16 @@ class EventsController < ApplicationController
     def myevents
         @user = current_user
         @participating_events = current_user.events
+        @user_teams = current_user.teams
+        @user_teams.each do |team|
+          @eve = team.events
+          @eve.each do |event|
+            if !@participating_events.include?(event)
+              @participating_events << event if event
+            end
+          end
+        end
+
         @participating_events.each do |event|
             event.static_map_preview = [
                 'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
@@ -45,11 +55,15 @@ class EventsController < ApplicationController
     def new
         @user = current_user
         @event = Event.new
+        @teams = Team.where(createdby: @user.id).all
+        @edit = false
     end
 
     # GET /events/1/edit
     def edit
         @user = current_user
+        @teams = Team.where(createdby: @user.id).all
+        @edit = true
     end
 
     # POST /events
@@ -62,8 +76,14 @@ class EventsController < ApplicationController
         respond_to do |format|
             if @event.save
               if @event.team_event
-                  format.html { redirect_to @event, notice: 'Event was successfully created.' }
-                else
+                @team_event = TeamEvent.new
+                @team_event.team_id = params[:team_id]
+                @team_event.event_id = @event.id
+                if @team_event.save
+                    format.html { redirect_to @event, notice: 'Event was successfully created.' }
+                    format.json { render :show, status: :created, location: @event }
+                end
+              else
                 @user_event = UserEvent.new
                 @user_event.user_id = current_user.id
                 @user_event.event_id = @event.id
@@ -112,7 +132,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-        params.require(:event).permit(:name, :start_date, :finish_date, :start_location, :end_location, :private, :team_event, :avatar, :description)
+        params.require(:event).permit(:name, :start_date, :finish_date, :start_location, :end_location, :private, :team_event, :team_id, :avatar, :description)
     end
 
     # Checks if user owns the event to edit and destroy event

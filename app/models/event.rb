@@ -7,5 +7,8 @@ class Event < ActiveRecord::Base
     has_many :user_events, dependent: :destroy
     has_many :users, through: :user_events
 
+    has_many :team_events, dependent: :destroy
+    has_many :teams, through: :team_events
+
     attr_accessor :static_map_preview
 end

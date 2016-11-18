@@ -10,6 +10,15 @@
 </p>
 
 <p>
+    <strong>Type:</strong>
+    <% if @event.team_event %>
+    <%= "Team" %>
+    <% else %>
+    <%= "Singles" %>
+    <% end  %>
+</p>
+
+<p>
     <strong>Start date:</strong>
     <%= @event.start_date %>
 </p>

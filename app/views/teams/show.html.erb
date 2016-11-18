@@ -15,6 +15,13 @@
   <%= @team.private %>
 </p>
 
+<% if @team.private && @team.createdby == current_user.id %>
+<p>
+  <strong>Invitecode:</strong>
+  <%= @team.invitecode %>
+</p>
+<% end %>
+
 <p>
   <strong>Hexcolor:</strong>
   <%= @team.hexcolor %>
