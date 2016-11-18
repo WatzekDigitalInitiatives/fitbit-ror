@@ -27,6 +27,9 @@
         <% if current_user.present? && !current_user.teams.include?(team) && !team.private %>
         <%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => team.invitecode } %>
         <% end %>
+        <% if current_user.present? && !current_user.teams.include?(team) && team.private %>
+        <%= button_to 'Join', join_team_path, :method => :get, :class => 'join-button', params: { 'invitecode' => team.invitecode } %>
+        <% end %>
     </div>
     <div class="card-reveal">
         <span class="card-title grey-text text-darken-4"><%= team.name %>
