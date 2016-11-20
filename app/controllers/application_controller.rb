@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  helper_method :create_user_subscription
+
   protected
 
    def configure_permitted_parameters
@@ -19,4 +21,9 @@ class ApplicationController < ActionController::Base
        redirect_to root_path, :notice => 'Please login to continue that action.'
      end
    end
+
+   def create_user_subscription(user)
+     
+   end
+
 end
