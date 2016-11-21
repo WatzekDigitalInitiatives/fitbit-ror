@@ -53,6 +53,10 @@ class TeamEventsController < ApplicationController
 
     respond_to do |format|
         if @team_event.save
+            @team = Team.where(id: params[:team_id]).first
+            @team.users.each do |user|
+              create_user_subscription(user)
+            end
             format.html { redirect_to events_path, notice: 'Your team successfully joined the event!' }
             format.json { render :show, status: :created, location: @user_event }
         else

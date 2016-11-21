@@ -20,9 +20,9 @@ class PagesController < ApplicationController
         # render json: output_goals
 
         # show user subscriptions:
-        # client = @user.fitbit_client
-        # output = client.subscriptions(type: 'activities')
-        # render json: output
+        client = @user.fitbit_client
+        output = client.subscriptions(type: 'activities')
+        render json: output
     end
 
     def about
