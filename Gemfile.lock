@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:rishijavia/omniauth-fitbit.git
+  remote: https://github.com/rishijavia/omniauth-fitbit.git
   revision: 24185dcbc51210743c8d736ee7b4518cd800651d
   specs:
     omniauth-fitbit (2.0.0)
