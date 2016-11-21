@@ -18,6 +18,11 @@ class PagesController < ApplicationController
         hash = JSON.parse(output_goals.to_json)
         @goal = hash["goals"]["steps"]
         # render json: output_goals
+
+        # show user subscriptions:
+        # client = @user.fitbit_client
+        # output = client.subscriptions(type: 'activities')
+        # render json: output
     end
 
     def about
