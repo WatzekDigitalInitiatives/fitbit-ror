@@ -88,7 +88,7 @@ class EventsController < ApplicationController
                 @user_event.user_id = current_user.id
                 @user_event.event_id = @event.id
                 if @user_event.save
-                    create_user_subscription(@user, @event)
+                    create_user_subscription(current_user, @event)
                     format.html { redirect_to @event, notice: 'Event was successfully created.' }
                     format.json { render :show, status: :created, location: @event }
                 end

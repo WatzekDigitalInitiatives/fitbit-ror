@@ -22,8 +22,10 @@ class ApplicationController < ActionController::Base
      end
    end
 
-   def create_user_subscription(user)
-     
+   def create_user_subscription(user, event)
+     client = user.fitbit_client
+    #  sub_id = "#{user.id}-X-#{event.id}"
+     output = client.create_subscription(type: 'activities', subscription_id: user.id)
    end
 
 end
