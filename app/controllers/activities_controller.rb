@@ -1,7 +1,7 @@
 class ActivitiesController < ApplicationController
 
   def push
-    if params[:verify].exists?
+    if params[:verify].present?
       if params[:verify] == "d324eff6e6c6024d73ff2b4ba4141b000cfe27714365e15a0747f788de84284d"
         head :no_content
       else
