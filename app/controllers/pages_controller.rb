@@ -16,6 +16,7 @@ class PagesController < ApplicationController
         user_tmz = current_user.identity_for("fitbit").timezone
         today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
         output_steps = client.activity_time_series(resource: 'steps', start_date: today, period: '1d')
+        render json: output_steps
         hash = JSON.parse(output_steps.to_json)
         @steps = hash["activities-steps"][0]["value"]
         # render json: output_goals
@@ -23,7 +24,6 @@ class PagesController < ApplicationController
         # show user subscriptions:
         # client = @user.fitbit_client
         # output = client.subscriptions(type: 'activities')
-        # render json: output
 
         @activities = @user.activities
     end
