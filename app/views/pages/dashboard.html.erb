@@ -16,7 +16,7 @@
             <div class="output-wrapper">
               Today's Steps: <%= @steps %> </br>
               Daily Steps Goal: <%= @goal %> </br>
-              <% for @activities.each do |activity| %>
+              <% @activities.each do |activity| %>
                 Entry Date: <%= activity.entry_date %> | Steps: <%= activity.steps %> </br>
               <% end %>
             </div>
