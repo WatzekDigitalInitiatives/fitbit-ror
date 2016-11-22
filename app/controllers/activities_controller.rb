@@ -2,7 +2,7 @@ class ActivitiesController < ApplicationController
 
   def push
     if params[:verify].present?
-      if params[:verify] == "d324eff6e6c6024d73ff2b4ba4141b000cfe27714365e15a0747f788de84284d"
+      if params[:verify] == "5517775dc1f07abc29d53661f0089bb9a14070de696cf21a490c3038b4297295"
         head :no_content
       else
         raise ActionController::RoutingError.new('Not Found')
