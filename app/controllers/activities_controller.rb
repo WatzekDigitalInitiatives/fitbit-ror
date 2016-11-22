@@ -7,10 +7,11 @@ class ActivitiesController < ApplicationController
       else
         raise ActionController::RoutingError.new('Not Found')
       end
+    else
+      push_data = ActiveSupport::JSON.decode(request.body.read)
+      update_activity(push_data)
+      head :no_content
     end
-    push_data = ActiveSupport::JSON.decode(request.body.read)
-    update_activity(push_data)
-    head :no_content
   end
 
   def update_activity(push_data)
