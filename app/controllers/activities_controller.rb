@@ -1,11 +1,13 @@
 class ActivitiesController < ApplicationController
 
   def push
-    # if params[:verify] == "56a0073dd7288f9f4f70e78a2ee4e753a75db23859c5a0980cdb1022b1b1eb78"
-    #   head :no_content
-    # else
-    #   raise ActionController::RoutingError.new('Not Found')
-    # end
+    if params[:verify].exists?
+      if params[:verify] == "d324eff6e6c6024d73ff2b4ba4141b000cfe27714365e15a0747f788de84284d"
+        head :no_content
+      else
+        raise ActionController::RoutingError.new('Not Found')
+      end
+    end
     push_data = ActiveSupport::JSON.decode(request.body.read)
     update_activity(push_data)
     head :no_content
