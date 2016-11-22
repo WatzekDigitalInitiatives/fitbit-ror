@@ -21,6 +21,8 @@
                   Entry Date: <%= activity.entry_date %> | Steps: <%= activity.steps %> </br>
                 <% end %>
               <% end %>
+              <% fitbit_identity = @user.identities.where(provider: 'fitbit').first %>
+              User ID: <%= fitbit_identity.uid%> </br>
             </div>
         </div>
     </div>
