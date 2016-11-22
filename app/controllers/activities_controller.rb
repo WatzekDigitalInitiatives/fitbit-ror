@@ -6,13 +6,13 @@ class ActivitiesController < ApplicationController
     # else
     #   raise ActionController::RoutingError.new('Not Found')
     # end
-    @push_data = ActiveSupport::JSON.decode(request.body.read)
-    update_activity(@push_data)
+    push_data = ActiveSupport::JSON.decode(request.body.read)
+    update_activity(push_data)
     head :no_content
   end
 
-  def update_activity(@push_data)
-    user_id = @push_data["subscriptionId"]
+  def update_activity(push_data)
+    user_id = push_data["subscriptionId"]
     @user = User.where(id: user_id).first
 
     client = @user.fitbit_client
