@@ -42,7 +42,7 @@ class ActivitiesController < ApplicationController
     end
 
 
-    @activity = Activity.find_by(entry_date: today, user_id: @user.id).first
+    @activity = Activity.find_by(entry_date: today, user_id: @user.id)
 
     if !@activity.empty?
       # update that activity
