@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
 
-  skip_before_action :verify_authenticity_token, only: [:pushnotification, :update_activity]
+  skip_before_action :verify_authenticity_token, only: [:pushnotification]
 
   def verifysub
     if params[:verify] == "5517775dc1f07abc29d53661f0089bb9a14070de696cf21a490c3038b4297295"
@@ -12,7 +12,8 @@ class ActivitiesController < ApplicationController
 
   def pushnotification
       @push_data = ActiveSupport::JSON.decode(request.body.read)
-      render :text => @push_data.inspect
+      @user_id = @push_data["subscriptionId"]
+      render :text => @user_id.inspect
       # @user_id = params["subscriptionId"]
       # @user_id.inspect
       # update_activity(params[:])
