@@ -12,16 +12,16 @@ class ActivitiesController < ApplicationController
 
   def pushnotification
       push_data = ActiveSupport::JSON.decode(request.body.read)
-      @user_id = push_data[0]["subscriptionId"]
+      user_id = push_data[0]["subscriptionId"]
       # render :text => @user_id.inspect
-      update_activity(@user_id)
+      update_activity(user_id)
       head :no_content
   end
 
   private
 
-  def update_activity(@user_id)
-    @user = User.where(id: @user_id).first
+  def update_activity(user_id)
+    @user = User.where(id: user_id).first
 
     client = @user.fitbit_client
     user_tmz = @user.identity_for("fitbit").timezone
