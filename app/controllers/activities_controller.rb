@@ -11,10 +11,10 @@ class ActivitiesController < ApplicationController
   end
 
   def pushnotification
-      # push_data = ActiveSupport::JSON.decode(request.body.read)
-      @user_id = params[0]["subscriptionId"]
-      params.inspect
-      @user_id.inspect
+      @push_data = ActiveSupport::JSON.decode(request.body.read)
+      render :text => @push_data.inspect
+      # @user_id = params["subscriptionId"]
+      # @user_id.inspect
       # update_activity(params[:])
       # head :no_content
   end
