@@ -8,8 +8,8 @@ class ActivitiesController < ApplicationController
         raise ActionController::RoutingError.new('Not Found')
       end
     else
-      push_data = ActiveSupport::JSON.decode(request.body.read)
-      update_activity(push_data)
+      # push_data = ActiveSupport::JSON.decode(request.body.read)
+      update_activity(params)
       head :no_content
     end
   end

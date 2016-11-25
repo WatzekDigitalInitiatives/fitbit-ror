@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     get '/myteams' => 'teams#myteams', :as => :my_teams
     get '/about' => 'pages#about', :as => :about
 
-    get '/push' => 'activities#push'
+    post '/push' => 'activities#push'
 
     # Example of regular route:
     #   get 'products/:id' => 'catalog#view'
