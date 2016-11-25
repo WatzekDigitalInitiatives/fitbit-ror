@@ -11,8 +11,8 @@ class ActivitiesController < ApplicationController
   end
 
   def pushnotification
-      @push_data = ActiveSupport::JSON.decode(request.body.read)
-      @user_id = @push_data["subscriptionId"]
+      push_data = ActiveSupport::JSON.decode(request.body.read)
+      @user_id = push_data[0]["subscriptionId"]
       render :text => @user_id.inspect
       # @user_id = params["subscriptionId"]
       # @user_id.inspect
