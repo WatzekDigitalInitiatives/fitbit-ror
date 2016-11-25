@@ -44,7 +44,7 @@ class ActivitiesController < ApplicationController
 
     @activity = Activity.find_by(entry_date: today, user_id: @user.id)
 
-    if !@activity.empty?
+    if @activity && !@activity.empty?
       # update that activity
       @activity.steps = @steps
       @activity.save
