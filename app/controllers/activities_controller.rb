@@ -1,17 +1,20 @@
 class ActivitiesController < ApplicationController
 
-  def push
-    if params[:verify].present?
-      if params[:verify] == "5517775dc1f07abc29d53661f0089bb9a14070de696cf21a490c3038b4297295"
-        head :no_content
-      else
-        raise ActionController::RoutingError.new('Not Found')
-      end
-    else
-      # push_data = ActiveSupport::JSON.decode(request.body.read)
-      update_activity(params)
+  skip_before_action :verify_authenticity_token, only: [:pushnotification]
+
+  def verifysub
+    if params[:verify] == "5517775dc1f07abc29d53661f0089bb9a14070de696cf21a490c3038b4297295"
       head :no_content
+    else
+      raise ActionController::RoutingError.new('Not Found')
     end
+  end
+
+  def pushnotification
+      # push_data = ActiveSupport::JSON.decode(request.body.read)
+      # update_activity(params)
+      render json: params
+      head :no_content
   end
 
   def update_activity(push_data)

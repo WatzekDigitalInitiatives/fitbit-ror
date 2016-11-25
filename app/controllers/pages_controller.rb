@@ -18,6 +18,7 @@ class PagesController < ApplicationController
         output_steps = client.activity_time_series(resource: 'steps', start_date: today, period: '1d')
         hash = JSON.parse(output_steps.to_json)
         @steps = hash["activities-steps"][0]["value"]
+              
         # render json: output_goals
 
         # show user subscriptions:
