@@ -43,18 +43,18 @@ class ActivitiesController < ApplicationController
 
       (start_date..end_date).reverse_each do |date|
 
-        date = date.strftime("%Y-%m-%d")
+        past_date = date.strftime("%Y-%m-%d")
 
-        @activity = Activity.find_by(entry_date: date, user_id: @user.id)
+        @activity = Activity.find_by(entry_date: past_date, user_id: @user.id)
 
         if @activity
           # if entry is found break through the loop
           break
         else
           # create an entry fot that date
-          steps = find_steps(client, date)
+          steps = find_steps(client, past_date)
           goal_met = goal_ach(goal, steps)
-          @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
+          @user.activities.create(entry_date: past_date, steps: steps, goal: goal, goal_met: goal_met)
         end
 
       end #end of for loop
