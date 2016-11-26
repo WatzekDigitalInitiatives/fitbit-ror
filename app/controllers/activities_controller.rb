@@ -25,34 +25,78 @@ class ActivitiesController < ApplicationController
 
     client = @user.fitbit_client
     user_tmz = @user.identity_for("fitbit").timezone
+    goal = daily_goal(client)
     today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
 
-    output_steps = client.activity_time_series(resource: 'steps', start_date: today, period: '1d')
-    hash = JSON.parse(output_steps.to_json)
-    @steps = hash["activities-steps"][0]["value"].to_f
+    @activities = @user.activities
 
+    # if user has no entries make today's entry
+    if @activities.empty?
+      steps = find_steps(client, today)
+      goal_met = goal_ach(goal, steps)
+      @user.activities.create(entry_date: today, steps: steps, goal: goal, goal_met: goal_met)
+    else
+
+    # check for last 5 days in reverse order
+      start_date = 5.days.ago.to_date
+      end_date = 1.day.ago.to_date
+
+      (start_date..end_date).reverse_each do |date|
+
+        date = date.strftime("%Y-%m-%d")
+
+        @activity = Activity.find_by(entry_date: date, user_id: @user.id)
+
+        if @activity
+          # if entry is found break through the loop
+          break
+        else
+          # create an entry fot that date
+          steps = find_steps(client, date)
+          goal_met = (client, steps)
+          @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
+        end
+
+      end #end of for loop
+
+      # now check if today's entry exists, if not create, else update it
+      @activity = Activity.find_by(entry_date: today, user_id: @user.id)
+      if @activity
+        # if entry is found break through the loop
+        break
+      else
+        # create an entry fot that date
+        steps = find_steps(client, date)
+        goal_met = (client, steps)
+        @user.activities.create(entry_date: today, steps: steps, goal: goal, goal_met: goal_met)
+      end
+
+    end #end of if @activities.empty?
+
+
+  end
+
+  def find_steps(client, date)
+    output_steps = client.activity_time_series(resource: 'steps', start_date: date, period: '1d')
+    hash = JSON.parse(output_steps.to_json)
+    steps = hash["activities-steps"][0]["value"].to_f
+    return steps
+  end
+
+  def goal_ach(goal, steps)
+    if goal < steps
+      goal_met = true
+    else
+      goal_met = false
+    end
+    return goal_met
+  end
+
+  def daily_goal(client)
     output_goals = client.goals('daily')
     hash = JSON.parse(output_goals.to_json)
-    @goal = hash["goals"]["steps"].to_f
-
-    if @goal < @steps
-      @goal_met = true
-    else
-      @goal_met = false
-    end
-
-
-    @activity = Activity.find_by(entry_date: today, user_id: @user.id)
-
-    if @activity
-      # update that activity
-      @activity.steps = @steps
-      @activity.save
-    else
-      # create an activity for that user
-      @user.activities.create(entry_date: today, steps: @steps, goal: @goal, goal_met: @goal_met)
-    end
-
+    goal = hash["goals"]["steps"].to_f
+    return goal
   end
 
 end
