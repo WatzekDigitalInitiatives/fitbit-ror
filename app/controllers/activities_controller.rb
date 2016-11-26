@@ -61,7 +61,7 @@ class ActivitiesController < ApplicationController
 
       # now check if today's entry exists, if not create, else update it
       @activity = Activity.find_by(entry_date: today, user_id: @user.id)
-      steps = find_steps(client, date)
+      steps = find_steps(client, today)
       goal_met = goal_ach(goal, steps)
       if @activity
         # if entry is found break through the loop
