@@ -67,7 +67,7 @@ class ActivitiesController < ApplicationController
       else
         # create an entry fot that date
         steps = find_steps(client, date)
-        goal_met = (client, steps)
+        goal_met = goal_ach(goal, steps)
         @user.activities.create(entry_date: today, steps: steps, goal: goal, goal_met: goal_met)
       end
 
