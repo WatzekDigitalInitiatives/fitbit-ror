@@ -55,6 +55,7 @@ class TeamEventsController < ApplicationController
         if @team_event.save
             @team = Team.where(id: params[:team_id]).first
             @team.users.each do |user|
+              set_subscription_date(user.id, @event.start_date, @event.finish_date)
               create_user_subscription(user)
             end
             format.html { redirect_to events_path, notice: 'Your team successfully joined the event!' }

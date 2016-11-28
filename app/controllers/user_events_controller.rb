@@ -24,6 +24,7 @@ class UserEventsController < ApplicationController
 
         respond_to do |format|
             if @user_event.save
+                set_subscription_date(current_user.id, @event.start_date, @event.finish_date)
                 create_user_subscription(current_user)
                 format.html { redirect_to dashboard_path, notice: 'You successfully joined the event!' }
                 format.json { render :show, status: :created, location: @user_event }
