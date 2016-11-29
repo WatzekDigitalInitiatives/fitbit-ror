@@ -22,27 +22,29 @@ class ActivitiesController < ApplicationController
   def update_activity(user_id)
     @user = User.where(id: user_id).first
 
-    client = @user.fitbit_client
-    user_tmz = @user.identity_for("fitbit").timezone
-    goal = daily_goal(client)
-    today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
-    start_date = @user.subscription.earliest_date
-    all_steps = find_steps(client, start_date, today)
+    if @user
+      client = @user.fitbit_client
+      user_tmz = @user.identity_for("fitbit").timezone
+      goal = daily_goal(client)
+      today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
+      start_date = @user.subscription.earliest_date
+      all_steps = find_steps(client, start_date, today)
 
-    all_steps.each do |past_day|
-        date = past_day["dateTime"]
-        steps = past_day["value"]
-        goal_met = goal_ach(goal, steps)
-        @activity = Activity.find_by(entry_date: date, user_id: @user.id)
+      all_steps.each do |past_day|
+          date = past_day["dateTime"]
+          steps = past_day["value"].to_f
+          goal_met = goal_ach(goal, steps)
+          @activity = Activity.find_by(entry_date: date, user_id: @user.id)
 
-        if @activity
-          @activity.steps = steps
-          @activity.goal_met = goal_met
-          @activity.save
-        else
-          # create an entry fot that date
-          @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
-        end
+          if @activity
+            @activity.steps = steps
+            @activity.goal_met = goal_met
+            @activity.save
+          else
+            # create an entry fot that date
+            @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
+          end
+      end
     end
 
   end
