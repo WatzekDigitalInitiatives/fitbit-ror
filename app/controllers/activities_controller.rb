@@ -13,9 +13,8 @@ class ActivitiesController < ApplicationController
   def pushnotification
       push_data = ActiveSupport::JSON.decode(request.body.read)
       user_id = push_data[0]["subscriptionId"]
-      # render :text => @user_id.inspect
-      update_activity(user_id)
       head :no_content
+      update_activity(user_id)
   end
 
   private
@@ -27,62 +26,32 @@ class ActivitiesController < ApplicationController
     user_tmz = @user.identity_for("fitbit").timezone
     goal = daily_goal(client)
     today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
+    start_date = @user.subscription.earliest_date
+    all_steps = find_steps(client, start_date, today)
 
-    @activities = @user.activities
-
-    # if user has no entries make today's entry
-    if @activities.empty?
-      steps = find_steps(client, today)
-      goal_met = goal_ach(goal, steps)
-      @user.activities.create(entry_date: today, steps: steps, goal: goal, goal_met: goal_met)
-    else
-
-    # check for last 5 days in reverse order
-      start_date = 5.days.ago.to_date
-      end_date = 1.day.ago.to_date
-
-      (start_date..end_date).reverse_each do |date|
-
-        past_date = date.strftime("%Y-%m-%d")
-
-        @activity = Activity.find_by(entry_date: past_date, user_id: @user.id)
+    all_steps.each do |past_day|
+        date = past_day["dateTime"]
+        steps = past_day["value"]
+        goal_met = goal_ach(goal, steps)
+        @activity = Activity.find_by(entry_date: date, user_id: @user.id)
 
         if @activity
-          # if entry is found break through the loop
-          break
+          @activity.steps = steps
+          @activity.goal_met = goal_met
+          @activity.save
         else
           # create an entry fot that date
-          steps = find_steps(client, past_date)
-          goal_met = goal_ach(goal, steps)
-          @user.activities.create(entry_date: past_date, steps: steps, goal: goal, goal_met: goal_met)
+          @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
         end
-
-      end #end of for loop
-
-      # now check if today's entry exists, if not create, else update it
-      @activity = Activity.find_by(entry_date: today, user_id: @user.id)
-      steps = find_steps(client, today)
-      goal_met = goal_ach(goal, steps)
-      if @activity
-        # if entry is found break through the loop
-        @activity.steps = steps
-        @activity.goal_met = goal_met
-        @activity.save
-      else
-        # create an entry fot that date
-        @user.activities.create(entry_date: today, steps: steps, goal: goal, goal_met: goal_met)
-      end
-
-    end #end of if @activities.empty?
-
+    end
 
   end
 
-  def find_steps(client, date)
-    output_steps = client.activity_time_series(resource: 'steps', start_date: date, period: '1d')
+  def find_steps(client, start_date, end_date)
+    output_steps = client.activity_time_series(resource: 'steps', start_date: start_date, end_date: end_date)
     hash = JSON.parse(output_steps.to_json)
-    steps = hash["activities-steps"][0]["value"].to_f
-    return steps
+    past_steps = hash["activities-steps"]
+    return past_steps
   end
 
   def goal_ach(goal, steps)

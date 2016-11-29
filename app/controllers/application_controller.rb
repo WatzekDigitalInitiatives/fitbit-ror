@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
        end
 
      else
-       @sub = Subscription.new(earliest_date: start_date, furthest_date: end_date)
+       @sub = Subscription.new(earliest_date: start_date, furthest_date: end_date, user_id: user_id)
        @sub.save
      end
    end
