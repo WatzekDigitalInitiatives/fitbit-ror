@@ -37,9 +37,11 @@ class ActivitiesController < ApplicationController
           @activity = Activity.find_by(entry_date: date, user_id: @user.id)
 
           if @activity
-            @activity.steps = steps
-            @activity.goal_met = goal_met
-            @activity.save
+            if steps != @activity.steps
+              @activity.steps = steps
+              @activity.goal_met = goal_met
+              @activity.save
+            end
           else
             # create an entry fot that date
             @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
