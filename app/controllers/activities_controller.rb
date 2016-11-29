@@ -3,7 +3,7 @@ class ActivitiesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:pushnotification]
 
   def verifysub
-    if params[:verify] == "5517775dc1f07abc29d53661f0089bb9a14070de696cf21a490c3038b4297295"
+    if params[:verify] == ENV["PUSH_VERIFICATION_CODE"]
       head :no_content
     else
       raise ActionController::RoutingError.new('Not Found')
