@@ -1,4 +1,4 @@
-lock '3.4.0'
+lock '3.6.1'
 
 set :application, 'fitbit-ror'
 set :repo_url, 'git@github.com:WatzekDigitalInitiatives/fitbit-ror.git'
