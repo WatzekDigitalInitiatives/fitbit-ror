@@ -43,6 +43,12 @@ gem 'fitgem_oauth2'
 
 gem 'devise'
 
+gem "capistrano", "~> 3.4"
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano-rbenv'
+gem 'capistrano3-puma'
+
 
 group :production do
   gem 'rails_12factor'
