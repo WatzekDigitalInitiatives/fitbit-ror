@@ -21,7 +21,18 @@
         </div>
         </div>
      </div>
-  </div>
+
+   <div class="col s3 offset-s4">
+      <input id="fetch-date" type="date" class="datepicker" placeholder="Select a date to get data from">
+   </div>
+   <div class="col s3">
+     <% url = "/events/"+@event.id.to_s %>
+      <a id="fetch-date-button" href=<%= url %> class="waves-effect waves-light btn">Fetch Data</a>
+   </div>
+
+   <%= render 'date_selector_js' %>
+
+ </div>
 </div>
 
 <% if @event.team_event %>

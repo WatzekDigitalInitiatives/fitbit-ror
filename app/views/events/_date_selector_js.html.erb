@@ -1,0 +1,9 @@
+<script>
+    $(document).ready(function () {
+        $("#fetch-date").change(function () {
+            if ($("#fetch-date").val()) {
+                $("#fetch-date-button").attr('href') += "?date="+$("#fetch-date").val();
+            }
+        });
+    });
+</script>
