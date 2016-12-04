@@ -1,72 +1,57 @@
-<div class="container">
-  <div class="row">
+<div class="col s4 standing">
 
-    <div class="col s12">
-      <div id="showEventMap" style="height: 500px; background-color: gray;"></div>
-      <%= render 'show_event_map' %>
-    </div>
+</div>
+<% 5.times do |i| %>
+<% @teams.each do |team| %>
 
-    <% @teams.each do |team| %>
-
-    <div class="col s4">
-      <div class="card blue-grey darken-1 z-depth-2">
-        <div class="card-content white-text">
-          <div class="stat-name center-align">TEAM STATS: </div>
-          <% if team.avatar? %>
-            <div class="team-card-avatar">
-              <%= image_tag team.avatar.url(:thumb), :class => 'z-depth-2' %>
-            </div>
-          <% end %>
-            <span class="card-title card-name"><%= team.name %><br /></span>
-            <div class="clear"></div>
-            <p class="stats">
-              <i class="material-icons">today</i><b> Date: </b> 2016-12-04
-            </p>
-            <p class="stats">
-              <i class="material-icons">directions_run</i><b> Team Total Steps: </b>
-                <%= 12654 %>
-            </p>
-
-            <!--  USER SATS: -->
-            <div class="stat-name center-align">MEMBER STATS: </div>
-
-            <% team.users.each do |user| %>
-              <% @activity = Activity.find_by(entry_date: @date, user_id: user.id) %>
-              <div class="card-avatar">
-                <%= image_tag user.avatar.url, :class => 'z-depth-2' %>
-              </div>
-              <span class="card-title card-name"><%= user.name %></span>
-              <div class="clear"></div>
-              <p class="stats">
-                <i class="material-icons">today</i><b> Date: </b> <%= @date %>
-              </p>
-              <p class="stats">
-                <i class="material-icons">directions_run</i><b> Steps: </b>
-                <% if @activity %>
-                  <%= @activity.steps %>
-                <% else %>
-                  Steps not registered.
-                <% end %>
-              </p>
-              <p class="stats">
-                <% if @activity %>
-                  <% if @activity.goal_met %>
-                    <i class="material-icons">local_play</i><b> Goal Achieved: </b> <i class="material-icons">done</i>
-                  <% else %>
-                    <i class="material-icons">local_play</i><b> Goal Achieved: </b> <i class="material-icons">clear</i>
-                  <% end %>
-                <% else %>
-                    <i class="material-icons">local_play</i><b> Goal Achieved: </b> Steps not registered.
-                <% end %>
-              </p>
-              <hr />
-            <% end %>
-
+<div class="col s4">
+  <div class="card blue-grey darken-1 z-depth-2">
+    <div class="card-content white-text">
+      <div class="stat-name center-align">TEAM STATS: </div>
+      <% if team.avatar? %>
+        <div class="team-card-avatar">
+          <%= image_tag team.avatar.url(:thumb), :class => 'z-depth-2' %>
         </div>
-      </div>
+      <% end %>
+        <span class="card-title card-name"><%= team.name %><br /></span>
+        <div class="clear"></div>
+        <p class="stats">
+          <i class="material-icons">today</i><b> Date: </b> <%= @date %>
+        </p>
+        <p class="stats">
+          <i class="material-icons">directions_run</i><b> Team Total Steps: </b>
+            <%= team.total_steps %>
+        </p>
+
+        <!--  USER SATS: -->
+        <div class="stat-name center-align">MEMBER STATS: </div>
+
+        <% team.users.each do |user| %>
+          <div class="card-avatar">
+            <%= image_tag user.avatar.url, :class => 'z-depth-2' %>
+          </div>
+          <span class="card-title card-name"><%= user.name %></span>
+          <div class="clear"></div>
+          <p class="stats">
+            <i class="material-icons">today</i><b> Date: </b> <%= @date %>
+          </p>
+          <p class="stats">
+            <i class="material-icons">directions_run</i><b> Steps: </b>
+            <%= user.steps %>
+          </p>
+          <p class="stats">
+              <% if user.goal_met %>
+                <i class="material-icons">local_play</i><b> Goal Achieved: </b> <i class="material-icons">done</i>
+              <% else %>
+                <i class="material-icons">local_play</i><b> Goal Achieved: </b> <i class="material-icons">clear</i>
+              <% end %>
+          </p>
+          <hr />
+        <% end %>
+
     </div>
-
-    <% end %>
-
   </div>
 </div>
+
+<% end %>
+<% end %>

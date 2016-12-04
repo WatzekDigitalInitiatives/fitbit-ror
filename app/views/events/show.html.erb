@@ -30,16 +30,22 @@
       <a id="fetch-date-button" href=<%= url %> class="waves-effect waves-light btn">Fetch Data</a>
    </div>
 
+   <div class="col s8">
+     <div id="showEventMap" style="height: 500px; background-color: gray;"></div>
+     <%= render 'show_event_map' %>
+   </div>
+
    <%= render 'date_selector_js' %>
 
- </div>
-</div>
 
 <% if @event.team_event %>
   <%= render :partial=>"events/team_show_page" %>
 <% else %>
   <%= render :partial=>"events/individual_show_page" %>
 <% end %>
+
+  </div>
+</div>
 
 <script>
     $(document).ready(function () {

@@ -53,8 +53,32 @@ class EventsController < ApplicationController
       @user = current_user
       if @event.team_event
         @teams = @event.teams
+        @teams.each do |team|
+          team.total_steps = 0
+          team.users.each do |user|
+            @activity = Activity.find_by(entry_date: @date, user_id: user.id)
+            if @activity
+              team.total_steps += @activity.steps
+              user.steps = @activity.steps
+              user.goal_met = @activity.goal_met
+            else
+              user.steps = "Steps not registered"
+              user.goal_met = false
+            end
+          end
+        end
       else
         @users = @event.users
+        @users.each do |user|
+          @activity = Activity.find_by(entry_date: @date, user_id: user.id)
+          if @activity
+            user.steps = @activity.steps
+            user.goal_met = @activity.goal_met
+          else
+            user.steps = "Steps not registered"
+            user.goal_met = false
+          end
+        end
       end
       @add_user = UserEvent.new
 
