@@ -2,7 +2,9 @@
     $(document).ready(function () {
         $("#fetch-date").change(function () {
             if ($("#fetch-date").val()) {
-                $("#fetch-date-button").attr('href') += "?date="+$("#fetch-date").val();
+                var d = $("#fetch-date").val();
+                var link = $("#fetch-date-button").attr('href') + "?date=" + d;
+                $("#fetch-date-button").attr('href', link);
             }
         });
     });

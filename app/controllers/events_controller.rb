@@ -67,6 +67,10 @@ class EventsController < ApplicationController
       ].join
       @mapArgs = {'mapID' => 'showEventMap', 'origin' => @event.start_location, 'destination' => @event.end_location}
       gon.mapArgs = @mapArgs
+
+      # Date Picker is reducing each date by 1 day so adding 1 day to make it right, REALLY DONT KNOW WHY!
+      gon.start_date = @event.start_date+1.day
+      gon.finish_date = @event.finish_date+1.day
     end
 
     # GET /events/new
