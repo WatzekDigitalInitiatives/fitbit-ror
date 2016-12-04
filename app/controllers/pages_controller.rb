@@ -12,6 +12,7 @@ class PagesController < ApplicationController
         output_goals = client.goals('daily')
         hash = JSON.parse(output_goals.to_json)
         @goal = hash["goals"]["steps"]
+        goal = @goal
 
         user_tmz = current_user.identity_for("fitbit").timezone
         today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
@@ -25,8 +26,51 @@ class PagesController < ApplicationController
         # client = @user.fitbit_client
         # output = client.subscriptions(type: 'activities')
 
-        @activities = @user.activities
+        # CODE TO TO REMOVE
+
+        today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
+        start_date = @user.subscription.earliest_date
+        all_steps = find_steps(client, start_date, today)
+
+        all_steps.each do |past_day|
+            date = past_day["dateTime"]
+            steps = past_day["value"].to_f
+            goal_met = goal_ach(goal, steps)
+            @activity = Activity.find_by(entry_date: date, user_id: @user.id)
+
+            if @activity
+              if steps != @activity.steps
+                @activity.steps = steps
+                @activity.goal_met = goal_met
+                @activity.save
+              end
+            else
+              # create an entry fot that date
+              @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
+            end
+        end
+
+        @act = @user.activities
+        @activities = @act.sort_by &:entry_date
     end
+
+    def find_steps(client, start_date, end_date)
+      output_steps = client.activity_time_series(resource: 'steps', start_date: start_date, end_date: end_date)
+      hash = JSON.parse(output_steps.to_json)
+      past_steps = hash["activities-steps"]
+      return past_steps
+    end
+
+    def goal_ach(goal, steps)
+      if goal < steps
+        goal_met = true
+      else
+        goal_met = false
+      end
+      return goal_met
+    end
+
+    # END OF CODE TO REMOVE
 
     def about
     end

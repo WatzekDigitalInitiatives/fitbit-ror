@@ -12,41 +12,46 @@ class ActivitiesController < ApplicationController
 
   def pushnotification
       push_data = ActiveSupport::JSON.decode(request.body.read)
-      user_id = push_data[0]["subscriptionId"]
+      users = push_data
       head :no_content
-      update_activity(user_id)
+      update_activity(users)
   end
 
   private
 
-  def update_activity(user_id)
-    @user = User.where(id: user_id).first
+  def update_activity(users)
+    users.each do |user|
 
-    if @user
-      client = @user.fitbit_client
-      user_tmz = @user.identity_for("fitbit").timezone
-      goal = daily_goal(client)
-      today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
-      start_date = @user.subscription.earliest_date
-      all_steps = find_steps(client, start_date, today)
+      user_id = user["subscriptionId"]
+      @user = User.where(id: user_id).first
 
-      all_steps.each do |past_day|
-          date = past_day["dateTime"]
-          steps = past_day["value"].to_f
-          goal_met = goal_ach(goal, steps)
-          @activity = Activity.find_by(entry_date: date, user_id: @user.id)
+      if @user
+        client = @user.fitbit_client
+        user_tmz = @user.identity_for("fitbit").timezone
+        goal = daily_goal(client)
+        today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
+        start_date = @user.subscription.earliest_date
+        all_steps = find_steps(client, start_date, today)
 
-          if @activity
-            if steps != @activity.steps
-              @activity.steps = steps
-              @activity.goal_met = goal_met
-              @activity.save
+        all_steps.each do |past_day|
+            date = past_day["dateTime"]
+            steps = past_day["value"].to_f
+            goal_met = goal_ach(goal, steps)
+            @activity = Activity.find_by(entry_date: date, user_id: @user.id)
+
+            if @activity
+              if steps != @activity.steps
+                @activity.steps = steps
+                @activity.goal_met = goal_met
+                @activity.save
+              end
+            else
+              # create an entry fot that date
+              @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
             end
-          else
-            # create an entry fot that date
-            @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
-          end
+        end
       end
+
     end
 
   end

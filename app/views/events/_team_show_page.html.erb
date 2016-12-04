@@ -1,0 +1,8 @@
+<br />
+<% @teams.each do |team| %>
+  <%= team.name %>
+  <% team.users.each do |user| %>
+    <%= user.name %>
+  <% end %>
+  <br />
+<% end %>

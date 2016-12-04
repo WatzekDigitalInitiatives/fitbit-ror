@@ -1,0 +1,25 @@
+.card-avatar{
+  float:left;
+
+  img {
+    width: 50px;
+    height: auto;
+  }
+
+}
+
+.card-name{
+  margin-left: 20px;
+}
+
+.clear{
+  clear: both;
+}
+
+.stats{
+  padding-top: 20px;
+  font-size: 1.3em;
+
+  i{ vertical-align: middle !important; font-size: 1.3em; }
+
+}

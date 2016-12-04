@@ -47,8 +47,26 @@ class EventsController < ApplicationController
     # GET /events/1
     # GET /events/1.json
     def show
-        @user = current_user
-        @add_user = UserEvent.new
+
+      setDate(params, @event.start_date, @event.finish_date)
+
+      @user = current_user
+      if @event.team_event
+        @teams = @event.teams
+      else
+        @users = @event.users
+      end
+      @add_user = UserEvent.new
+
+      @event.static_map_preview = [
+              'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
+              '&markers=color:green%7Clabel:A%7C', @event.start_location,
+              '&markers=color:red%7Clabel:B%7C', @event.end_location,
+              '&path=', @event.start_location, '|', @event.end_location,
+              '&scale=2', '&key=', ENV['GOOGLE_API_KEY']
+      ].join
+      @mapArgs = {'mapID' => 'showEventMap', 'origin' => @event.start_location, 'destination' => @event.end_location}
+      gon.mapArgs = @mapArgs
     end
 
     # GET /events/new
@@ -160,5 +178,26 @@ class EventsController < ApplicationController
                 redirect_to events_path, notice: 'You dont have permissions to view this event.'
             end
         end
+    end
+
+    def setDate (params, start_date, finish_date)
+      today = Date.today.strftime("%Y-%m-%d")
+      today = Date.parse today
+
+      if (params[:date].present?)
+        @date = Date.parse params[:date]
+      else
+        @date = today
+      end
+
+      if @event.start_date > @date || @date > @event.finish_date
+        if today > @event.finish_date
+          @date = @event.finish_date
+        elsif today < @event.start_date
+          @date = @event.start_date
+        else
+          @date = today
+        end
+      end
     end
 end

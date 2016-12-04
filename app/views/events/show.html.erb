@@ -1,47 +1,35 @@
-<p>
-    <strong>Avatar:</strong>
-    <%= image_tag @event.avatar.url(:thumb) %>
-    <%= image_tag @event.avatar.url(:preview) %>
-</p>
+<div class="container">
+  <div class="row">
+     <div class="col s12">
+       <div class="card medium event">
+         <div class="card-image">
+            <% if @event.avatar? %>
+            <%= image_tag @event.avatar.url(:preview), :style => 'width: 100%;' %>
+            <% else %>
+            <%= image_tag @event.static_map_preview %>
+            <% end %>
+        </div>
+        <div class="card-content">
+          <span class="card-title grey-text text-darken-4"><%= @event.name %></span>
+          <div class="event-info">
+            <br/>
+            <b>Dates: </b><%= @event.start_date %> to <%= @event.finish_date %>
+            <br/>
+            <br/>
+            <b>Route: </b><%= @event.start_location %> to <%= @event.end_location %></li>
+          </div>
+        </div>
+        </div>
+     </div>
+  </div>
+</div>
 
-<p>
-    <strong>Name:</strong>
-    <%= @event.name %>
-</p>
+<% if @event.team_event %>
+  <%= render :partial=>"events/team_show_page" %>
+<% else %>
+  <%= render :partial=>"events/individual_show_page" %>
+<% end %>
 
-<p>
-    <strong>Type:</strong>
-    <% if @event.team_event %>
-    <%= "Team" %>
-    <% else %>
-    <%= "Singles" %>
-    <% end  %>
-</p>
-
-<p>
-    <strong>Start date:</strong>
-    <%= @event.start_date %>
-</p>
-
-<p>
-    <strong>Finish date:</strong>
-    <%= @event.finish_date %>
-</p>
-
-<p>
-    <strong>Start location:</strong>
-    <%= @event.start_location %>
-</p>
-
-<p>
-    <strong>End location:</strong>
-    <%= @event.end_location %>
-</p>
-
-<p>
-    <strong>Invite Code:</strong>
-    <%= @event.invitecode %>
-</p>
 
 <%= link_to 'Back', events_path %>
 |
@@ -51,3 +39,5 @@
 |
 <%= link_to 'Edit', edit_event_path(@event) %>
 <% end %>
+
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initializeShow', defer:true, async:true %>
