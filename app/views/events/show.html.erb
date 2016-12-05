@@ -1,3 +1,6 @@
+<!-- uncomment this for map url  -->
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initializeShow'%>
+
 <div class="container">
   <div class="row">
      <div class="col s12">
@@ -33,11 +36,16 @@
    <div class="col s8">
      <div id="showEventMap" style="height: 500px; background-color: gray;"></div>
      <!--  uncomment this for map function: -->
-     <% # render 'show_event_map' %>
+     <%= render 'show_event_map' %>
    </div>
 
    <div class="col s4 standing">
      <!-- standings go here, can make partial for that -->
+     This is where standings till THAT date is shown <br />
+     <% counter = 0 %>
+     <% @markers.each do |marker| %>
+      <%= counter += 1 %> | <%= marker["name"] %> | <%= marker["total_steps"] %> <br />
+    <% end %>
    </div>
 
    <!-- row closing div -->
@@ -75,6 +83,3 @@
         });
     });
 </script>
-
-<!-- uncomment this for map url  -->
-<% # javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initializeShow', defer:true, async:true %>

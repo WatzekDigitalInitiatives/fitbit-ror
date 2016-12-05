@@ -86,18 +86,15 @@
           }
         }
         var bounds = new google.maps.LatLngBounds();
-        <?php
-          for($i = 0; $i < count($mapARGS["markers"]); $i++){
-            $data = $mapARGS["markers"][$i];
-            echo 'var markerDistance = '.$data["totalSteps"].';';
-            $color = substr($data["hexcolor"], 1);
-            echo 'var color = "'.$color.'";';
-            echo 'var percentCovered = (markerDistance/(totalDistance*1000))*100;';
-            echo 'var name = "'.$data["name"].'";';
-            echo 'createMarker(polyline.GetPointAtDistance(markerDistance),name+" "+(markerDistance/1000)+"km",percentCovered.toFixed(2)+"% finished", color);';
-            echo 'bounds.extend(polyline.GetPointAtDistance(markerDistance));';
-          }
-        ?>
+        for (var i = 0; i < gon.mapArgs["markers"].length; i++) {
+          var data = gon.mapArgs["markers"][i];
+          var markerDistance = data["total_steps"];
+          var color = data["hexcolor"];
+          var percentCovered = (markerDistance/(totalDistance*1000))*100;
+          var name = data["name"];
+          createMarker(polyline.GetPointAtDistance(markerDistance),name+" "+(markerDistance/1000)+"km",percentCovered.toFixed(2)+"% finished", color);
+          bounds.extend(polyline.GetPointAtDistance(markerDistance));
+        }
         bounds.extend(startLocation.latlng);
         map.fitBounds(bounds);
       }else {
@@ -105,5 +102,5 @@
       }
     });
   }
-  google.maps.event.addDomListener(window, 'load', initialize);
+  google.maps.event.addDomListener(window, 'load', initializeShow);
 </script>
