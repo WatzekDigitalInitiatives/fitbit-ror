@@ -62,11 +62,15 @@ class EventsController < ApplicationController
               user.steps = @activity.steps
               user.goal_met = @activity.goal_met
             else
+              team.total_steps += 0
               user.steps = "Steps not registered"
               user.goal_met = false
             end
           end
         end
+
+        @teams = @teams.sort_by { |h| h[:total_steps] }.reverse
+
       else
         @users = @event.users
         @users.each do |user|
@@ -75,11 +79,13 @@ class EventsController < ApplicationController
             user.steps = @activity.steps
             user.goal_met = @activity.goal_met
           else
-            user.steps = "Steps not registered"
+            user.steps = 0
             user.goal_met = false
           end
         end
+        @users = @users.sort_by { |h| h[:steps] }.reverse
       end
+      
       @add_user = UserEvent.new
 
       @event.static_map_preview = [

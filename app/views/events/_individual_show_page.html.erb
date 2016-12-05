@@ -14,7 +14,11 @@
         </p>
         <p class="stats">
           <i class="material-icons">directions_run</i><b> Steps: </b>
-          <%= user.steps %>
+          <% if user.steps == 0 %>
+            Steps not registered
+          <% else %>
+            <%= user.steps %>
+          <% end %>
         </p>
         <p class="stats">
           <% if user.goal_met %>
