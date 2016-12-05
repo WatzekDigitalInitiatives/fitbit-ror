@@ -36,11 +36,8 @@
      <% # render 'show_event_map' %>
    </div>
 
-   <% render 'date_selector_js' %>
-
-
    <div class="col s4 standing">
-
+     <!-- standings go here, can make partial for that -->
    </div>
 
    <!-- row closing div -->
@@ -68,6 +65,13 @@
           itemSelector: '.grid-item',
           columnWidth: 400,
           gutter: 30
+        });
+        $("#fetch-date").change(function () {
+            if ($("#fetch-date").val()) {
+                var d = $("#fetch-date").val();
+                var link = $("#fetch-date-button").attr('href') + "?date=" + d;
+                $("#fetch-date-button").attr('href', link);
+            }
         });
     });
 </script>
