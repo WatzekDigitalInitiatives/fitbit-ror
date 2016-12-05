@@ -32,11 +32,19 @@
 
    <div class="col s8">
      <div id="showEventMap" style="height: 500px; background-color: gray;"></div>
-     <%= render 'show_event_map' %>
+     <!--  uncomment this for map function: -->
+     <% # render 'show_event_map' %>
    </div>
 
-   <%= render 'date_selector_js' %>
+   <% render 'date_selector_js' %>
 
+
+   <div class="col s4 standing">
+
+   </div>
+
+   <!-- row closing div -->
+ </div>
 
 <% if @event.team_event %>
   <%= render :partial=>"events/team_show_page" %>
@@ -44,7 +52,7 @@
   <%= render :partial=>"events/individual_show_page" %>
 <% end %>
 
-  </div>
+<!-- container closing div -->
 </div>
 
 <script>
@@ -56,7 +64,13 @@
             min: new Date(gon.start_date),
             max: new Date(gon.finish_date)
         });
+        $('.grid').masonry({
+          itemSelector: '.grid-item',
+          columnWidth: 400,
+          gutter: 30
+        });
     });
 </script>
 
-<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initializeShow', defer:true, async:true %>
+<!-- uncomment this for map url  -->
+<% # javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initializeShow', defer:true, async:true %>

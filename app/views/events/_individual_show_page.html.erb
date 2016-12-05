@@ -1,12 +1,6 @@
-<div class="col s4 standing brown darken-1 white-text">
-  <h5 class="center-align">Overall Standings</h5>
-  <div class="">
-
-  </div>
-</div>
-
+<div class="grid">
 <% @users.each do |user| %>
-  <div class="col s4">
+  <div class="grid-item">
     <div class="card blue-grey darken-1 z-depth-2">
       <div class="card-content white-text">
         <div class="card-avatar">
@@ -33,3 +27,4 @@
     </div>
   </div>
 <% end %>
+</div>
