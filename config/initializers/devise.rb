@@ -7,7 +7,7 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = 'f39b1666c4655d5a245c3d040d66cf55d5be1afd5ecb88dbafe6b2502c602c35ea32a8e36328279cbef66872a85b19bf1a53a9085e2306ba2ec42084a9b29533'
-
+  config.secret_key = '<%= ENV["SECRET_KEY_BASE"] %>' if Rails.env == 'production'
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
@@ -248,7 +248,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :fitbit, ENV['FITBIT_CLIENT_ID'], ENV["FITBIT_CLIENT_SECRET"], scope: "profile activity sleep heartrate location nutrition settings social weight"
+  config.omniauth :fitbit, ENV['FITBIT_CLIENT_ID'], ENV["FITBIT_CLIENT_SECRET"], scope: "profile activity location settings social"
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

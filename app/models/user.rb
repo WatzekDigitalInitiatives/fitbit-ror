@@ -6,11 +6,16 @@ class User < ActiveRecord::Base
     devise :omniauthable, omniauth_providers: [:fitbit]
 
     has_many :identities, dependent: :destroy
+
+    has_many :activities, dependent: :destroy
+
     has_many :user_events, dependent: :destroy
     has_many :events, through: :user_events
 
     has_many :user_teams, dependent: :destroy
     has_many :teams, through: :user_teams
+
+    has_one :subscription
 
     attr_reader :avatar_remote_url
     has_attached_file :avatar
@@ -52,7 +57,7 @@ class User < ActiveRecord::Base
             client_secret: ENV['FITBIT_CLIENT_SECRET'],
             user_id: fitbit_identity.uid
         )
-     end
+    end
 
     private
 

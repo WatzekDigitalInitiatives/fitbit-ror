@@ -25,12 +25,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'coveralls', require: false
 
-gem 'omniauth-fitbit', :git => "git@github.com:rishijavia/omniauth-fitbit.git"
+gem 'omniauth-fitbit', :git => "https://github.com/rishijavia/omniauth-fitbit.git"
 gem 'figaro'
 gem 'materialize-sass'
 gem 'gon'
 gem 'paperclip', '~> 5.1.0'
 gem 'open_uri_redirections'
+gem 'fitgem_oauth2'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -41,6 +42,17 @@ gem 'open_uri_redirections'
 # gem 'capistrano-rails', group: :development
 
 gem 'devise'
+
+gem "capistrano", "~> 3.4"
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano-rbenv'
+gem 'capistrano3-puma'
+
+
+group :production do
+  gem 'rails_12factor'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

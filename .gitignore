@@ -23,6 +23,4 @@ logfile
 /public/system/users
 /public/system/events
 /public/system/teams
-
-# Ignore database config
-config/database.yml
+/public/assets

@@ -80,6 +80,11 @@ class EventsController < ApplicationController
                 @team_event.team_id = params[:team_id]
                 @team_event.event_id = @event.id
                 if @team_event.save
+                    @team = Team.find(params[:team_id])
+                    @team.users.each do |user|
+                      set_subscription_date(user.id, @event.start_date, @event.finish_date)
+                      create_user_subscription(user)
+                    end
                     format.html { redirect_to @event, notice: 'Event was successfully created.' }
                     format.json { render :show, status: :created, location: @event }
                 end
@@ -88,6 +93,8 @@ class EventsController < ApplicationController
                 @user_event.user_id = current_user.id
                 @user_event.event_id = @event.id
                 if @user_event.save
+                    set_subscription_date(current_user.id, @event.start_date, @event.finish_date)
+                    create_user_subscription(current_user)
                     format.html { redirect_to @event, notice: 'Event was successfully created.' }
                     format.json { render :show, status: :created, location: @event }
                 end
