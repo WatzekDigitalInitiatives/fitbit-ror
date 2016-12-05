@@ -25,7 +25,7 @@
         });
         marker.myname = label;
         gmarkers.push(marker);
-    google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function() {
           infowindow.setContent(contentString);
           infowindow.open(map,marker);
         });
