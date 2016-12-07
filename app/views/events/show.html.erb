@@ -35,12 +35,12 @@
    </div>
 
    <div class="col s4 standing">
-     This is where standings till THAT date is shown <br />
+     <h5 class="center-align">Standings as of <%= @date %></h5>
      <% counter = 0 %>
      <% @markers.each do |marker| %>
       <% @link = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+marker["hexcolor"][1..-1] %>
-      <%= image_tag @link %><%= counter += 1 %> | <%= marker["name"] %> | <%= marker["total_steps"] %> <br />
-    <% end %>
+        <%= counter += 1 %>. <%= image_tag @link %> <%= marker["name"] %> - <%= marker["total_steps"] %> steps <br />
+      <% end %>
    </div>
 
  </div> <!-- row closing div -->
