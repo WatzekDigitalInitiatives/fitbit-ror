@@ -53,6 +53,9 @@
 
 </div> <!-- container closing div -->
 
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY'] %>
+<%= render 'show_event_map' %>
+<!-- <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initializeShow', :type => "text/javascript", :defer => "defer", :async => "async" %> -->
 <script>
     $(document).ready(function () {
         $('.datepicker').pickadate({
@@ -76,6 +79,3 @@
         });
     });
 </script>
-
-<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initializeShow' %>
-<%= render 'show_event_map' %>
