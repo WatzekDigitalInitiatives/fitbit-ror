@@ -1,20 +1,20 @@
 <script>
   var directionDisplay;
-  var directionsService=new google.maps.DirectionsService();
+  // var directionsService=new google.maps.DirectionsService();
   var gmarkers = [];
   var map = null;
   var startLocation = null;
   var endLocation = null;
   var waypts = null;
-  var infowindow = new google.maps.InfoWindow(
-  {
-    size: new google.maps.Size(150,50)
-  });
+  // var infowindow = new google.maps.InfoWindow(
+  // {
+  //   size: new google.maps.Size(150,50)
+  // });
   function createMarker(latlng, label, html, color) {
-    console.log("latlng"+latlng);
-    console.log("label"+label);
-    console.log("html"+html);
-    console.log("color"+color);
+    console.log("latlng "+latlng);
+    console.log("label "+label);
+    console.log("html "+html);
+    console.log("color "+color);
     var contentString = '<b>'+label+'</b><br>'+html;
     var marker = new google.maps.Marker({
         position: latlng,
@@ -32,6 +32,11 @@
         return marker;
   }
   function initializeShow() {
+    initializeEpolys();
+    infowindow = new google.maps.InfoWindow(
+    {
+      size: new google.maps.Size(150,50)
+    });
     directionsDisplay = new google.maps.DirectionsRenderer({preserveViewport: true});
     var portland = new google.maps.LatLng(45.542415,-122.7244614);
     var myOptions = {
@@ -51,6 +56,7 @@
         unitSystem: google.maps.UnitSystem.METRIC,
         travelMode: google.maps.DirectionsTravelMode.WALKING
     };
+    directionsService=new google.maps.DirectionsService();
     directionsService.route(request, function(response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
@@ -102,7 +108,11 @@
       }
     });
   }
-  google.maps.event.addDomListener(window, 'load', initializeShow);
+  function initialize(){
+    google.maps.event.addDomListener(window, 'load', initializeShow);
+  }
+  // google.maps.event.addDomListener(window, 'load', initializeShow);
+  function initializeEpolys(){
 
   // V3_eploy file:
 
@@ -353,6 +363,8 @@
   google.maps.Polyline.prototype.GetPointsAtDistance  = google.maps.Polygon.prototype.GetPointsAtDistance;
   google.maps.Polyline.prototype.GetIndexAtDistance   = google.maps.Polygon.prototype.GetIndexAtDistance;
   google.maps.Polyline.prototype.Bearing              = google.maps.Polygon.prototype.Bearing;
+
+}
 
 
 </script>
