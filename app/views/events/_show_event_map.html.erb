@@ -1,20 +1,11 @@
 <script>
   var directionDisplay;
-  // var directionsService=new google.maps.DirectionsService();
   var gmarkers = [];
   var map = null;
   var startLocation = null;
   var endLocation = null;
   var waypts = null;
-  // var infowindow = new google.maps.InfoWindow(
-  // {
-  //   size: new google.maps.Size(150,50)
-  // });
   function createMarker(latlng, label, html, color) {
-    console.log("latlng "+latlng);
-    console.log("label "+label);
-    console.log("html "+html);
-    console.log("color "+color);
     var contentString = '<b>'+label+'</b><br>'+html;
     var marker = new google.maps.Marker({
         position: latlng,
@@ -32,21 +23,22 @@
         return marker;
   }
   function initializeShow() {
-    initializeEpolys();
-    infowindow = new google.maps.InfoWindow(
-    {
-      size: new google.maps.Size(150,50)
+    initializeEpolys(function() {
+        infowindow = new google.maps.InfoWindow(
+        {
+          size: new google.maps.Size(150,50)
+        });
+        directionsDisplay = new google.maps.DirectionsRenderer({preserveViewport: true});
+        var portland = new google.maps.LatLng(45.542415,-122.7244614);
+        var myOptions = {
+          zoom: 6,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          center: portland
+        }
+        map = new google.maps.Map(document.getElementById(gon.mapArgs["mapID"]), myOptions);
+        directionsDisplay.setMap(map);
+        calcRoute();
     });
-    directionsDisplay = new google.maps.DirectionsRenderer({preserveViewport: true});
-    var portland = new google.maps.LatLng(45.542415,-122.7244614);
-    var myOptions = {
-      zoom: 6,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      center: portland
-    }
-    map = new google.maps.Map(document.getElementById(gon.mapArgs["mapID"]), myOptions);
-    directionsDisplay.setMap(map);
-    calcRoute();
   }
   function calcRoute() {
     var request = {
@@ -109,10 +101,10 @@
     });
   }
   function initialize(){
-    google.maps.event.addDomListener(window, 'load', initializeShow);
+    initializeShow();
   }
-  // google.maps.event.addDomListener(window, 'load', initializeShow);
-  function initializeEpolys(){
+
+  function initializeEpolys(_callback){
 
   // V3_eploy file:
 
@@ -364,6 +356,7 @@
   google.maps.Polyline.prototype.GetIndexAtDistance   = google.maps.Polygon.prototype.GetIndexAtDistance;
   google.maps.Polyline.prototype.Bearing              = google.maps.Polygon.prototype.Bearing;
 
+  _callback();
 }
 
 
