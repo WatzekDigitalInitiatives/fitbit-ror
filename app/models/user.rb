@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
     has_one :subscription
 
     attr_reader :avatar_remote_url
+    attr_accessor :steps, :goal_met
     has_attached_file :avatar
     validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 

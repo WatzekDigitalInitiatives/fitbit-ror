@@ -17,4 +17,4 @@
 //= require jquery
 //= require materialize-sprockets
 //= require materialize/extras/nouislider
-//= require datepicker
+//= require masonry.pkgd.min

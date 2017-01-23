@@ -47,8 +47,75 @@ class EventsController < ApplicationController
     # GET /events/1
     # GET /events/1.json
     def show
-        @user = current_user
-        @add_user = UserEvent.new
+
+      set_date(params, @event.start_date, @event.finish_date)
+
+      @user = current_user
+      if @event.team_event
+
+        # Set markers for data from start_date till date
+        event_id = @event.id
+        date = @date
+        @markers = set_team_markers(event_id, date)
+        @markers = @markers.sort_by { |h| h[:total_steps] }.reverse
+
+        # Set total_steps for that date
+        @teams = @event.teams
+        @teams.each do |team|
+          team.total_steps = 0
+          team.users.each do |user|
+            @activity = Activity.find_by(entry_date: @date, user_id: user.id)
+            if @activity
+              team.total_steps += @activity.steps
+              user.steps = @activity.steps
+              user.goal_met = @activity.goal_met
+            else
+              team.total_steps += 0
+              user.steps = "Steps not registered"
+              user.goal_met = false
+            end
+          end
+        end
+
+        @teams = @teams.sort_by { |h| h[:total_steps] }.reverse
+
+      else
+
+        # Set markers for data from start_date till date
+        event_id = @event.id
+        date = @date
+        @markers = set_user_markers(event_id, date)
+        @markers = @markers.sort_by { |h| h[:total_steps] }.reverse
+
+        # Set total_steps for that date
+        @users = @event.users
+        @users.each do |user|
+          @activity = Activity.find_by(entry_date: @date, user_id: user.id)
+          if @activity
+            user.steps = @activity.steps
+            user.goal_met = @activity.goal_met
+          else
+            user.steps = 0
+            user.goal_met = false
+          end
+        end
+        @users = @users.sort_by { |h| h[:steps] }.reverse
+
+      end
+
+      @event.static_map_preview = [
+              'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
+              '&markers=color:green%7Clabel:A%7C', @event.start_location,
+              '&markers=color:red%7Clabel:B%7C', @event.end_location,
+              '&path=', @event.start_location, '|', @event.end_location,
+              '&scale=2', '&key=', ENV['GOOGLE_API_KEY']
+      ].join
+      @mapArgs = {'mapID' => 'showEventMap', 'origin' => @event.start_location, 'destination' => @event.end_location, 'markers' => @markers}
+      gon.mapArgs = @mapArgs
+
+      # Date Picker is reducing each date by 1 day so adding 1 day to make it right, REALLY DONT KNOW WHY!
+      gon.start_date = @event.start_date+1.day
+      gon.finish_date = @event.finish_date+1.day
     end
 
     # GET /events/new
@@ -161,4 +228,68 @@ class EventsController < ApplicationController
             end
         end
     end
+
+    def set_date (params, start_date, finish_date)
+      today = Date.today.strftime("%Y-%m-%d")
+      today = Date.parse today
+
+      if (params[:date].present?)
+        @date = Date.parse params[:date]
+      else
+        @date = today
+      end
+
+      if @event.start_date > @date || @date > @event.finish_date
+        if today > @event.finish_date
+          @date = @event.finish_date
+        elsif today < @event.start_date
+          @date = @event.start_date
+        else
+          @date = today
+        end
+      end
+    end
+
+    def set_team_markers(event_id, finish_date)
+      @event = Event.find(event_id)
+      @teams = @event.teams
+      start_date = @event.start_date
+      @markers = []
+      @teams.each do |team|
+        @data = {"total_steps" => 0, "hexcolor" => team.hexcolor, "name" => team.name }
+        team.users.each do |user|
+          (start_date..finish_date).each do |date|
+            @activity = Activity.find_by(entry_date: date, user_id: user.id)
+            if @activity
+              @data["total_steps"] += @activity.steps
+            else
+              @data["total_steps"] += 0
+            end
+          end
+        end
+      @markers << @data
+      end
+      return @markers
+    end
+
+    def set_user_markers(event_id, finish_date)
+      @event = Event.find(event_id)
+      @users = @event.users
+      start_date = @event.start_date
+      @markers = []
+      @users.each do |user|
+        @data = {"total_steps" => 0, "hexcolor" => user.hexcolor, "name" => user.name }
+        (start_date..finish_date).each do |date|
+          @activity = Activity.find_by(entry_date: date, user_id: user.id)
+          if @activity
+            @data["total_steps"] += @activity.steps
+          else
+            @data["total_steps"] += 0
+          end
+        end
+      @markers << @data
+      end
+      return @markers
+    end
+
 end

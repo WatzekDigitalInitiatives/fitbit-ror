@@ -1,0 +1,54 @@
+<div class="grid">
+<% @teams.each do |team| %>
+
+  <div class="grid-item">
+    <div class="card blue-grey darken-1 z-depth-2">
+      <div class="card-content white-text">
+        <div class="stat-name center-align">TEAM STATS: </div>
+        <% if team.avatar? %>
+          <div class="team-card-avatar">
+            <%=  image_tag team.avatar.url(:thumb), :class => 'z-depth-2' %>
+          </div>
+        <% end %>
+          <span class="card-title card-name"><%= team.name %><br /></span>
+          <div class="clear"></div>
+          <p class="stats">
+            <i class="material-icons">today</i><b> Date: </b> <%= @date %>
+          </p>
+          <p class="stats">
+            <i class="material-icons">directions_run</i><b> Team Total Steps: </b>
+              <%= team.total_steps %>
+          </p>
+
+          <!--  USER SATS: -->
+          <div class="stat-name center-align">MEMBER STATS: </div>
+
+          <% team.users.each do |user| %>
+            <div class="card-avatar">
+              <%= image_tag user.avatar.url, :class => 'z-depth-2' %>
+            </div>
+            <span class="card-title card-name"><%= user.name %></span>
+            <div class="clear"></div>
+            <p class="stats">
+              <i class="material-icons">today</i><b> Date: </b> <%= @date %>
+            </p>
+            <p class="stats">
+              <i class="material-icons">directions_run</i><b> Steps: </b>
+              <%= user.steps %>
+            </p>
+            <p class="stats">
+                <% if user.goal_met %>
+                  <i class="material-icons">local_play</i><b> Goal Achieved: </b> <i class="material-icons">done</i>
+                <% else %>
+                  <i class="material-icons">local_play</i><b> Goal Achieved: </b> <i class="material-icons">clear</i>
+                <% end %>
+            </p>
+            <hr />
+          <% end %>
+
+      </div>
+    </div>
+  </div>
+
+<% end %>
+</div>
