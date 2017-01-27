@@ -48,6 +48,7 @@ gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'capistrano-rbenv'
 gem 'capistrano3-puma'
+gem 'puma'
 
 
 group :production do
