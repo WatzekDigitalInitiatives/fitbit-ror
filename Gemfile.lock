@@ -317,6 +317,7 @@ DEPENDENCIES
   open_uri_redirections
   paperclip (~> 5.1.0)
   pg (~> 0.15)
+  puma
   rails (= 4.2.6)
   rails_12factor
   sass-rails (~> 5.0)

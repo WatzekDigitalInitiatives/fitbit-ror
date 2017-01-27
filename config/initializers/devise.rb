@@ -248,7 +248,11 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :fitbit, ENV['FITBIT_CLIENT_ID'], ENV["FITBIT_CLIENT_SECRET"], scope: "profile activity location settings social"
+  if Rails.env.development? || Rails.env.test?
+    config.omniauth :fitbit, ENV['FITBIT_CLIENT_ID'], ENV["FITBIT_CLIENT_SECRET"], scope: "profile activity location settings social"
+  elsif Rails.env.production?
+    config.omniauth :fitbit, ENV['FITBIT_PRODUCTION_CLIENT_ID'], ENV["FITBIT_PRODUCTION_CLIENT_SECRET"], scope: "profile activity location settings social"
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
