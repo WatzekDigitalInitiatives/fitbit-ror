@@ -16,7 +16,7 @@
             <div class="output-wrapper">
               Today's Steps: <%= @steps %> </br>
               Daily Steps Goal: <%= @goal %> </br>
-              <% if !@activities.empty? %>
+              <% if @activities %>
                 <% @activities.each do |activity| %>
                   Entry Date: <%= activity.entry_date %> | Steps: <%= activity.steps %> </br>
                 <% end %>

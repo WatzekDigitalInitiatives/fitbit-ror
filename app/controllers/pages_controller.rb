@@ -25,33 +25,6 @@ class PagesController < ApplicationController
         # show user subscriptions:
         # client = @user.fitbit_client
         # output = client.subscriptions(type: 'activities')
-
-        # CODE TO TO REMOVE
-
-        today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
-        start_date = @user.subscription.earliest_date
-        all_steps = find_steps(client, start_date, today)
-
-        all_steps.each do |past_day|
-            date = past_day["dateTime"]
-            steps = past_day["value"].to_f
-            goal_met = goal_ach(goal, steps)
-            @activity = Activity.find_by(entry_date: date, user_id: @user.id)
-
-            if @activity
-              if steps != @activity.steps
-                @activity.steps = steps
-                @activity.goal_met = goal_met
-                @activity.save
-              end
-            else
-              # create an entry fot that date
-              @user.activities.create(entry_date: date, steps: steps, goal: goal, goal_met: goal_met)
-            end
-        end
-
-        @act = @user.activities
-        @activities = @act.sort_by &:entry_date
     end
 
     def find_steps(client, start_date, end_date)
