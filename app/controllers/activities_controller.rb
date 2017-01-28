@@ -30,6 +30,7 @@ class ActivitiesController < ApplicationController
         user_tmz = @user.identity_for("fitbit").timezone
         goal = daily_goal(client)
         today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
+        return if !@user.subscription?
         start_date = @user.subscription.earliest_date
         all_steps = find_steps(client, start_date, today)
 

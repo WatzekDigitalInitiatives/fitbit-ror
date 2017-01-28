@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
                     avatar_url = process_uri(auth.info.image)
                     user.update_attribute(:avatar, URI.parse(avatar_url))
                 end
+                create_user_subscription(user)
             end
             identity.user = user
         end
