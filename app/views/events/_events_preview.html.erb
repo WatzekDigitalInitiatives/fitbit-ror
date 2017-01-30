@@ -64,10 +64,12 @@
                 </b><%= event.start_location %>
                 -
                 <%= event.end_location %></li>
+            <% if current_user.present? && !current_user.events.include?(event) && !event.private %>
             <li class="collection-item">
                 <b>Code:
                 </b>
                 <%= event.invitecode %></li>
+            <% end %>
         </ul>
     </div>
 </div>
