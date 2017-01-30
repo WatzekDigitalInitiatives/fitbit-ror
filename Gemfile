@@ -30,6 +30,7 @@ gem 'figaro'
 gem 'materialize-sass'
 gem 'gon'
 gem 'paperclip', '~> 5.1.0'
+gem 'aws-sdk'
 gem 'open_uri_redirections'
 gem 'fitgem_oauth2'
 # Use ActiveModel has_secure_password
