@@ -6,7 +6,7 @@ class TeamEventsController < ApplicationController
 
     if !@event.team_event
       flash[:notice] = 'Sorry, please select a team event to join'
-      redirect_to events_path
+      return redirect_to events_path
     end
 
     @user = current_user
@@ -40,13 +40,11 @@ class TeamEventsController < ApplicationController
 
     unless @event
         flash[:notice] = 'Sorry, no event found with that invite code.'
-        redirect_to join_event_path
-        return
+        return redirect_to join_event_path
     end
     if TeamEvent.find_by(team_id: params[:team_id], event_id: @event.id)
         flash[:notice] = 'You are already registered for this event.'
-        redirect_to events_path
-        return
+        return redirect_to events_path
     end
     @team_event.team_id = params[:team_id]
     @team_event.event_id = @event.id

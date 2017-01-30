@@ -119,11 +119,11 @@ class TeamsController < ApplicationController
     # Checks if user is the admin of the team to edit and destroy event
     def check_team_admin
         if !current_user.present?
-            redirect_to @team, notice: 'Only team admin can edit or destroy teams.'
+            return redirect_to @team, notice: 'Only team admin can edit or destroy teams.'
         else
             # check if they are admin
             unless @team.createdby == current_user.id
-                redirect_to @team, notice: 'Only team admins can edit or destroy teams.'
+                return redirect_to @team, notice: 'Only team admins can edit or destroy teams.'
             end
         end
     end

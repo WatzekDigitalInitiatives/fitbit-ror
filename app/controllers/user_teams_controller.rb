@@ -11,13 +11,11 @@ class UserTeamsController < ApplicationController
       @team = Team.where(invitecode: params[:invitecode]).first
       unless @team
         flash[:notice] = 'Sorry, no team found with that invite code.'
-        redirect_to join_team_path
-        return
+        return redirect_to join_team_path
       end
       if UserTeam.find_by(user_id: current_user.id, team_id: @team.id)
         flash[:notice] = 'You are already a member of this team.'
-        redirect_to :back
-        return
+        return redirect_to :back
       end
       @user_team.team_id = @team.id
       respond_to do |format|
