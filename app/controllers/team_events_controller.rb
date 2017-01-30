@@ -14,7 +14,7 @@ class TeamEventsController < ApplicationController
 
     if @all_teams.empty?
       flash[:notice] = "Sorry, you don't have any teams to join team event."
-      redirect_to new_team_path
+      return redirect_to new_team_path
     end
 
     @teams = []
@@ -26,7 +26,7 @@ class TeamEventsController < ApplicationController
 
     if @teams.empty?
       flash[:notice] = "Sorry, all of your teams are registered for this event."
-      redirect_to events_path
+      return redirect_to events_path
     end
 
 
