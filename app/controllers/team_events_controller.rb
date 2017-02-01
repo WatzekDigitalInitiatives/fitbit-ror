@@ -54,7 +54,7 @@ class TeamEventsController < ApplicationController
             @team = Team.where(id: params[:team_id]).first
             @team.users.each do |user|
               set_subscription_date(user.id, @event.start_date, @event.finish_date)
-              if user.events.count == 0
+              if user.events.count == 1
                 create_user_subscription(user)
               end
             end
