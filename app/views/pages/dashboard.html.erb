@@ -16,13 +16,23 @@
             <div class="output-wrapper">
               Today's Steps: <%= @steps %> </br>
               Daily Steps Goal: <%= @goal %> </br>
-              <% if @activities %>
-                <% @activities.each do |activity| %>
-                  Entry Date: <%= activity.entry_date %> | Steps: <%= activity.steps %> </br>
-                <% end %>
-              <% end %>
-              <% fitbit_identity = @user.identities.where(provider: 'fitbit').first %>
-              User ID: <%= fitbit_identity.uid%> </br>
+              </br>
+
+              Daily Achievements:
+              <br />
+              <%= image_tag(image_path(@badges["daily"]["image"])) %><br />
+              <%= @badges["daily"]["earnedMessage"] %><br />
+              <%=  @badges["daily"]["description"] %><br />
+              <%=  @badges["daily"]["mobileDescription"] %><br />
+
+              </br></br>
+
+              Lifetime Achievements:
+              <br />
+              <%= image_tag(image_path(@badges["life"]["image"])) %><br />
+              <%= @badges["life"]["earnedMessage"] %><br />
+              <%=  @badges["life"]["description"] %><br />
+              <%=  @badges["life"]["mobileDescription"] %><br />
             </div>
         </div>
     </div>

@@ -20,6 +20,22 @@ class PagesController < ApplicationController
         hash = JSON.parse(output_steps.to_json)
         @steps = hash["activities-steps"][0]["value"]
 
+        info = client.user_info()
+        @badges = {
+          "daily" => {
+            "description" => info["user"]["topBadges"][0]["description"],
+            "earnedMessage" => info["user"]["topBadges"][0]["earnedMessage"],
+            "image" => info["user"]["topBadges"][0]["image125px"],
+            "mobileDescription" => info["user"]["topBadges"][0]["mobileDescription"]
+          },
+          "life" => {
+            "description" => info["user"]["topBadges"][1]["description"],
+            "earnedMessage" => info["user"]["topBadges"][1]["earnedMessage"],
+            "image" => info["user"]["topBadges"][1]["image125px"],
+            "mobileDescription" => info["user"]["topBadges"][1]["mobileDescription"]
+          }
+        }
+        # render json: info
         # render json: output_goals
 
         # show user subscriptions:
