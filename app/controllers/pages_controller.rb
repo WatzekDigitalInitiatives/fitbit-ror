@@ -22,32 +22,39 @@ class PagesController < ApplicationController
 
         info = client.user_info
         @info = info
-        @badges = {
-            'daily' => {
-                'description' => info['user']['topBadges'][0]['description'],
-                'earnedMessage' => info['user']['topBadges'][0]['earnedMessage'],
-                'image' => info['user']['topBadges'][0]['image125px'],
-                'mobileDescription' => info['user']['topBadges'][0]['mobileDescription']
-            },
-            'life' => {
-                'description' => info['user']['topBadges'][1]['description'],
-                'earnedMessage' => info['user']['topBadges'][1]['earnedMessage'],
-                'image' => info['user']['topBadges'][1]['image125px'],
-                'mobileDescription' => info['user']['topBadges'][1]['mobileDescription']
-            },
-            'dailyfloors' => {
-                'description' => info['user']['topBadges'][2]['description'],
-                'earnedMessage' => info['user']['topBadges'][2]['earnedMessage'],
-                'image' => info['user']['topBadges'][2]['image125px'],
-                'mobileDescription' => info['user']['topBadges'][2]['mobileDescription']
-            },
-            'lifefloors' => {
-                'description' => info['user']['topBadges'][3]['description'],
-                'earnedMessage' => info['user']['topBadges'][3]['earnedMessage'],
-                'image' => info['user']['topBadges'][3]['image125px'],
-                'mobileDescription' => info['user']['topBadges'][3]['mobileDescription']
-            }
-        }
+
+        @badges = {}
+
+        info['user']['topBadges'].each do |badge|
+            @badges[badge['category']] = badge
+        end
+
+        # @badges = {
+        #     'daily' => {
+        #         'description' => info['user']['topBadges'][0]['description'],
+        #         'earnedMessage' => info['user']['topBadges'][0]['earnedMessage'],
+        #         'image' => info['user']['topBadges'][0]['image125px'],
+        #         'mobileDescription' => info['user']['topBadges'][0]['mobileDescription']
+        #     },
+        #     'life' => {
+        #         'description' => info['user']['topBadges'][1]['description'],
+        #         'earnedMessage' => info['user']['topBadges'][1]['earnedMessage'],
+        #         'image' => info['user']['topBadges'][1]['image125px'],
+        #         'mobileDescription' => info['user']['topBadges'][1]['mobileDescription']
+        #     },
+        #     'dailyfloors' => {
+        #         'description' => info['user']['topBadges'][2]['description'],
+        #         'earnedMessage' => info['user']['topBadges'][2]['earnedMessage'],
+        #         'image' => info['user']['topBadges'][2]['image125px'],
+        #         'mobileDescription' => info['user']['topBadges'][2]['mobileDescription']
+        #     },
+        #     'lifefloors' => {
+        #         'description' => info['user']['topBadges'][3]['description'],
+        #         'earnedMessage' => info['user']['topBadges'][3]['earnedMessage'],
+        #         'image' => info['user']['topBadges'][3]['image125px'],
+        #         'mobileDescription' => info['user']['topBadges'][3]['mobileDescription']
+        #     }
+        # }
         # render json: info
         # render json: output_goals
 
