@@ -32,30 +32,50 @@
     <div class="row">
         <div class="col s3">
             <p>
-                <%= image_tag(image_path(@badges["daily"]["image"])) %><br/><br/>
-                <%=  @badges["daily"]["description"] %><br/><br/>
-                <%=  @badges["daily"]["mobileDescription"] %>
+                <% if @badges["Daily Steps"] %>
+                <%= image_tag(image_path(@badges["Daily Steps"]["image125px"])) %><br/><br/>
+                <b><%=  @badges["Daily Steps"]["shortName"] %></b><br/><br/>
+                <i><%=  @badges["Daily Steps"]["description"] %></i><br/><br/>
+                <%=  @badges["Daily Steps"]["mobileDescription"] %>
+            <% else %>
+                No badges yet.
+                <% end %>
             </p>
         </div>
         <div class="col s3">
             <p>
-                <%= image_tag(image_path(@badges["life"]["image"])) %><br/><br/>
-                <%=  @badges["life"]["description"] %><br/><br/>
-                <%=  @badges["life"]["mobileDescription"] %>
+                <% if @badges["Lifetime Distance"] %>
+                <%= image_tag(image_path(@badges["Lifetime Distance"]["image125px"])) %><br/><br/>
+                <b><%=  @badges["Lifetime Distance"]["shortName"] %></b><br/><br/>
+                <i><%=  @badges["Lifetime Distance"]["description"] %></i><br/><br/>
+                <%=  @badges["Lifetime Distance"]["mobileDescription"] %>
+            <% else %>
+                No badges yet.
+                <% end %>
             </p>
         </div>
         <div class="col s3">
             <p>
-                <%= image_tag(image_path(@badges["dailyfloors"]["image"])) %><br/><br/>
-                <%=  @badges["dailyfloors"]["description"] %><br/><br/>
-                <%=  @badges["dailyfloors"]["mobileDescription"] %>
+                <% if @badges["Daily Climb"] %>
+                <%= image_tag(image_path(@badges["Daily Climb"]["image125px"])) %><br/><br/>
+                <b><%=  @badges["Daily Climb"]["shortName"] %></b><br/><br/>
+                <i><%=  @badges["Daily Climb"]["description"] %></i><br/><br/>
+                <%=  @badges["Daily Climb"]["mobileDescription"] %>
+            <% else %>
+                No badges yet.
+                <% end %>
             </p>
         </div>
         <div class="col s3">
             <p>
-                <%= image_tag(image_path(@badges["lifefloors"]["image"])) %><br/><br/>
-                <%=  @badges["lifefloors"]["description"] %><br/><br/>
-                <%=  @badges["lifefloors"]["mobileDescription"] %>
+                <% if @badges["Lifetime Climb"] %>
+                <%= image_tag(image_path(@badges["Lifetime Climb"]["image125px"])) %><br/><br/>
+                <b><%=  @badges["Lifetime Climb"]["shortName"] %></b><br/><br/>
+                <i><%=  @badges["Lifetime Climb"]["description"] %></i><br/><br/>
+                <%=  @badges["Lifetime Climb"]["mobileDescription"] %>
+            <% else %>
+                No badges yet.
+                <% end %>
             </p>
         </div>
     </div>
