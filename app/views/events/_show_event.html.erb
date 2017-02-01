@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col s4">
+        <div class="dates"><%= event.start_date %>
+            to
+            <%= event.finish_date %>
+        </div>
+    </div>
+    <div class="col s5">
+        <input id="fetch-date" type="date" class="datepicker" placeholder="Select a date to get data from">
+    </div>
+    <div class="col s3">
+        <% url = "/events/"+@event.id.to_s %>
+        <a id="fetch-date-button" href=<%= url %> class="waves-effect waves-light btn">Fetch Data</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col s8">
+        <div id="showEventMap" style="height: 500px; background-color: gray;"></div>
+    </div>
+
+    <div class="col s4 standing">
+        <div class="dates center-align">Standings</div>
+        <div class="dates center-align">(<%= @date %>)</div>
+        <hr/>
+        <% counter = 0 %>
+        <% @markers.each do |marker| %>
+        <% @link = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+marker["hexcolor"][1..-1] %>
+        <%= counter += 1 %>.
+        <%= image_tag @link %>
+        <%= marker["name"] %>
+        -
+        <%= marker["total_steps"] %>
+        steps
+        <br/>
+        <% end %>
+    </div>
+
+</div>
+<!-- row closing div -->
+
+<% if @event.team_event %>
+<%= render :partial=>"events/team_show_page" %>
+<% else %>
+<%= render :partial=>"events/individual_show_page" %>
+<% end %>
+<!-- container closing div -->
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initialize', :type => "text/javascript", :async => true %>
+<!-- <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY'] %> -->
+<%= render 'show_event_map' %>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').pickadate({
+            format: 'yyyy-mm-dd', selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15, // Creates a dropdown of 15 years to control year
+            min: new Date(gon.start_date),
+            max: new Date(gon.finish_date)
+        });
+        $('.grid').masonry({itemSelector: '.grid-item', columnWidth: 400, gutter: 30});
+        $("#fetch-date").change(function () {
+            if ($("#fetch-date").val()) {
+                var d = $("#fetch-date").val();
+                var link = $("#fetch-date-button").attr('href') + "?date=" + d;
+                $("#fetch-date-button").attr('href', link);
+            }
+        });
+    });
+</script>

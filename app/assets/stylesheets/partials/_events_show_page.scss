@@ -1,43 +1,52 @@
-.card-avatar{
-  float:left;
+.card-avatar {
+  float: left;
 
   img {
     width: 50px;
     height: auto;
   }
-
 }
 
-.team-card-avatar{
+.dates {
+  color: black;
+  font-size: 1.2rem;
+  font-style: italic;
+  font-variant: small-caps;
+  font-weight: bold;
+  padding-top: 1rem;
+}
+
+.team-card-avatar {
   float: left;
 }
 
-.card-name{
+.card-name {
   margin-left: 20px;
   font-size: 1.5em !important;
 }
 
-.clear{
+.clear {
   clear: both;
 }
 
-.stats{
+.stats {
   padding-top: 20px;
   font-size: 1.3em;
 
-  i{ vertical-align: middle !important;}
-
+  i {
+    vertical-align: middle !important;
+  }
 }
 
-.stat-name{
+.stat-name {
   font-size: 1.7em;
   background-color: #37474f;
   width: 100%;
-  padding: 10px 0 10px 0;
-  margin: 10px 0 10px 0;
+  padding: 10px 0;
+  margin: 10px 0;
 }
 
-.standing{
+.standing {
   height: 500px;
   font-size: 1.7em;
 }

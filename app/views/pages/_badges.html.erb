@@ -1,0 +1,62 @@
+<div class="collapsible-header">
+    <i class="material-icons">stars</i>
+    My Badges
+</div>
+<div class="collapsible-body">
+    <div class="row">
+        <div class="col s3">
+            <div class="achievement-heading">
+                Daily Steps
+            </div>
+            <div class="divider"></div>
+        </div>
+        <div class="col s3">
+            <div class="achievement-heading">
+                Lifetime Distance
+            </div>
+            <div class="divider"></div>
+        </div>
+        <div class="col s3">
+            <div class="achievement-heading">
+                Daily Floors
+            </div>
+            <div class="divider"></div>
+        </div>
+        <div class="col s3">
+            <div class="achievement-heading">
+                Lifetime Floors
+            </div>
+            <div class="divider"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s3">
+            <p>
+                <%= image_tag(image_path(@badges["daily"]["image"])) %><br/><br/>
+                <%=  @badges["daily"]["description"] %><br/><br/>
+                <%=  @badges["daily"]["mobileDescription"] %>
+            </p>
+        </div>
+        <div class="col s3">
+            <p>
+                <%= image_tag(image_path(@badges["life"]["image"])) %><br/><br/>
+                <%=  @badges["life"]["description"] %><br/><br/>
+                <%=  @badges["life"]["mobileDescription"] %>
+            </p>
+        </div>
+        <div class="col s3">
+            <p>
+                <%= image_tag(image_path(@badges["dailyfloors"]["image"])) %><br/><br/>
+                <%=  @badges["dailyfloors"]["description"] %><br/><br/>
+                <%=  @badges["dailyfloors"]["mobileDescription"] %>
+            </p>
+        </div>
+        <div class="col s3">
+            <p>
+                <%= image_tag(image_path(@badges["lifefloors"]["image"])) %><br/><br/>
+                <%=  @badges["lifefloors"]["description"] %><br/><br/>
+                <%=  @badges["lifefloors"]["mobileDescription"] %>
+            </p>
+        </div>
+    </div>
+</div>

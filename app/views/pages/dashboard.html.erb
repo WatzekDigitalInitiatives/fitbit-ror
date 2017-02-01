@@ -13,27 +13,68 @@
             <div class="feed-title">
                 My Dashboard
             </div>
-            <div class="output-wrapper">
-              Today's Steps: <%= @steps %> </br>
-              Daily Steps Goal: <%= @goal %> </br>
-              </br>
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header active">
+                        <i class="material-icons">today</i>Today</div>
+                    <div class="collapsible-body">
+                        <p>
 
-              Daily Achievements:
-              <br />
-              <%= image_tag(image_path(@badges["daily"]["image"])) %><br />
-              <%= @badges["daily"]["earnedMessage"] %><br />
-              <%=  @badges["daily"]["description"] %><br />
-              <%=  @badges["daily"]["mobileDescription"] %><br />
+                            Today's Steps:
+                            <%= @steps %>
+                        </br>
+                        Daily Steps Goal:
+                        <%= @goal %>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header">
+                    <span class="new badge">4</span>
+                    <i class="material-icons">comment</i>Messages</div>
+                <div class="collapsible-body">
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </li>
+            <li>
+                <%= render :partial=>"pages/badges" %>
+            </li>
+            <li>
+                <div class="collapsible-header">
+                    <i class="material-icons">settings</i>All Data</div>
+                <div class="collapsible-body">
+                    <pre>
+                        <%= JSON.pretty_generate(@info) %>
+                    </pre>
+                </div>
+            </li>
+        </ul>
+        <!-- <div class="output-wrapper">
+                Today's Steps:
+                <%= @steps %>
+            </br>
+            Daily Steps Goal:
+            <%= @goal %>
+        </br>
+    </br>
 
-              </br></br>
+    Daily Achievements:
+    <br/>
+    <%= image_tag(image_path(@badges["daily"]["image"])) %><br/>
+    <%= @badges["daily"]["earnedMessage"] %><br/>
+    <%=  @badges["daily"]["description"] %><br/>
+    <%=  @badges["daily"]["mobileDescription"] %>
+    <br></br>
+</br>
 
-              Lifetime Achievements:
-              <br />
-              <%= image_tag(image_path(@badges["life"]["image"])) %><br />
-              <%= @badges["life"]["earnedMessage"] %><br />
-              <%=  @badges["life"]["description"] %><br />
-              <%=  @badges["life"]["mobileDescription"] %><br />
-            </div>
-        </div>
+Lifetime Achievements:
+<br/>
+<%= image_tag(image_path(@badges["life"]["image"])) %><br/>
+<%= @badges["life"]["earnedMessage"] %><br/>
+<%=  @badges["life"]["description"] %><br/>
+<%=  @badges["life"]["mobileDescription"] %><br/>
+</div> -->
     </div>
+</div>
+</div>
 </div>
