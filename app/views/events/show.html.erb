@@ -1,80 +1,27 @@
+<% provide(:title, @event.name) %>
+
+<%= render :partial=>"layouts/header" %>
+
 <div class="container">
-  <div class="row">
-     <div class="col s12">
-       <div class="card medium event">
-         <div class="card-image">
-            <% if @event.avatar? %>
-            <%= image_tag @event.avatar.url(:preview), :style => 'width: 100%;' %>
-            <% else %>
-            <%= image_tag @event.static_map_preview %>
-            <% end %>
+    <div class="row">
+        <% if current_user.present? %>
+        <div class="profile col s2">
+            <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+            <%= render :partial=>"layouts/sidenav" %>
         </div>
-        <div class="card-content">
-          <span class="card-title grey-text text-darken-4"><%= @event.name %></span>
-          <div class="event-info">
-            <br/>
-            <b>Dates: </b><%= @event.start_date %> to <%= @event.finish_date %>
-            <br/>
-            <br/>
-            <b>Route: </b><%= @event.start_location %> to <%= @event.end_location %></li>
-          </div>
+        <div class="feed col s9 offset-s1">
+            <div class="feed-title">
+                <%= @event.name %>
+            </div>
+            <%= render :partial=>"events/show_event", :locals => {:event => @event} %>
         </div>
+    <% else %>
+        <div class="feed col s12">
+            <div class="feed-title">
+                <%= @event.name %>
+            </div>
+            <%= render :partial=>"events/show_event", :locals => {:event => @event} %>
         </div>
-     </div>
-
-   <div class="col s3 offset-s4">
-      <input id="fetch-date" type="date" class="datepicker" placeholder="Select a date to get data from">
-   </div>
-   <div class="col s3">
-     <% url = "/events/"+@event.id.to_s %>
-      <a id="fetch-date-button" href=<%= url %> class="waves-effect waves-light btn">Fetch Data</a>
-   </div>
-
-   <div class="col s8">
-     <div id="showEventMap" style="height: 500px; background-color: gray;"></div>
-   </div>
-
-   <div class="col s4 standing">
-     <h5 class="center-align">Standings as of <%= @date %></h5>
-     <% counter = 0 %>
-     <% @markers.each do |marker| %>
-      <% @link = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+marker["hexcolor"][1..-1] %>
-        <%= counter += 1 %>. <%= image_tag @link %> <%= marker["name"] %> - <%= marker["total_steps"] %> steps <br />
-      <% end %>
-   </div>
-
- </div> <!-- row closing div -->
-
-<% if @event.team_event %>
-  <%= render :partial=>"events/team_show_page" %>
-<% else %>
-  <%= render :partial=>"events/individual_show_page" %>
-<% end %>
-
-</div> <!-- container closing div -->
-<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initialize', :type => "text/javascript", :async => true %>
-<!-- <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY'] %> -->
-<%= render 'show_event_map' %>
-<script>
-    $(document).ready(function () {
-        $('.datepicker').pickadate({
-            format: 'yyyy-mm-dd',
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15, // Creates a dropdown of 15 years to control year
-            min: new Date(gon.start_date),
-            max: new Date(gon.finish_date)
-        });
-        $('.grid').masonry({
-          itemSelector: '.grid-item',
-          columnWidth: 400,
-          gutter: 30
-        });
-        $("#fetch-date").change(function () {
-            if ($("#fetch-date").val()) {
-                var d = $("#fetch-date").val();
-                var link = $("#fetch-date-button").attr('href') + "?date=" + d;
-                $("#fetch-date-button").attr('href', link);
-            }
-        });
-    });
-</script>
+        <% end %>
+    </div>
+</div>
