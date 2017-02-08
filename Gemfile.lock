@@ -306,6 +306,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk
+  bundler (~> 1.12.5)
   byebug
   capistrano (~> 3.4)
   capistrano-bundler
