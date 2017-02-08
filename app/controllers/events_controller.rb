@@ -57,7 +57,7 @@ class EventsController < ApplicationController
         event_id = @event.id
         date = @date
         @markers = set_team_markers(event_id, date)
-        @markers = @markers.sort_by { |h| h[:total_steps] }.reverse
+        @markers = @markers.sort_by! { |h| -h["total_steps"] }
 
         # Set total_steps for that date
         @teams = @event.teams
@@ -77,7 +77,7 @@ class EventsController < ApplicationController
           end
         end
 
-        @teams = @teams.sort_by { |h| h[:total_steps] }.reverse
+        @teams = @teams.sort_by{|data| -data.total_steps}
 
       else
 
@@ -85,7 +85,7 @@ class EventsController < ApplicationController
         event_id = @event.id
         date = @date
         @markers = set_user_markers(event_id, date)
-        @markers = @markers.sort_by { |h| h[:total_steps] }.reverse
+        @markers = @markers.sort_by! { |h| -h["total_steps"] }
 
         # Set total_steps for that date
         @users = @event.users
@@ -99,7 +99,7 @@ class EventsController < ApplicationController
             user.goal_met = false
           end
         end
-        @users = @users.sort_by { |h| h[:steps] }.reverse
+        @users = @users.sort_by{|data| -data.steps}
 
       end
 

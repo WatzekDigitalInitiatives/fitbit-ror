@@ -38,7 +38,7 @@
 </div>
 <!-- row closing div -->
 
-<% if @event.team_event %>
+<% if @event.team_event? %>
 <%= render :partial=>"events/team_show_page" %>
 <% else %>
 <%= render :partial=>"events/individual_show_page" %>
