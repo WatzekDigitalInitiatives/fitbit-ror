@@ -325,7 +325,7 @@ DEPENDENCIES
   omniauth-fitbit!
   open_uri_redirections
   paperclip (~> 5.1.0)
-  pg (~> 0.15)
+  pg (~> 0.19)
   puma
   rails (= 4.2.6)
   rails_12factor
