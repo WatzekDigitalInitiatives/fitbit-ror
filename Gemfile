@@ -43,7 +43,7 @@ gem 'fitgem_oauth2'
 # gem 'capistrano-rails', group: :development
 
 gem 'devise'
-
+gem 'rufus-scheduler'
 gem "capistrano", "~> 3.4"
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
