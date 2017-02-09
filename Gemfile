@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'bundler', '~> 1.12.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use postgresql as the database for Active Record
@@ -23,8 +22,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'coveralls', require: false
-
 gem 'omniauth-fitbit', :git => "https://github.com/rishijavia/omniauth-fitbit.git"
 gem 'figaro'
 gem 'materialize-sass'
@@ -44,11 +41,6 @@ gem 'fitgem_oauth2'
 
 gem 'devise'
 gem 'rufus-scheduler'
-gem "capistrano", "~> 3.4"
-gem 'capistrano-rails'
-gem 'capistrano-bundler'
-gem 'capistrano-rbenv'
-gem 'capistrano3-puma'
 gem 'puma'
 
 
