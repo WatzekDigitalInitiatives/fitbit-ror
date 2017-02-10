@@ -16,7 +16,7 @@ class UserEventsController < ApplicationController
         end
         if UserEvent.find_by(user_id: current_user.id, event_id: @event.id)
             flash[:notice] = 'You are already registered for this event.'
-            return redirect_to dashboard_path
+            return redirect_to @event
         end
         @user_event.event_id = @event.id
 
@@ -26,7 +26,7 @@ class UserEventsController < ApplicationController
                 if current_user.events.count == 1
                   create_user_subscription(current_user)
                 end
-                format.html { redirect_to dashboard_path, notice: 'You successfully joined the event!' }
+                format.html { redirect_to @event, notice: 'You successfully joined the event!' }
                 format.json { render :show, status: :created, location: @user_event }
             else
                 format.html { redirect_to join_event_path, notice: 'Sorry, you were not able to join the event. Please check your code.' }

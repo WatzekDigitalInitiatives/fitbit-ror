@@ -44,7 +44,7 @@ class TeamEventsController < ApplicationController
     end
     if TeamEvent.find_by(team_id: params[:team_id], event_id: @event.id)
         flash[:notice] = 'You are already registered for this event.'
-        return redirect_to events_path
+        return redirect_to @event
     end
     @team_event.team_id = params[:team_id]
     @team_event.event_id = @event.id
@@ -58,7 +58,7 @@ class TeamEventsController < ApplicationController
                 create_user_subscription(user)
               end
             end
-            format.html { redirect_to events_path, notice: 'Your team successfully joined the event!' }
+            format.html { redirect_to @event, notice: 'Your team successfully joined the event!' }
             format.json { render :show, status: :created, location: @user_event }
         else
             format.html { redirect_to join_event_path, notice: 'Sorry, your team was not able to join the event.' }
