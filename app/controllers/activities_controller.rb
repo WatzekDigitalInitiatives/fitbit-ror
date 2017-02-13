@@ -26,6 +26,20 @@ class ActivitiesController < ApplicationController
       @user = User.where(id: user_id).first
 
       if @user
+
+        # checking if user's refresh_token is expired, if yes update it
+        fitbit_identity = @user.identities.where(provider: 'fitbit').first
+        token_expire_time = fitbit_identity.expires_at
+        if Time.at(token_expire_time).to_datetime < Time.now
+          token = fitbit_identity.refresh_token
+          client = @user.fitbit_client
+          oauth_data = client.refresh_access_token(token)
+          fitbit_identity.access_token = oauth_data["access_token"]
+          fitbit_identity.refresh_token = oauth_data["refresh_token"]
+          fitbit_identity.expires_at = (Time.now + 8*60*60).to_i
+          fitbit_identity.save
+        end
+
         client = @user.fitbit_client
         user_tmz = @user.identity_for("fitbit").timezone
         goal = daily_goal(client)
