@@ -33,7 +33,9 @@ class ActivitiesController < ApplicationController
 
         client = @user.fitbit_client
         user_tmz = @user.identity_for("fitbit").timezone
-        goal = daily_goal(client)
+        output_goals = client.goals('daily')
+        hash = JSON.parse(output_goals.to_json)
+        goal = hash["goals"]["steps"].to_f
         today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
         start_date = @user.subscription.earliest_date
         all_steps = find_steps(client, start_date, today)
@@ -75,13 +77,6 @@ class ActivitiesController < ApplicationController
       goal_met = false
     end
     return goal_met
-  end
-
-  def daily_goal(client)
-    output_goals = client.goals('daily')
-    hash = JSON.parse(output_goals.to_json)
-    goal = hash["goals"]["steps"].to_f
-    return goal
   end
 
 end
