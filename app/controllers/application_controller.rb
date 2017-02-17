@@ -33,9 +33,9 @@ class ApplicationController < ActionController::Base
      token = fitbit_identity.refresh_token
      client = @user.fitbit_client
      oauth_data = client.refresh_access_token(token)
-     fitbit_identity.access_token = oauth_data["access_token"]
-     fitbit_identity.refresh_token = oauth_data["refresh_token"]
-     fitbit_identity.expires_at = (Time.now + 8*60*60).to_i
+     hash = JSON.parse(oauth_data.to_json)
+     fitbit_identity.access_token = hash["access_token"]
+     fitbit_identity.refresh_token = hash["refresh_token"]
      fitbit_identity.save
    end
 

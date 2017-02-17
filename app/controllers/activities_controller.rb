@@ -29,7 +29,7 @@ class ActivitiesController < ApplicationController
 
       if @user
 
-        refresh_user_token(@user.id)
+        refresh_user_token(user_id)
 
         client = @user.fitbit_client
         user_tmz = @user.identity_for("fitbit").timezone
