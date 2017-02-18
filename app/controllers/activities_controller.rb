@@ -2,8 +2,6 @@ class ActivitiesController < ApplicationController
 
   skip_before_action :verify_authenticity_token, only: [:pushnotification]
 
-  helper_method :update_activity
-
   def verifysub
     if params[:verify] == ENV["PUSH_VERIFICATION_CODE"]
       head :no_content
@@ -29,13 +27,18 @@ class ActivitiesController < ApplicationController
 
       if @user
 
-        refresh_user_token(user_id)
+        fitbit_identity = @user.identities.where(provider: 'fitbit').first
+        token = fitbit_identity.refresh_token
+        client = @user.fitbit_client
+        oauth_data = client.refresh_access_token(token)
+        hash = JSON.parse(oauth_data.to_json)
+        fitbit_identity.access_token = hash["access_token"]
+        fitbit_identity.refresh_token = hash["refresh_token"]
+        fitbit_identity.save
 
         client = @user.fitbit_client
+        goal = daily_goal(client)
         user_tmz = @user.identity_for("fitbit").timezone
-        output_goals = client.goals('daily')
-        hash = JSON.parse(output_goals.to_json)
-        goal = hash["goals"]["steps"].to_f
         today = Date.today.in_time_zone(user_tmz).to_date.strftime("%Y-%m-%d")
         start_date = @user.subscription.earliest_date
         all_steps = find_steps(client, start_date, today)
@@ -77,6 +80,13 @@ class ActivitiesController < ApplicationController
       goal_met = false
     end
     return goal_met
+  end
+
+  def daily_goal(client)
+    output_goals = client.goals('daily')
+    hash = JSON.parse(output_goals.to_json)
+    goal = hash["goals"]["steps"].to_f
+    return goal
   end
 
 end

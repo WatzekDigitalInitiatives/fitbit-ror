@@ -52,12 +52,21 @@ class User < ActiveRecord::Base
 
     def fitbit_client
         fitbit_identity = identities.where(provider: 'fitbit').first
-        FitgemOauth2::Client.new(
-            token: fitbit_identity.access_token,
-            client_id: ENV['FITBIT_CLIENT_ID'],
-            client_secret: ENV['FITBIT_CLIENT_SECRET'],
-            user_id: fitbit_identity.uid
-        )
+        if Rails.env.production?
+          FitgemOauth2::Client.new(
+              token: fitbit_identity.access_token,
+              client_id: ENV['FITBIT_PRODUCTION_CLIENT_ID'],
+              client_secret: ENV['FITBIT_PRODUCTION_CLIENT_SECRET'],
+              user_id: fitbit_identity.uid
+          )
+        else
+          FitgemOauth2::Client.new(
+              token: fitbit_identity.access_token,
+              client_id: ENV['FITBIT_CLIENT_ID'],
+              client_secret: ENV['FITBIT_CLIENT_SECRET'],
+              user_id: fitbit_identity.uid
+          )
+        end
     end
 
     private

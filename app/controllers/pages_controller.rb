@@ -7,12 +7,11 @@ class PagesController < ApplicationController
 
     def dashboard
         @user = current_user
+        
         client = @user.fitbit_client
-
         output_goals = client.goals('daily')
         hash = JSON.parse(output_goals.to_json)
         @goal = hash['goals']['steps']
-        goal = @goal
 
         user_tmz = current_user.identity_for('fitbit').timezone
         today = Date.today.in_time_zone(user_tmz).to_date.strftime('%Y-%m-%d')
