@@ -27,14 +27,7 @@ class ActivitiesController < ApplicationController
 
       if @user
 
-        fitbit_identity = @user.identities.where(provider: 'fitbit').first
-        token = fitbit_identity.refresh_token
-        client = @user.fitbit_client
-        oauth_data = client.refresh_access_token(token)
-        hash = JSON.parse(oauth_data.to_json)
-        fitbit_identity.access_token = hash["access_token"]
-        fitbit_identity.refresh_token = hash["refresh_token"]
-        fitbit_identity.save
+        refresh_user_token(user_id)
 
         client = @user.fitbit_client
         goal = daily_goal(client)
