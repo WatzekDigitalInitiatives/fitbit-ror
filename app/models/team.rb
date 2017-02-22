@@ -10,5 +10,5 @@ class Team < ActiveRecord::Base
   has_many :team_events, dependent: :destroy
   has_many :events, through: :team_events
 
-  attr_accessor :is_current_user_admin, :total_steps
+  attr_accessor :is_current_user_admin, :total_steps, :avg_steps
 end
