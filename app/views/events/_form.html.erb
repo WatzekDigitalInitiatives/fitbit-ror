@@ -14,7 +14,7 @@
 
 <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, :required => true %>
 </div>
 <div class="field">
     <%= f.label :description %><br>
@@ -36,7 +36,7 @@
 </div>
 <div class="field">
     <%= f.label :start_date %><br>
-    <%= f.text_field :start_date, class: "datepicker"%>
+    <%= f.text_field :start_date, class: "datepicker", :required => true%>
 </div>
 <div class="field">
     <%= f.label :finish_date %><br>
@@ -44,11 +44,11 @@
 </div>
 <div class="field">
     <%= f.label :start_location %><br>
-    <%= f.text_field :start_location %>
+    <%= f.text_field :start_location, :required => true %>
 </div>
 <div class="field">
     <%= f.label :end_location %><br>
-    <%= f.text_field :end_location %>
+    <%= f.text_field :end_location, :required => true %>
 </div>
 <div class="field">
     <%= f.label :distance, 'Distance (meters)' %><br>
