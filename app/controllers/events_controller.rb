@@ -75,6 +75,7 @@ class EventsController < ApplicationController
               user.goal_met = false
             end
           end
+          team.avg_steps = team.total_steps / team.users.count
         end
 
         @teams = @teams.sort_by{|data| -data.total_steps}
@@ -270,7 +271,8 @@ class EventsController < ApplicationController
             end
           end
         end
-      @markers << @data
+        @data["total_steps"] /= team.users.count
+        @markers << @data
       end
       return @markers
     end
