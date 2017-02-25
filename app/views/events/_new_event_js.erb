@@ -2,12 +2,18 @@
       $('.datepicker').pickadate({
           selectMonths: true, // Creates a dropdown to control month
           selectYears: 1 // Creates a dropdown of 1 years to control year
+
       });
       $('#event_start_date').change(function(e){
         // console.log($('#event_start_date').val());
         // $('#event_finish_date').pickadate({min: new Date(2017,2,22)});
-        $('.datepicker').pickadate('picker').set('min', new Date(2017,2,22));
-        // console.log(input);
-        $('#event_finish_date').focus();
+        var picker = $('.datepicker').pickadate('picker')
+        var start_date = $('#event_start_date').val();
+        picker.set('min', start_date);
+        // picker.on({
+        //   set: function(thingSet) {
+        //     $('#event_finish_date').focus();
+        //   }
+        // });
       });
 </script>
