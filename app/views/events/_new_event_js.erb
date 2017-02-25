@@ -5,15 +5,12 @@
 
       });
       $('#event_start_date').change(function(e){
-        // console.log($('#event_start_date').val());
-        // $('#event_finish_date').pickadate({min: new Date(2017,2,22)});
-        var picker = $('.datepicker').pickadate('picker')
+        var picker = $('#event_finish_date').pickadate('picker');
         var start_date = $('#event_start_date').val();
-        picker.set('min', start_date);
-        // picker.on({
-        //   set: function(thingSet) {
-        //     $('#event_finish_date').focus();
-        //   }
-        // });
+        picker.set({
+          min: start_date,
+          highlight: start_date
+        });
+        $('#event_finish_date').focus();
       });
 </script>
