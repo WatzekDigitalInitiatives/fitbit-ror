@@ -49,6 +49,10 @@ class ApplicationController < ActionController::Base
          @sub.save
        end
 
+       if end_date = ""
+        end_date = Time.now + 30.days
+       end
+
        if end_date > @sub.furthest_date
          @sub.furthest_date = end_date
          @sub.save

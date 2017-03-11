@@ -13,8 +13,8 @@
                 New Event
             </div>
 
+            <%= render 'new_event_type' %>
             <%= render 'form' %>
-
             <%= render 'create_event_map' %>
 
         </div>
@@ -23,4 +23,4 @@
 
 <%= render 'new_event_js' %>
 
-<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initialize', defer:true, async:true%>
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY'], defer:true, async:true%>

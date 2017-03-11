@@ -1,3 +1,4 @@
+<div id = "new_event_form">
 <%= form_for(@event) do |f| %>
 <% if @event.errors.any? %>
 <div id="error_explanation">
@@ -96,14 +97,14 @@
   </div>
 <% end %>
 
-<!-- add radio to select teams and change create controller to add that team when event is created -->
-
+<%= f.hidden_field :event_type %>
 
 <br/>
 <div id="eventMap" style="height: 400px;"></div>
 <br/>
 <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: 'waves-effect waves-light btn' %>
 </div>
 
 <% end %>
+</div>
