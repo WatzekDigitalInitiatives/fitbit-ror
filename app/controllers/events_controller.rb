@@ -116,7 +116,9 @@ class EventsController < ApplicationController
 
       # Date Picker is reducing each date by 1 day so adding 1 day to make it right, REALLY DONT KNOW WHY!
       gon.start_date = @event.start_date+1.day
-      gon.finish_date = @event.finish_date+1.day
+      if @event.event_type != "nonending"
+        gon.finish_date = @event.finish_date+1.day
+      end
     end
 
     # GET /events/new
@@ -243,12 +245,20 @@ class EventsController < ApplicationController
         @date = today
       end
 
-      if @event.start_date > @date || @date > @event.finish_date
-        if today > @event.finish_date
-          @date = @event.finish_date
-        elsif today < @event.start_date
+      if @event.event_type != "nonending"
+        if @event.start_date > @date || @date > @event.finish_date
+          if today > @event.finish_date
+            @date = @event.finish_date
+          elsif today < @event.start_date
+            @date = @event.start_date
+          else
+            @date = today
+          end
+        end
+      else
+        if @event.start_date > @date
           @date = @event.start_date
-        else
+        elsif @date > today
           @date = today
         end
       end
