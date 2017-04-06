@@ -13,14 +13,14 @@
         icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+color,
         title: label,
         zIndex: Math.round(latlng.lat()*-100000)<<5
-        });
-        marker.myname = label;
-        gmarkers.push(marker);
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(contentString);
-          infowindow.open(map,marker);
-        });
-        return marker;
+    });
+    marker.myname = label;
+    gmarkers.push(marker);
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(contentString);
+        infowindow.open(map,marker);
+    });
+    return marker;
   }
   function initializeShow() {
     initializeEpolys(function() {
