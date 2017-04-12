@@ -302,7 +302,7 @@ class EventsController < ApplicationController
             @data["total_steps"] += 0
           end
         end
-      @markers << @data
+        @markers << @data
       end
       return @markers
     end
