@@ -1,3 +1,31 @@
 // Place all the styles related to the Events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.event_types{
+  height: 110px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.event_types p{
+  font-size: 15px;
+}
+
+#nonending{
+  background-color: #ef9a9a;
+}
+
+#regular{
+  background-color: #e57373;
+}
+
+#scaled{
+  background-color: #ef5350;
+}
+
+#selected_event{
+  background-color: #f44336;
+  height: 50px;
+  padding-top: 10px;
+  cursor: pointer;
+}

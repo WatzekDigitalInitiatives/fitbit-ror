@@ -1,3 +1,4 @@
+<div id = "new_event_form">
 <%= form_for(@event) do |f| %>
 <% if @event.errors.any? %>
 <div id="error_explanation">
@@ -14,7 +15,7 @@
 
 <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, :required => true %>
 </div>
 <div class="field">
     <%= f.label :description %><br>
@@ -36,7 +37,7 @@
 </div>
 <div class="field">
     <%= f.label :start_date %><br>
-    <%= f.text_field :start_date, class: "datepicker"%>
+    <%= f.text_field :start_date, class: "datepicker", :required => true%>
 </div>
 <div class="field">
     <%= f.label :finish_date %><br>
@@ -44,11 +45,11 @@
 </div>
 <div class="field">
     <%= f.label :start_location %><br>
-    <%= f.text_field :start_location %>
+    <%= f.text_field :start_location, :required => true %>
 </div>
 <div class="field">
     <%= f.label :end_location %><br>
-    <%= f.text_field :end_location %>
+    <%= f.text_field :end_location, :required => true %>
 </div>
 <div class="field">
     <%= f.label :distance, 'Distance (meters)' %><br>
@@ -96,14 +97,14 @@
   </div>
 <% end %>
 
-<!-- add radio to select teams and change create controller to add that team when event is created -->
-
+<%= f.hidden_field :event_type %>
 
 <br/>
 <div id="eventMap" style="height: 400px;"></div>
 <br/>
 <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: 'waves-effect waves-light btn' %>
 </div>
 
 <% end %>
+</div>
