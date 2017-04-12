@@ -1,19 +1,18 @@
 <script>
     $(document).ready(function () {
-
-      $("#event_start_location").change(function () {
-          if ($("#event_end_location").val()) {
-              toggleMapCheck();
-          }
-      });
-      $("#event_end_location").change(function () {
-          if ($("#event_start_location").val()) {
-              toggleMapCheck();
-          }
-      });
-      $("#event_team_event").change(function () {
-          $(".teams").toggle("slow");
-      });
+        $("#event_start_location").change(function () {
+            if ($("#event_end_location").val()) {
+                toggleMapCheck();
+            }
+        });
+        $("#event_end_location").change(function () {
+            if ($("#event_start_location").val()) {
+                toggleMapCheck();
+            }
+        });
+        $("#event_team_event").change(function () {
+            $(".teams").toggle("slow");
+        });
     });
 
     var map;
@@ -29,13 +28,8 @@
         map = new google.maps.Map(document.getElementById("eventMap"), mapOptions);
         directionsDisplay.setMap(map);
 
-        google.maps.event.addListenerOnce(map, 'idle', function() {
-          google.maps.event.trigger(map, 'resize');
-          map.setCenter(portland);
-        });
-
         if ($("#event_end_location").val() && $("#event_end_location").val()) {
-          toggleMapCheck();
+            toggleMapCheck();
         }
     }
 
