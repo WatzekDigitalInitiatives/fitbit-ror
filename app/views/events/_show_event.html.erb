@@ -1,10 +1,8 @@
 <div class="row">
     <div class="col s4">
-        <div class="dates">From <%= event.start_date %>
-            <% if event.event_type != "nonending" %>
+        <div class="dates"><%= event.start_date %>
             to
             <%= event.finish_date %>
-            <% end %>
         </div>
     </div>
     <div class="col s5">
@@ -26,17 +24,14 @@
         <hr/>
         <% counter = 0 %>
         <% @markers.each do |marker| %>
-        <div id="<%= marker["name"] %>">
-          <% @link = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+marker["hexcolor"][1..-1] %>
-          <%= counter += 1 %>.
-          <%= image_tag @link %>
-          <%= marker["name"] %>
-          -
-          <%= marker["total_steps"] %>
-          steps
-          <br/>
-          <p id="<%= Digest::MD5.hexdigest(marker["name"])+"-percent" %>"></p>
-        </div>
+        <% @link = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+marker["hexcolor"][1..-1] %>
+        <%= counter += 1 %>.
+        <%= image_tag @link %>
+        <%= marker["name"] %>
+        -
+        <%= marker["total_steps"] %>
+        steps
+        <br/>
         <% end %>
     </div>
 

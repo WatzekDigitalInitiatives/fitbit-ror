@@ -13,14 +13,14 @@
         icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+color,
         title: label,
         zIndex: Math.round(latlng.lat()*-100000)<<5
-    });
-    marker.myname = label;
-    gmarkers.push(marker);
-    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent(contentString);
-        infowindow.open(map,marker);
-    });
-    return marker;
+        });
+        marker.myname = label;
+        gmarkers.push(marker);
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(contentString);
+          infowindow.open(map,marker);
+        });
+        return marker;
   }
   function initializeShow() {
     initializeEpolys(function() {
@@ -87,14 +87,10 @@
         for (var i = 0; i < gon.mapArgs["markers"].length; i++) {
           var data = gon.mapArgs["markers"][i];
           var markerDistance = data["total_steps"];
-          if (markerDistance > totalDistance){
-            markerDistance = totalDistance;
-          }
           var color = data["hexcolor"].slice(1);
           var percentCovered = (markerDistance/(totalDistance*1000))*100;
           var name = data["name"];
-          // $("#"+$.md5(name)+"-percent").html(percentCovered+"% route completed");
-          createMarker(polyline.GetPointAtDistance(markerDistance),name+" "+(markerDistance/1000)+"km",percentCovered.toFixed(2)+"% completed", color);
+          createMarker(polyline.GetPointAtDistance(markerDistance),name+" "+(markerDistance/1000)+"km",percentCovered.toFixed(2)+"% finished", color);
           bounds.extend(polyline.GetPointAtDistance(markerDistance));
         }
         bounds.extend(startLocation.latlng);
