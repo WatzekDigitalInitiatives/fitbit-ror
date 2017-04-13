@@ -1,4 +1,4 @@
-<div class="card sticky-action">
+<!-- <div class="card sticky-action hoverable">
     <div class="card-image waves-effect waves-block waves-light">
         <% if event.avatar? %>
         <%= image_tag event.avatar.url(:preview), :class => "activator" %>
@@ -8,7 +8,6 @@
     </div>
     <div class="card-content">
         <span class="card-title activator grey-text text-darken-4">
-            <%= event.name %>
             <% if event.team_event %>
             <i class="material-icons">supervisor_account</i>
         <% else %>
@@ -19,7 +18,7 @@
         <% else %>
             <i class="material-icons">lock_open</i>
             <% end %>
-            <i class="material-icons right">more_vert</i>
+            <%= event.name %>
         </span>
         <p>
             <%= event.description %>
@@ -27,9 +26,9 @@
     </div>
     <div class="card-action">
         <% if current_user.present? %>
-          <% if event.users.include?(current_user) || !event.private || event.createdby == current_user.id %>
-            <%= link_to 'View', event %>
-          <% end %>
+        <% if event.users.include?(current_user) || !event.private || event.createdby == current_user.id %>
+        <%= link_to 'View', event %>
+        <% end %>
         <% end %>
 
         <% if current_user.present? && current_user.id == event.createdby %>
@@ -38,15 +37,15 @@
         <% end %>
 
         <% if event.team_event %>
-          <%= button_to 'Join', join_team_event_path(event), method: :get, :class => 'join-button'%>
-        <% else %>
-          <% if current_user.present? && !current_user.events.include?(event) %>
-            <% if event.private %>
-              <%= button_to 'Join', join_event_path, method: :get, :class => 'join-button' %>
-            <% else %>
-              <%= button_to 'Join', user_events_create_path, :class => 'join-button', params: { 'invitecode' => event.invitecode } %>
-            <% end %>
-          <% end %>
+        <%= button_to 'Join', join_team_event_path(event), method: :get, :class => 'join-button'%>
+    <% else %>
+        <% if current_user.present? && !current_user.events.include?(event) %>
+        <% if event.private %>
+        <%= button_to 'Join', join_event_path, method: :get, :class => 'join-button' %>
+    <% else %>
+        <%= button_to 'Join', user_events_create_path, :class => 'join-button', params: { 'invitecode' => event.invitecode } %>
+        <% end %>
+        <% end %>
         <% end %>
     </div>
     <div class="card-reveal">
@@ -72,4 +71,35 @@
             <% end %>
         </ul>
     </div>
-</div>
+</div> -->
+<%= link_to event do %>
+<% if event.avatar? %>
+<li class="collection-item avatar" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url(<%= event.avatar.url(:preview) %>) no-repeat;">
+<% else %>
+    <li class="collection-item avatar" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url('<%= event.static_map_preview %>') no-repeat;">
+        <% end %>
+        <% if event.private%>
+        <i class="material-icons circle">lock</i>
+    <% else %>
+        <i class="material-icons circle">lock_open</i>
+        <% end %>
+        <span class="title"><%= event.name %></span>
+        <p>
+            <%= event.description %><br/>
+            <%= event.start_date %>
+            -
+            <%= event.finish_date %><br/>
+            <%= event.start_location %>
+            -
+            <%= event.end_location %>
+        </p>
+        <span class="secondary-content">
+            <% if current_user.present? && current_user.events.include?(event) && !current_page?(my_events_path) %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are enrolled">account_circle</i>
+            <% end %>
+            <% if current_user.present? && event.createdby == current_user.id %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are the creator">grade</i>
+            <% end %>
+        </span>
+    </li>
+    <% end %>

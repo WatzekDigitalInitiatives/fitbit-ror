@@ -19,3 +19,22 @@
     margin-top: 1rem;
   }
 }
+
+.btn-floating.btn-large.halfway-fab {
+  bottom: -28px;
+}
+
+.btn-floating.btn-large i {
+  line-height: 56px;
+}
+
+.btn-floating.halfway-fab {
+  position: absolute;
+  right: 24px;
+  bottom: -20px;
+}
+
+.btn-floating.halfway-fab.left {
+  right: auto;
+  left: 24px;
+}
