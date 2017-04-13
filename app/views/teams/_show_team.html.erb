@@ -1,108 +1,91 @@
-<!-- <div class="row">
-    <div class="col s12">
-        <% if !@team.users.include?(current_user) && !@team.private %>
-        <%= link_to 'Join', user_teams_create_path, params: { 'invitecode' => @team.invitecode } %>
-        <% end %>
-        <% if @current_user_admin %>
-        <%= link_to 'Edit', edit_team_path(@team) %>
-        <%= link_to 'Disband', @team, method: :delete, data: { confirm: 'Are you sure?' } %>
-        <% end %>
-    </div>
-</div> -->
 <div class="row">
-
     <div class="col s12">
-        <div class="card blue-grey darken-1 z-depth-2">
-            <div class="card-content white-text">
-                <div class="stat-name center-align">TEAM STATS:
-                </div>
-                <% if team.avatar? %>
-                <div class="team-card-avatar">
-                    <%=  image_tag team.avatar.url(:thumb), :class => 'z-depth-2' %>
-                </div>
-                <% end %>
-                <span class="card-title card-name">
-                    <% if team.private%>
-                    <i class="material-icons">lock</i>
-                <% else %>
-                    <i class="material-icons">lock_open</i>
-                    <% end %>
+        <div class="card z-depth-2">
+            <div class="card-content" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url(<%= team.avatar.url(:preview) %>) no-repeat;">
+                <span class="card-title">
                     <%= team.name %>
                     <br/>
                 </span>
-                <span class="card-content"><%= team.description %></span><br/>
-                <% if @team.users.include?(current_user) %>
-                <span class="card-content">You are:
-                    <% if @current_user_admin %>
-                    Admin
-                <% else %>
-                    Member
-                    <% end %></span>
-                <% end %>
-                <div class="clear"></div>
-                <p class="stats">
-                    <i class="material-icons">invert_colors</i>
-                    <b>
-                        Team Color:
-                    </b>
-                    <span style="background-color: <%= team.hexcolor %>;"><%= team.hexcolor %></span>
-                </p>
-                <p class="stats">
-                    <i class="material-icons">directions_run</i>
-                    <b>
-                        Team Average Steps:
-                    </b>
+                <p>
+                    <span>
+                        <% if team.private%>
+                        <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team is private">lock</i>
+                    <% else %>
+                        <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team is public">lock_open</i>
+                        <% end %>
+                        <% if current_user.present? && current_user.teams.include?(team) %>
+                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are a member">account_circle</i>
+                        <% end %>
+                        <% if current_user.present? && @current_user_admin %>
+                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are the owner">grade</i>
+                        <% end %>
+                    </span><br/>
+                    <%= team.description %><br/>
+                    <!-- Team Color:
+                    <span style="background-color: <%= team.hexcolor %>;"><%= team.hexcolor %></span><br/> -->
                     <%= team.avg_steps %>
+                    average steps
                 </p>
-                <div class="card-action">
-                    <% if !@team.users.include?(current_user) && !@team.private %>
-                    <%= link_to 'Join', user_teams_create_path(invitecode: @team.invitecode), method: :create %>
-                    <% end %>
-                    <% if @current_user_admin %>
-                    <%= link_to 'Update', edit_team_path(@team) %>
-                    <%= link_to 'Disband', @team, method: :delete, data: { confirm: 'Are you sure?' } %>
-                    <% end %>
-                </div>
-
-                <!--  USER SATS: -->
-                <div class="stat-name center-align">MEMBER STATS:
-                </div>
-
-                <% team.users.each do |user| %>
-                <div class="card-avatar">
-                    <%= image_tag user.avatar.url, :class => 'z-depth-2' %>
-                </div>
-                <span class="card-title card-name"><%= user.name %></span>
-                <div class="clear"></div>
-                <p class="stats">
-                    <i class="material-icons">directions_run</i>
-                    <b>
-                        Steps:
-                    </b>
-                    <%= user.steps %>
-                </p>
-                <p class="stats">
-                    <% if user.goal_met %>
-                    <i class="material-icons">local_play</i>
-                    <b>
-                        Goal Achieved:
-                    </b>
-                    <i class="material-icons">done</i>
-                <% else %>
-                    <i class="material-icons">local_play</i>
-                    <b>
-                        Goal Achieved:
-                    </b>
-                    <i class="material-icons">clear</i>
-                    <% end %>
-                </p>
-                <% if @current_user_admin  %>
-                <div class="card-action">
-                    <%= link_to 'Remove', user_teams_destroy_path(user_id: user.id, team_id: team.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-                </div>
+            </div>
+            <div class="card-action">
+                <% if !@team.users.include?(current_user) && !@team.private %>
+                <%= link_to 'Join', user_teams_create_path(invitecode: @team.invitecode), method: :create %>
                 <% end %>
+                <% if @current_user_admin %>
+                <%= link_to 'Update', edit_team_path(@team) %>
+                <%= link_to 'Disband', @team, method: :delete, data: { confirm: 'Are you sure?' } %>
                 <% end %>
-
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        <div class="card z-depth-2">
+            <div class="card-tabs">
+                <ul class="tabs tabs-fixed-width">
+                    <li class="tab">
+                        <a class="active" href="#users">Members</a>
+                    </li>
+                    <li class="tab">
+                        <a href="#events">Events</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-content">
+                <div id="users">
+                    <ul class="collection">
+                        <% team.users.each do |user| %>
+                        <li class="collection-item avatar">
+                            <%= image_tag user.avatar.url, :class => 'circle z-depth-3' %>
+                            <span class="title"><%= user.name %></span>
+                            <p>
+                                <%= user.steps %>
+                                steps<br/>
+                                Streak:
+                                <% if user.goal_met %>
+                                <span style="color: green;">&#10004;
+                                </span>
+                            <% else %>
+                                <span style="color: red;">&#10007;
+                                </span>
+                                <% end %>
+                            </p>
+                            <span class="secondary-content">
+                                <% if user.goal_met %>
+                                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Goal reached">assignment_turned_in</i>
+                                <% end %>
+                            </span>
+                        </li>
+                        <!-- <% if @current_user_admin  %>
+                        <div class="card-action">
+                        <%= link_to 'Remove', user_teams_destroy_path(user_id: user.id, team_id: team.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+                    </div>
+                    <% end %> -->
+                        <% end %>
+                    </ul>
+                </div>
+                <div id="events"></div>
             </div>
         </div>
     </div>

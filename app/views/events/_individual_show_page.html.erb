@@ -1,34 +1,35 @@
-<div class="grid">
-<% @users.each do |user| %>
-  <div class="grid-item">
-    <div class="card blue-grey darken-1 z-depth-2">
-      <div class="card-content white-text">
-        <div class="card-avatar">
-          <%= image_tag user.avatar.url, :class => 'z-depth-2' %>
-        </div>
-        <span class="card-title card-name"><%= user.name %></span>
-        <div class="clear"></div>
-        <hr />
-        <p class="stats">
-          <i class="material-icons">today</i><b> Date: </b> <%= @date %>
-        </p>
-        <p class="stats">
-          <i class="material-icons">directions_run</i><b> Steps: </b>
-          <% if user.steps == 0 %>
-            Steps not registered
-          <% else %>
-            <%= user.steps %>
-          <% end %>
-        </p>
-        <p class="stats">
-          <% if user.goal_met %>
-            <i class="material-icons">local_play</i><b> Goal Achieved: </b> <i class="material-icons">done</i>
-          <% else %>
-            <i class="material-icons">local_play</i><b> Goal Achieved: </b> <i class="material-icons">clear</i>
-          <% end %>
-        </p>
-      </div>
-    </div>
-  </div>
-<% end %>
+<div class="card-content">
+
+    <ul class="collection">
+        <% counter = 0 %>
+        <% @markers.each do |marker| %>
+        <% @event.users.each do |user| %>
+        <% if user.id == marker["id"] %>
+        <% @this_user = user %>
+        <% end %>
+        <% end %>
+        <li class="collection-item avatar" style="background: linear-gradient(to right, transparent, transparent, <%= marker['hexcolor'] %>);">
+            <%= image_tag @this_user.avatar.url, :class => 'circle z-depth-3' %>
+            <span class="title"><%= counter += 1 %>.
+                <%= marker["name"] %></span>
+            <p>
+                <%= marker["total_steps"] %>
+                steps<br/>
+                Streak:
+                <% if @this_user.goal_met %>
+                <span style="color: green;">&#10004;
+                </span>
+            <% else %>
+                <span style="color: red;">&#10007;
+                </span>
+                <% end %>
+            </p>
+            <span class="secondary-content">
+                <% if @this_user.goal_met %>
+                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Goal reached">assignment_turned_in</i>
+                <% end %>
+            </span>
+        </li>
+        <% end %>
+    </ul>
 </div>

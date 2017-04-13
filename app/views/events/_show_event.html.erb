@@ -1,67 +1,125 @@
 <div class="row">
-    <div class="col s4">
-        <div class="dates"><%= event.start_date %>
-            to
-            <%= event.finish_date %>
+    <div class="col s12">
+        <div class="card z-depth-2">
+            <% if event.avatar? %>
+            <div class="event card-content" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url(<%= event.avatar.url(:preview) %>) no-repeat;">
+            <% else %>
+                <div class="event card-content" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url('<%= event.static_map_preview %>') no-repeat;">
+                    <% end %>
+                    <span class="card-title">
+                        <%= event.name %>
+                        <br/>
+                        <% if event.private%>
+                        <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Event is private">lock</i>
+                    <% else %>
+                        <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Event is public">lock_open</i>
+                        <% end %>
+                        <% if event.team_event? %>
+                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team event">group</i>
+                        <% end %>
+                        <% if current_user.present? && current_user.events.include?(event) %>
+                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are enrolled">account_circle</i>
+                        <% end %>
+                        <% if current_user.present? && event.createdby == current_user.id %>
+                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are the creator">grade</i>
+                        <% end %>
+                    </span>
+                    <p>
+                        <%= event.description %><br/>
+                        <%= event.start_date %>
+                        -
+                        <%= event.finish_date %><br/>
+                        <%= event.start_location %>
+                        -
+                        <%= event.end_location %>
+                    </p>
+                </div>
+                <div class="card-action">
+                    <% if !@event.users.include?(current_user) && !@event.private %>
+                    <%= link_to 'Join', user_events_create_path(invitecode: @event.invitecode), method: :create %>
+                    <% end %>
+                    <% if @event.users.include?(current_user) %>
+                    <%= link_to 'Leave', user_events_destroy_path(event_id: event.id, user_id: current_user.id), method: :delete %>
+                    <% end %>
+                    <% if event.createdby == current_user.id %>
+                    <%= link_to 'Update', edit_event_path(event) %>
+                    <%= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure?' } %>
+                    <% end %>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col s5">
-        <input id="fetch-date" type="date" class="datepicker" placeholder="Select a date to get data from">
-    </div>
-    <div class="col s3">
-        <% url = "/events/"+@event.id.to_s %>
-        <a id="fetch-date-button" href=<%= url %> class="waves-effect waves-light btn">Fetch Data</a>
-    </div>
-</div>
-<div class="row">
-    <div class="col s8">
-        <div id="showEventMap" style="height: 500px; background-color: gray;"></div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="card z-depth-2">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s3">
+                            <div class="dates">
+                                <% if @date == Date.today %>
+                                Today
+                            <% else %>
+                                <%= @date %>
+                                <% end %>
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            <input id="fetch-date" type="date" class="datepicker" placeholder="Select a date to get data from">
+                        </div>
+                        <div class="col s3">
+                            <% url = "/events/"+@event.id.to_s %>
+                            <a id="fetch-date-button" href=<%= url %> class="waves-effect waves-light btn">Fetch Data</a>
+                        </div>
+                    </div>
+                    <div id="showEventMap" style="height: 500px; background-color: gray;"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="col s4 standing">
+    <div class="row">
+        <div class="col s12">
+            <div class="card z-depth-2">
+                <% if @event.team_event? %>
+                <%= render :partial=>"events/team_show_page" %>
+            <% else %>
+                <%= render :partial=>"events/individual_show_page" %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+    <div class="col s12 standing">
         <div class="dates center-align">Standings</div>
-        <div class="dates center-align">(<%= @date %>)</div>
-        <hr/>
-        <% counter = 0 %>
-        <% @markers.each do |marker| %>
-        <% @link = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+marker["hexcolor"][1..-1] %>
-        <%= counter += 1 %>.
-        <%= image_tag @link %>
-        <%= marker["name"] %>
-        -
-        <%= marker["total_steps"] %>
-        steps
-        <br/>
+        <div class="dates center-align">(<%= @date %>)</div><br/>
+        <% if @event.team_event? %>
+        <%= render :partial=>"events/team_show_page" %>
+    <% else %>
+        <%= render :partial=>"events/individual_show_page" %>
         <% end %>
     </div>
-
-</div>
-<!-- row closing div -->
-
-<% if @event.team_event? %>
-<%= render :partial=>"events/team_show_page" %>
-<% else %>
-<%= render :partial=>"events/individual_show_page" %>
-<% end %>
-<!-- container closing div -->
-<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initialize', :type => "text/javascript", :async => true %>
-<!-- <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY'] %> -->
-<%= render 'show_event_map' %>
-<script>
-    $(document).ready(function () {
-        $('.datepicker').pickadate({
-            format: 'yyyy-mm-dd', selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15, // Creates a dropdown of 15 years to control year
-            min: new Date(gon.start_date),
-            max: new Date(gon.finish_date)
+</div> -->
+    <!-- container closing div -->
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initialize', :type => "text/javascript", :async => true %>
+    <!-- <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY'] %> -->
+    <%= render 'show_event_map' %>
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').pickadate({
+                format: 'yyyy-mm-dd', selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15, // Creates a dropdown of 15 years to control year
+                min: new Date(gon.start_date),
+                max: new Date(gon.finish_date)
+            });
+            $('.grid').masonry({itemSelector: '.grid-item', columnWidth: 400, gutter: 30});
+            $("#fetch-date").change(function () {
+                if ($("#fetch-date").val()) {
+                    var d = $("#fetch-date").val();
+                    var link = $("#fetch-date-button").attr('href') + "?date=" + d;
+                    $("#fetch-date-button").attr('href', link);
+                }
+            });
         });
-        $('.grid').masonry({itemSelector: '.grid-item', columnWidth: 400, gutter: 30});
-        $("#fetch-date").change(function () {
-            if ($("#fetch-date").val()) {
-                var d = $("#fetch-date").val();
-                var link = $("#fetch-date-button").attr('href') + "?date=" + d;
-                $("#fetch-date-button").attr('href', link);
-            }
-        });
-    });
-</script>
+    </script>

@@ -1,23 +1,23 @@
 <%= link_to team do %>
 <li class="collection-item avatar" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url(<%= team.avatar.url(:preview) %>) no-repeat;">
     <% if team.private%>
-    <i class="material-icons circle">lock</i>
+    <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team is private">lock</i>
 <% else %>
-    <i class="material-icons circle">lock_open</i>
+    <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team is public">lock_open</i>
     <% end %>
     <span class="title"><%= team.name %></span>
     <p>
+        <span>
+            <% if current_user.present? && current_user.teams.include?(team) && !current_page?(my_teams_path) %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are a member">account_circle</i>
+            <% end %>
+            <% if current_user.present? && team.is_current_user_admin %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are the owner">grade</i>
+            <% end %>
+        </span><br/>
         <%= team.description %><br/>
         <%= team.avg_steps %>
         average steps
     </p>
-    <span class="secondary-content">
-        <% if current_user.present? && current_user.teams.include?(team) && !current_page?(my_teams_path) %>
-        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are a member">account_circle</i>
-        <% end %>
-        <% if current_user.present? && team.is_current_user_admin %>
-        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are the owner">grade</i>
-        <% end %>
-    </span>
 </li>
 <% end %>
