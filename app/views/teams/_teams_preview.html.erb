@@ -8,7 +8,7 @@
     <span class="title"><%= team.name %></span>
     <p>
         <span>
-            <% if current_user.present? && current_user.teams.include?(team) && !current_page?(my_teams_path) %>
+            <% if current_user.present? && current_user.teams.include?(team) %>
             <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are a member">account_circle</i>
             <% end %>
             <% if current_user.present? && team.is_current_user_admin %>

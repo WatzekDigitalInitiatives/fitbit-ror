@@ -15,7 +15,7 @@
                 <% if event.team_event? %>
                 <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team event">group</i>
                 <% end %>
-                <% if current_user.present? && current_user.events.include?(event) && !current_page?(my_events_path) %>
+                <% if current_user.present? && current_user.events.include?(event) %>
                 <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are enrolled">account_circle</i>
                 <% end %>
                 <% if current_user.present? && event.createdby == current_user.id %>
