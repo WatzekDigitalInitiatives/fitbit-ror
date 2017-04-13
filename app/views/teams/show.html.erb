@@ -1,66 +1,27 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, @team.name) %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @team.name %>
-</p>
+<%= render :partial=>"layouts/header" %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @team.description %>
-</p>
-
-<p>
-  <strong>Private:</strong>
-  <%= @team.private %>
-</p>
-
-<% if @team.private && @team.createdby == current_user.id %>
-<p>
-  <strong>Invitecode:</strong>
-  <%= @team.invitecode %>
-</p>
-<% end %>
-
-<p>
-  <strong>Hexcolor:</strong>
-  <%= @team.hexcolor %>
-</p>
-
-<% if @team.users.include?(current_user) %>
-<p>
-  <strong>Team Status:</strong>
-  <% if @current_user_admin %>
-    Admin
-  <% else %>
-    Member
-  <% end %>
-</p>
-<% end %>
-
-<p>
-  <strong>Team members: </strong>
-</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <% @users.each do |user| %>
-    <tr>
-      <td><%= user.name %><% if @current_user_admin && user != current_user %><%= link_to ' | Remove User', user_teams_destroy_path(user_id: user.id, team_id: @team.id), method: :delete, data: { confirm: 'Are you sure?' } %><% end %></td>
-    </tr>
-  <% end %>
-</table>
-
-<% if !@team.users.include?(current_user) && !@team.private %>
-  <%= button_to 'Join', user_teams_create_path, :class => 'join-button', params: { 'invitecode' => @team.invitecode } %>
-<% end %>
-
-<% if @current_user_admin %>
-<td><%= link_to 'Edit', edit_team_path(@team) %></td>
-<td><%= link_to 'Destroy', @team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-<% end %>
-<%= link_to 'Dashboard', dashboard_path %>
+<div class="container">
+    <div class="row">
+        <% if current_user.present? %>
+        <div class="profile col s2">
+            <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
+            <%= render :partial=>"layouts/sidenav" %>
+        </div>
+        <div class="feed col s9 offset-s1">
+            <div class="feed-title">
+                <%= @team.name %>
+            </div>
+            <%= render :partial=>"teams/show_team", :locals => {:team => @team} %>
+        </div>
+    <% else %>
+        <div class="feed col s12">
+            <div class="feed-title">
+                <%= @team.name %>
+            </div>
+            <%= render :partial=>"teams/show_team", :locals => {:team => @team} %>
+        </div>
+        <% end %>
+    </div>
+</div>
