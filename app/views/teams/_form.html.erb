@@ -1,50 +1,60 @@
 <%= form_for(@team) do |f| %>
-  <% if @team.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@team.errors.count, "error") %> prohibited this team from being saved:</h2>
+<% if @team.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(@team.errors.count, "error") %>
+        prohibited this team from being saved:</h2>
 
-      <ul>
-      <% @team.errors.full_messages.each do |message| %>
+    <ul>
+        <% @team.errors.full_messages.each do |message| %>
         <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
-  </div>
-  <div class="field">
-      <div class="switch">
-          <label>
-              Public
-              <%= f.check_box :private, {}, "true", "false" %>
-              <span class="lever"></span>
-              Private
-          </label>
-      </div>
-  </div>
-
-<% if @team.avatar? %>
-
-  <p>
-      <strong>Current Team Logo:</strong>
-      <%= image_tag @team.avatar.url(:thumb) %>
-  </p>
-
+        <% end %>
+    </ul>
+</div>
 <% end %>
 
-  <div class="field">
-      <%= f.label :avatar, 'Team logo' %><br/>
-      <%= f.file_field :avatar %>
-  </div>
-
-  <div class="actions">
+<div class="row">
+    <div class="col s6">
+        <div class="field">
+            <%= f.label :name %><br>
+            <%= f.text_field :name, :maxlength => 200 %>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="field">
+            <%= f.label :description %><br>
+            <%= f.text_field :description, :maxlength => 200 %>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s6">
+        <div class="field">
+            <div class="switch">
+                <label>
+                    Public
+                    <%= f.check_box :private, {}, "true", "false" %>
+                    <span class="lever"></span>
+                    Private
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m3">
+        <div class="field">
+            <%= f.label :avatar, 'Team logo' %><br/>
+            <%= f.file_field :avatar %>
+        </div>
+    </div>
+    <% if @team.avatar? %>
+    <div class="row">
+        <div class="col s6 m3">
+            <strong>Current team logo:</strong><br/>
+            <%= image_tag @team.avatar.url(:thumb) %>
+        </div>
+    </div>
+    <% end %>
+</div>
+<div class="actions">
     <%= f.submit %>
-  </div>
+</div>
 <% end %>

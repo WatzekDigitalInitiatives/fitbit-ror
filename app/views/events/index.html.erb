@@ -21,9 +21,14 @@
         </div>
     <% else %>
         <div class="feed col s12">
-            <% @events.each do |event| %>
-            <%= render :partial=>"events/events_preview", :locals => {:event => event} %>
-            <% end %>
+            <div class="feed-title">
+                All Events
+            </div>
+            <ul class="collection">
+                <% @events.each do |event| %>
+                <%= render :partial=>"events/events_preview", :locals => {:event => event} %>
+                <% end %>
+            </ul>
         </div>
         <% end %>
     </div>
