@@ -81,11 +81,12 @@
                 var bounds = new google.maps.LatLngBounds();
                 for (var i = 0; i < gon.mapArgs["markers"].length; i++) {
                     var data = gon.mapArgs["markers"][i];
+                    console.log(data);
                     var markerDistance = data["total_steps"];
                     var color = data["hexcolor"].slice(1);
                     var avatar = data["avatar"];
-                    if (markerDistance < totalDistance*1000){
-                      markerDistance = (totalDistance * 1000) - 100;
+                    if (markerDistance > totalDistance * 1000) {
+                        markerDistance = (totalDistance * 1000) - 100;
                     }
                     var percentCovered = (markerDistance / (totalDistance * 1000)) * 100;
                     var name = data["name"];
@@ -100,6 +101,7 @@
         });
     }
     function initialize() {
+        console.log(gon.mapArgs);
         initializeShow();
     }
 

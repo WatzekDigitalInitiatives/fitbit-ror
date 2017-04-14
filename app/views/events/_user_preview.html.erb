@@ -3,15 +3,28 @@
     <span class="title"><%= counter %>.
         <%= this_user.name %></span>
     <p>
-        <% if this_user.goal_met %>
+        <% if @event && !@event.team_event && @date == @event.finish_date %>
+            <% if counter == 1 %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User finished <%=counter.ordinalize %>">looks_one</i>
+            <% end %>
+            <% if counter == 2 %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User finished <%=counter.ordinalize %>">looks_two</i>
+            <% end %>
+            <% if counter == 3 %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User finished <%=counter.ordinalize %>">looks_3</i>
+            <% end %>
+        <% end %>
+        <% if this_user.goal_met && @date < @event.finish_date %>
         <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Daily goal reached">assignment_turned_in</i>
         <% end %>
         <% if false %>
         <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User is on a streak">trending_up</i>
         <% end %>
         <br/>
-        <%= marker["total_steps"] %>
-        steps<br/>
+        <% if marker["total_steps"] %>
+        <b><%= marker["total_steps"] %></b>
+        total steps<br/>
+        <% end %>
         Streak:
         <% marker['goals'].each do |goal_met| %>
             <% if goal_met %>
