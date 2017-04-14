@@ -87,8 +87,8 @@
         for (var i = 0; i < gon.mapArgs["markers"].length; i++) {
           var data = gon.mapArgs["markers"][i];
           var markerDistance = data["total_steps"];
-          if (markerDistance > totalDistance){
-            markerDistance = totalDistance;
+          if (markerDistance > totalDistance*1000){
+            markerDistance = (totalDistance*1000)-100;
           }
           var color = data["hexcolor"].slice(1);
           var percentCovered = (markerDistance/(totalDistance*1000))*100;
