@@ -94,11 +94,32 @@
             } else {
                 alert("directions response " + status);
             }
-        });
-    }
-    function initialize() {
-        initializeShow();
-    }
+          }
+        }
+        var bounds = new google.maps.LatLngBounds();
+        for (var i = 0; i < gon.mapArgs["markers"].length; i++) {
+          var data = gon.mapArgs["markers"][i];
+          var markerDistance = data["total_steps"];
+          if (markerDistance > totalDistance*1000){
+            markerDistance = (totalDistance*1000)-100;
+          }
+          var color = data["hexcolor"].slice(1);
+          var percentCovered = (markerDistance/(totalDistance*1000))*100;
+          var name = data["name"];
+          createMarker(polyline.GetPointAtDistance(markerDistance),name+" "+(markerDistance/1000)+"km",percentCovered.toFixed(2)+"% finished", color);
+          bounds.extend(polyline.GetPointAtDistance(markerDistance));
+        }
+        bounds.extend(startLocation.latlng);
+        map.fitBounds(bounds);
+      }else {
+        alert("directions response "+status);
+      }
+    });
+  }
+  function initialize(){
+    initializeShow();
+  }
+
 
     function initializeEpolys(_callback) {
 
