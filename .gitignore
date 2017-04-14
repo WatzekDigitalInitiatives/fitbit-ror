@@ -18,7 +18,6 @@ logfile
 
 # Ignore application configuration
 /config/application.yml
-config/database.yml
 
 # Ignoring users avatar
 /public/system/users
