@@ -1,92 +1,78 @@
 <div class="row">
     <div class="col s12">
         <div class="card z-depth-2">
+            <% if team.avatar? %>
             <div class="card-content" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url(<%= team.avatar.url(:preview) %>) no-repeat;">
-                <span class="card-title">
-                    <%= team.name %>
-                    <br/>
-                </span>
-                <p>
-                    <span>
-                        <% if team.private%>
-                        <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team is private">lock</i>
-                    <% else %>
-                        <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team is public">lock_open</i>
-                        <% end %>
-                        <% if current_user.present? && current_user.teams.include?(team) %>
-                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are a member">account_circle</i>
-                        <% end %>
-                        <% if current_user.present? && @current_user_admin %>
-                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are the owner">grade</i>
-                        <% end %>
-                    </span><br/>
-                    <%= team.description %><br/>
-                    <!-- Team Color:
+            <% else %>
+                <div class="card-content" style="background: linear-gradient(to right, transparent, transparent, <%= team.hexcolor %>);">
+                    <% end %>
+                    <span class="card-title">
+                        <%= team.name %>
+                        <br/>
+                    </span>
+                    <p>
+                        <span>
+                            <% if team.private%>
+                            <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team is private">lock</i>
+                        <% else %>
+                            <i class="material-icons circle tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team is public">lock_open</i>
+                            <% end %>
+                            <% if current_user.present? && current_user.teams.include?(team) %>
+                            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are a member">account_circle</i>
+                            <% end %>
+                            <% if current_user.present? && @current_user_admin %>
+                            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are the owner">grade</i>
+                            <% end %>
+                        </span><br/>
+                        <%= team.description %><br/>
+                        <!-- Team Color:
                     <span style="background-color: <%= team.hexcolor %>;"><%= team.hexcolor %></span><br/> -->
-                    <%= team.avg_steps %>
-                    average steps
-                </p>
-            </div>
-            <div class="card-action">
-                <% if !@team.users.include?(current_user) && !@team.private %>
-                <%= link_to 'Join', user_teams_create_path(invitecode: @team.invitecode), method: :create %>
-                <% end %>
-                <% if @current_user_admin %>
-                <%= link_to 'Update', edit_team_path(@team) %>
-                <%= link_to 'Disband', @team, method: :delete, data: { confirm: 'Are you sure?' } %>
-                <% end %>
+                        <%= @stats['avg_steps'] %>
+                        average steps
+                    </p>
+                </div>
+                <div class="card-action">
+                    <% if !@team.users.include?(current_user) && !@team.private %>
+                    <%= link_to 'Join', user_teams_create_path(invitecode: @team.invitecode), method: :create %>
+                    <% end %>
+                    <% if @current_user_admin %>
+                    <%= link_to 'Update', edit_team_path(@team) %>
+                    <%= link_to 'Disband', @team, method: :delete, data: { confirm: 'Are you sure?' } %>
+                    <% end %>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col s12">
-        <div class="card z-depth-2">
-            <div class="card-tabs">
-                <ul class="tabs tabs-fixed-width">
-                    <li class="tab">
-                        <a class="active" href="#users">Members</a>
-                    </li>
-                    <li class="tab">
-                        <a href="#events">Events</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-content">
-                <div id="users">
-                    <ul class="collection">
-                        <% team.users.each do |user| %>
-                        <li class="collection-item avatar">
-                            <%= image_tag user.avatar.url, :class => 'circle z-depth-3' %>
-                            <span class="title"><%= user.name %></span>
-                            <p>
-                                <%= user.steps %>
-                                steps<br/>
-                                Streak:
-                                <% if user.goal_met %>
-                                <span style="color: green;">&#10004;
-                                </span>
-                            <% else %>
-                                <span style="color: red;">&#10007;
-                                </span>
-                                <% end %>
-                            </p>
-                            <span class="secondary-content">
-                                <% if user.goal_met %>
-                                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Goal reached">assignment_turned_in</i>
-                                <% end %>
-                            </span>
+    <div class="row">
+        <div class="col s12">
+            <div class="card z-depth-2">
+                <div class="card-tabs">
+                    <ul class="tabs tabs-fixed-width">
+                        <li class="tab">
+                            <a class="active" href="#users">Members</a>
                         </li>
-                        <!-- <% if @current_user_admin  %>
-                        <div class="card-action">
-                        <%= link_to 'Remove', user_teams_destroy_path(user_id: user.id, team_id: team.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-                    </div>
-                    <% end %> -->
-                        <% end %>
+                        <li class="tab">
+                            <a href="#events">Events</a>
+                        </li>
                     </ul>
                 </div>
-                <div id="events"></div>
+                <div class="card-content">
+                    <div id="users">
+                        <ul class="collection">
+                            <% counter = 1 %>
+                            <% @markers.each do |marker| %>
+                            <% team.users.each do |user| %>
+                            <% if user.id == marker["id"] %>
+                            <% @this_user = user %>
+                            <% end %>
+                            <% end %>
+                            <%= render :partial=>"events/user_preview", :locals => {:this_user => @this_user, :marker => marker, :counter => counter} %>
+                            <% counter += 1 %>
+                            <% end %>
+                        </ul>
+                    </div>
+                    <div id="events"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>

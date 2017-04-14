@@ -16,7 +16,12 @@
                         <% end %>
                         <% if event.team_event? %>
                         <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Team event">group</i>
+                    <% else %>
+                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Individual event">person</i>
                         <% end %>
+                        <% if Date.today > event.finish_date %>
+                        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Event ended">flag</i>
+                        <% end  %>
                         <% if current_user.present? && current_user.events.include?(event) %>
                         <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are enrolled">account_circle</i>
                         <% end %>
@@ -25,7 +30,9 @@
                         <% end %>
                     </span>
                     <p>
+                        <% if event.description? %>
                         <%= event.description %><br/>
+                        <% end %>
                         <%= event.start_date %>
                         -
                         <%= event.finish_date %><br/>

@@ -1,35 +1,14 @@
 <div class="card-content">
-
     <ul class="collection">
-        <% counter = 0 %>
+        <% counter = 1 %>
         <% @markers.each do |marker| %>
         <% @event.users.each do |user| %>
         <% if user.id == marker["id"] %>
         <% @this_user = user %>
         <% end %>
         <% end %>
-        <li class="collection-item avatar" style="background: linear-gradient(to right, transparent, transparent, <%= marker['hexcolor'] %>);">
-            <%= image_tag @this_user.avatar.url, :class => 'circle z-depth-3' %>
-            <span class="title"><%= counter += 1 %>.
-                <%= marker["name"] %></span>
-            <p>
-                <%= marker["total_steps"] %>
-                steps<br/>
-                Streak:
-                <% if @this_user.goal_met %>
-                <span style="color: green;">&#10004;
-                </span>
-            <% else %>
-                <span style="color: red;">&#10007;
-                </span>
-                <% end %>
-            </p>
-            <span class="secondary-content">
-                <% if @this_user.goal_met %>
-                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Goal reached">assignment_turned_in</i>
-                <% end %>
-            </span>
-        </li>
+        <%= render :partial=>"events/user_preview", :locals => {:this_user => @this_user, :marker => marker, :counter => counter} %>
+        <% counter += 1 %>
         <% end %>
     </ul>
 </div>

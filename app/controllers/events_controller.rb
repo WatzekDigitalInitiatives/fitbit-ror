@@ -70,7 +70,7 @@ class EventsController < ApplicationController
                         user.goal_met = @activity.goal_met
                     else
                         team.total_steps += 0
-                        user.steps = 'Steps not registered'
+                        user.steps = 0
                         user.goal_met = false
                     end
                 end
@@ -280,14 +280,16 @@ class EventsController < ApplicationController
         start_date = @event.start_date
         @markers = []
         @users.each do |user|
-            @data = { 'total_steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id }
+            @data = { 'total_steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
             (start_date..finish_date).each do |date|
                 @activity = Activity.find_by(entry_date: date, user_id: user.id)
-                @data['total_steps'] += if @activity
-                                            @activity.steps
-                                        else
-                                            0
-                                        end
+                if @activity
+                    @data['total_steps'] += @activity.steps
+                    @data['goals'].append(@activity.goal_met)
+                else
+                    @data['total_steps'] += 0
+                    @data['goals'].append(false)
+                end
             end
             @markers << @data
         end
