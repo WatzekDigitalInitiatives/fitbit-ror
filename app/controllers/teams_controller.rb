@@ -38,6 +38,8 @@ class TeamsController < ApplicationController
     def show
         @user = current_user
         @users = @team.users
+        @markers = get_team_standings(@users, 4)
+        @stats = get_team_stats(@users, 4)
         @current_user_admin = if @team.createdby == current_user.id
                                   true
                               else
@@ -100,9 +102,47 @@ class TeamsController < ApplicationController
     def destroy
         @team.destroy
         respond_to do |format|
-            format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
+            format.html { redirect_to teams_url, notice: 'Team was successfully disbanded.' }
             format.json { head :no_content }
         end
+    end
+
+    def get_team_stats(users, range)
+        finish_date = Date.today + range
+        @stats = {}
+        @stats['total_steps'] = 0
+        users.each do |user|
+            (Date.today..finish_date).each do |date|
+                @activity = Activity.find_by(entry_date: date, user_id: user.id)
+                if @activity
+                    @stats['total_steps'] += @activity.steps
+                else
+                    @stats['total_steps'] += 0
+                end
+            end
+        end
+        @stats['avg_steps'] = @stats['total_steps'] / users.count
+        @stats
+    end
+
+    def get_team_standings(users, range)
+        finish_date = Date.today + range
+        @markers = []
+        users.each do |user|
+            @data = { 'total_steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [], 'range' => range }
+            (Date.today..finish_date).each do |date|
+                @activity = Activity.find_by(entry_date: date, user_id: user.id)
+                if @activity
+                    @data['total_steps'] += @activity.steps
+                    @data['goals'].append(@activity.goal_met)
+                else
+                    @data['total_steps'] += 0
+                    @data['goals'].append(false)
+                end
+            end
+            @markers << @data
+        end
+        @markers
     end
 
     private
@@ -120,11 +160,11 @@ class TeamsController < ApplicationController
     # Checks if user is the admin of the team to edit and destroy event
     def check_team_admin
         if !current_user.present?
-            return redirect_to @team, notice: 'Only team admin can edit or destroy teams.'
+            return redirect_to @team, notice: 'Only the team owner can update or disband teams.'
         else
             # check if they are admin
             unless @team.createdby == current_user.id
-                return redirect_to @team, notice: 'Only team admins can edit or destroy teams.'
+                return redirect_to @team, notice: 'Only the team owner can update or disband teams.'
             end
         end
     end

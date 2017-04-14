@@ -24,7 +24,7 @@ class UserEventsController < ApplicationController
             if @user_event.save
                 set_subscription_date(current_user.id, @event.start_date, @event.finish_date)
                 if current_user.events.count == 1
-                  create_user_subscription(current_user)
+                    create_user_subscription(current_user)
                 end
                 format.html { redirect_to @event, notice: 'You successfully joined the event!' }
                 format.json { render :show, status: :created, location: @user_event }
@@ -32,6 +32,14 @@ class UserEventsController < ApplicationController
                 format.html { redirect_to join_event_path, notice: 'Sorry, you were not able to join the event. Please check your code.' }
                 format.json { render json: @user_event.errors, status: :unprocessable_entity }
             end
+        end
+    end
+
+    def destroy
+        UserEvent.find_by(user_id: params[:user_id], event_id: params[:event_id]).destroy
+        respond_to do |format|
+            format.html { redirect_to :back, notice: 'You successfully left the event.' }
+            format.json { head :no_content }
         end
     end
 

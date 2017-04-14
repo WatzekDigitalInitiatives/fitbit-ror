@@ -25,12 +25,12 @@ class EventsController < ApplicationController
         @participating_events = current_user.events
         @user_teams = current_user.teams
         @user_teams.each do |team|
-          @eve = team.events
-          @eve.each do |event|
-            if !@participating_events.include?(event)
-              @participating_events << event if event
+            @eve = team.events
+            @eve.each do |event|
+                unless @participating_events.include?(event)
+                    @participating_events << event if event
+                end
             end
-          end
         end
 
         @participating_events.each do |event|
@@ -47,76 +47,75 @@ class EventsController < ApplicationController
     # GET /events/1
     # GET /events/1.json
     def show
+        set_date(params, @event.start_date, @event.finish_date)
 
-      set_date(params, @event.start_date, @event.finish_date)
+        @user = current_user
+        if @event.team_event
 
-      @user = current_user
-      if @event.team_event
+            # Set markers for data from start_date till date
+            event_id = @event.id
+            date = @date
+            @markers = set_team_markers(event_id, date)
+            @markers = @markers.sort_by! { |h| -h['total_steps'] }
 
-        # Set markers for data from start_date till date
-        event_id = @event.id
-        date = @date
-        @markers = set_team_markers(event_id, date)
-        @markers = @markers.sort_by! { |h| -h["total_steps"] }
-
-        # Set total_steps for that date
-        @teams = @event.teams
-        @teams.each do |team|
-          team.total_steps = 0
-          team.users.each do |user|
-            @activity = Activity.find_by(entry_date: @date, user_id: user.id)
-            if @activity
-              team.total_steps += @activity.steps
-              user.steps = @activity.steps
-              user.goal_met = @activity.goal_met
-            else
-              team.total_steps += 0
-              user.steps = "Steps not registered"
-              user.goal_met = false
+            # Set total_steps for that date
+            @teams = @event.teams
+            @teams.each do |team|
+                team.total_steps = 0
+                team.users.each do |user|
+                    @activity = Activity.find_by(entry_date: @date, user_id: user.id)
+                    if @activity
+                        team.total_steps += @activity.steps
+                        user.steps = @activity.steps
+                        user.goal_met = @activity.goal_met
+                    else
+                        team.total_steps += 0
+                        user.steps = 0
+                        user.goal_met = false
+                    end
+                end
+                team.avg_steps = team.total_steps / team.users.count
             end
-          end
-          team.avg_steps = team.total_steps / team.users.count
+
+            @teams = @teams.sort_by { |data| -data.total_steps }
+
+        else
+
+            # Set markers for data from start_date till date
+            event_id = @event.id
+            date = @date
+            @markers = set_user_markers(event_id, date)
+            @markers = @markers.sort_by! { |h| -h['total_steps'] }
+
+            # Set total_steps for that date
+            @users = @event.users
+            @users.each do |user|
+                @activity = Activity.find_by(entry_date: @date, user_id: user.id)
+                if @activity
+                    user.steps = @activity.steps
+                    user.goal_met = @activity.goal_met
+                else
+                    user.steps = 0
+                    user.goal_met = false
+                end
+            end
+            @users = @users.sort_by { |data| -data.steps }
+
         end
 
-        @teams = @teams.sort_by{|data| -data.total_steps}
+        @event.static_map_preview = [
+            'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
+            '&markers=color:green%7Clabel:A%7C', @event.start_location,
+            '&markers=color:red%7Clabel:B%7C', @event.end_location,
+            '&path=', @event.start_location, '|', @event.end_location,
+            '&scale=2', '&key=', ENV['GOOGLE_API_KEY']
+        ].join
+        @mapArgs = { 'mapID' => 'showEventMap', 'origin' => @event.start_location, 'destination' => @event.end_location, 'markers' => @markers }
+        gon.mapArgs = @mapArgs
 
-      else
-
-        # Set markers for data from start_date till date
-        event_id = @event.id
-        date = @date
-        @markers = set_user_markers(event_id, date)
-        @markers = @markers.sort_by! { |h| -h["total_steps"] }
-
-        # Set total_steps for that date
-        @users = @event.users
-        @users.each do |user|
-          @activity = Activity.find_by(entry_date: @date, user_id: user.id)
-          if @activity
-            user.steps = @activity.steps
-            user.goal_met = @activity.goal_met
-          else
-            user.steps = 0
-            user.goal_met = false
-          end
-        end
-        @users = @users.sort_by{|data| -data.steps}
-
-      end
-
-      @event.static_map_preview = [
-              'https://maps.googleapis.com/maps/api/staticmap?&size=955x120&maptype=terrain',
-              '&markers=color:green%7Clabel:A%7C', @event.start_location,
-              '&markers=color:red%7Clabel:B%7C', @event.end_location,
-              '&path=', @event.start_location, '|', @event.end_location,
-              '&scale=2', '&key=', ENV['GOOGLE_API_KEY']
-      ].join
-      @mapArgs = {'mapID' => 'showEventMap', 'origin' => @event.start_location, 'destination' => @event.end_location, 'markers' => @markers}
-      gon.mapArgs = @mapArgs
-
-      # Date Picker is reducing each date by 1 day so adding 1 day to make it right, REALLY DONT KNOW WHY!
-      gon.start_date = @event.start_date+1.day
-      gon.finish_date = @event.finish_date+1.day
+        # Date Picker is reducing each date by 1 day so adding 1 day to make it right, REALLY DONT KNOW WHY!
+        gon.start_date = @event.start_date + 1.day
+        gon.finish_date = @event.finish_date + 1.day
     end
 
     # GET /events/new
@@ -143,34 +142,32 @@ class EventsController < ApplicationController
 
         respond_to do |format|
             if @event.save
-              if @event.team_event
-                @team_event = TeamEvent.new
-                @team_event.team_id = params[:team_id]
-                @team_event.event_id = @event.id
-                if @team_event.save
-                    @team = Team.find(params[:team_id])
-                    @team.users.each do |user|
-                      set_subscription_date(user.id, @event.start_date, @event.finish_date)
-                      if user.events.count == 1
-                        create_user_subscription(user)
-                      end
+                if @event.team_event
+                    @team_event = TeamEvent.new
+                    @team_event.team_id = params[:team_id]
+                    @team_event.event_id = @event.id
+                    if @team_event.save
+                        @team = Team.find(params[:team_id])
+                        @team.users.each do |user|
+                            set_subscription_date(user.id, @event.start_date, @event.finish_date)
+                            create_user_subscription(user) if user.events.count == 1
+                        end
+                        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+                        format.json { render :show, status: :created, location: @event }
                     end
-                    format.html { redirect_to @event, notice: 'Event was successfully created.' }
-                    format.json { render :show, status: :created, location: @event }
-                end
-              else
-                @user_event = UserEvent.new
-                @user_event.user_id = current_user.id
-                @user_event.event_id = @event.id
-                if @user_event.save
-                    set_subscription_date(current_user.id, @event.start_date, @event.finish_date)
-                    if current_user.events.count == 1
-                      create_user_subscription(current_user)
+                else
+                    @user_event = UserEvent.new
+                    @user_event.user_id = current_user.id
+                    @user_event.event_id = @event.id
+                    if @user_event.save
+                        set_subscription_date(current_user.id, @event.start_date, @event.finish_date)
+                        if current_user.events.count == 1
+                            create_user_subscription(current_user)
+                        end
+                        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+                        format.json { render :show, status: :created, location: @event }
                     end
-                    format.html { redirect_to @event, notice: 'Event was successfully created.' }
-                    format.json { render :show, status: :created, location: @event }
                 end
-              end
             else
                 format.html { render :new }
                 format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -197,7 +194,7 @@ class EventsController < ApplicationController
     def destroy
         @event.destroy
         respond_to do |format|
-            format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
+            format.html { redirect_to events_url, notice: 'Event was successfully canceled.' }
             format.json { head :no_content }
         end
     end
@@ -217,84 +214,85 @@ class EventsController < ApplicationController
     # Checks if user owns the event to edit and destroy event
     def check_user_event
         if !current_user.present? || current_user.id != @event.createdby
-            redirect_to @event, notice: 'You dont have permissions to edit this event.'
+            redirect_to @event, notice: "You aren't the owner of this event."
         end
     end
 
     # Checks if the event is private and only allow creator or people who joined to see the event
     def check_private_event_users
         if @event.private && !current_user.present?
-            return redirect_to events_path, notice: 'You dont have access to this event. Please try after logging in.'
+            return redirect_to events_path, notice: 'You need to log in to access this event.'
         end
         if @event.private && current_user.id != @event.createdby
             unless @event.users.include?(current_user)
-              return redirect_to events_path, notice: 'You dont have permissions to view this event.'
+                return redirect_to events_path, notice: 'This event is private.'
             end
         end
     end
 
-    def set_date (params, start_date, finish_date)
-      today = Date.today.strftime("%Y-%m-%d")
-      today = Date.parse today
+    def set_date(params, _start_date, _finish_date)
+        today = Date.today.strftime('%Y-%m-%d')
+        today = Date.parse today
 
-      if (params[:date].present?)
-        @date = Date.parse params[:date]
-      else
-        @date = today
-      end
+        @date = if params[:date].present?
+                    Date.parse params[:date]
+                else
+                    today
+                end
 
-      if @event.start_date > @date || @date > @event.finish_date
-        if today > @event.finish_date
-          @date = @event.finish_date
-        elsif today < @event.start_date
-          @date = @event.start_date
-        else
-          @date = today
+        if @event.start_date > @date || @date > @event.finish_date
+            @date = if today > @event.finish_date
+                        @event.finish_date
+                    elsif today < @event.start_date
+                        @event.start_date
+                    else
+                        today
+                    end
         end
-      end
     end
 
     def set_team_markers(event_id, finish_date)
-      @event = Event.find(event_id)
-      @teams = @event.teams
-      start_date = @event.start_date
-      @markers = []
-      @teams.each do |team|
-        @data = {"total_steps" => 0, "hexcolor" => team.hexcolor, "name" => team.name }
-        team.users.each do |user|
-          (start_date..finish_date).each do |date|
-            @activity = Activity.find_by(entry_date: date, user_id: user.id)
-            if @activity
-              @data["total_steps"] += @activity.steps
-            else
-              @data["total_steps"] += 0
+        @event = Event.find(event_id)
+        @teams = @event.teams
+        start_date = @event.start_date
+        @markers = []
+        @teams.each do |team|
+            @data = { 'total_steps' => 0, 'hexcolor' => team.hexcolor, 'name' => team.name, 'avatar' => team.avatar.url, 'id' => team.id }
+            team.users.each do |user|
+                (start_date..finish_date).each do |date|
+                    @activity = Activity.find_by(entry_date: date, user_id: user.id)
+                    @data['total_steps'] += if @activity
+                                                @activity.steps
+                                            else
+                                                0
+                                            end
+                end
             end
-          end
+            @data['total_steps'] /= team.users.count
+            @markers << @data
         end
-        @data["total_steps"] /= team.users.count
-        @markers << @data
-      end
-      return @markers
+        @markers
     end
 
     def set_user_markers(event_id, finish_date)
-      @event = Event.find(event_id)
-      @users = @event.users
-      start_date = @event.start_date
-      @markers = []
-      @users.each do |user|
-        @data = {"total_steps" => 0, "hexcolor" => user.hexcolor, "name" => user.name }
-        (start_date..finish_date).each do |date|
-          @activity = Activity.find_by(entry_date: date, user_id: user.id)
-          if @activity
-            @data["total_steps"] += @activity.steps
-          else
-            @data["total_steps"] += 0
-          end
+        @event = Event.find(event_id)
+        @users = @event.users
+        start_date = @event.start_date
+        @markers = []
+        @users.each do |user|
+            @data = { 'total_steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
+            (start_date..finish_date).each do |date|
+                @activity = Activity.find_by(entry_date: date, user_id: user.id)
+                if @activity
+                    @data['total_steps'] += @activity.steps
+                    @data['goals'].append(@activity.goal_met)
+                else
+                    @data['total_steps'] += 0
+                    @data['goals'].append(false)
+                end
+            end
+            @markers << @data
         end
-      @markers << @data
-      end
-      return @markers
+        @markers
     end
-
 end

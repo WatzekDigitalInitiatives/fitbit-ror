@@ -11,93 +11,120 @@
     </ul>
 </div>
 <% end %>
-
-<div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-</div>
-<div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description, :maxlength => 200 %>
-</div>
-
-<% if @event.avatar? %>
-
-  <p>
-      <strong>Current Team Logo:</strong>
-      <%= image_tag @event.avatar.url(:thumb) %>
-  </p>
-
-<% end %>
-
-<div class="field">
-    <%= f.label :avatar, 'Event logo' %><br/>
-    <%= f.file_field :avatar %>
-</div>
-<div class="field">
-    <%= f.label :start_date %><br>
-    <%= f.text_field :start_date, class: "datepicker"%>
-</div>
-<div class="field">
-    <%= f.label :finish_date %><br>
-    <%= f.text_field :finish_date, class: "datepicker"%>
-</div>
-<div class="field">
-    <%= f.label :start_location %><br>
-    <%= f.text_field :start_location %>
-</div>
-<div class="field">
-    <%= f.label :end_location %><br>
-    <%= f.text_field :end_location %>
-</div>
-<div class="field">
-    <%= f.label :distance, 'Distance (meters)' %><br>
-    <%= f.text_field :distance, :readonly => true %>
-</div>
-<div class="field">
-    <div class="switch">
-        <label>
-            Public
-            <%= f.check_box :private, {}, "true", "false" %>
-            <span class="lever"></span>
-            Private
-        </label>
+<div class="row">
+    <div class="col s6">
+        <div class="field">
+            <%= f.label :name %><br>
+            <%= f.text_field :name, :maxlength => 200 %>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="field">
+            <%= f.label :description %><br>
+            <%= f.text_field :description, :maxlength => 200 %>
+        </div>
     </div>
 </div>
-
-<% if @edit == false %>
-<div class="field">
-    <div class="switch">
-      <% if @teams.empty? %>
-      <p>Sorry you don't have any teams to create a team event. Create your first team <%= link_to 'here', new_team_path %>!</p>
-      <% end %>
-        <label>
-            Individual Event
-            <% if @teams.empty? %>
-              <input disabled type="checkbox">
-            <% end %>
-              <%= f.check_box :team_event, {}, "true", "false" %>
-            <span class="lever"></span>
-            Team Event
-        </label>
+<div class="row">
+    <div class="col m3 s6">
+        <div class="field">
+            <%= f.label :start_location %><br>
+            <%= f.text_field :start_location %>
+        </div>
+    </div>
+    <div class="col m3 s6">
+        <div class="field">
+            <%= f.label :end_location %><br>
+            <%= f.text_field :end_location %>
+        </div>
+    </div>
+    <div class="col m3 s6">
+        <div class="field">
+            <%= f.label :start_date %><br>
+            <%= f.text_field :start_date, class: "datepicker"%>
+        </div>
+    </div>
+    <div class="col m3 s6">
+        <div class="field">
+            <%= f.label :finish_date %><br>
+            <%= f.text_field :finish_date, class: "datepicker"%>
+        </div>
     </div>
 </div>
-<% end %>
-
+<div class="row">
+    <div class="col s6">
+        <div class="field">
+            <div class="switch">
+                <label>
+                    Public
+                    <%= f.check_box :private, {}, "true", "false" %>
+                    <span class="lever"></span>
+                    Private
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col s6">
+        <% if @edit == false %>
+        <div class="field">
+            <div class="switch">
+                <% if @teams.empty? %>
+                <p>You need to own a team to create a team event. Create your first team
+                    <%= link_to 'here', new_team_path %>!</p>
+                <% end %>
+                <label>
+                    Individual event
+                    <% if @teams.empty? %>
+                    <input disabled type="checkbox">
+                    <% end %>
+                    <%= f.check_box :team_event, {}, "true", "false" %>
+                    <span class="lever"></span>
+                    Team event
+                </label>
+            </div>
+        </div>
+        <% end %>
+    </div>
+</div>
 <% if !@teams.empty? %>
-  <div class="field teams" style="display: none;">
-    <p>You must select a team enroll:</p>
-    <% @teams.each do |team|%>
-        <p>
-          <input type="radio" name="team_id" value="<%= team.id %>" id ="<%= team.id %>">
-          <label for="<%= team.id %>"><%= team.name %></label>
-        </p>
-    <% end %>
-  </div>
+<div class="row">
+    <div class="col s12">
+        <div class="field teams" style="display: none;">
+            <p>Select a team to enroll:</p>
+            <% @teams.each do |team|%>
+            <p>
+                <input type="radio" name="team_id" value="<%= team.id %>" id="<%= team.id %>">
+                <label for="<%= team.id %>"><%= team.name %></label>
+            </p>
+            <% end %>
+        </div>
+    </div>
+</div>
 <% end %>
+<div class="row">
+    <div class="col s6">
+        <div class="field">
+            <%= f.label :distance, 'Distance (meters)' %><br>
+            <%= f.text_field :distance, :readonly => true %>
+        </div>
+    </div>
+    <div class="col s6 m3">
+        <div class="field">
+            <%= f.label :avatar, 'Event logo' %><br/>
+            <%= f.file_field :avatar %>
+        </div>
+    </div>
+    <% if @event.avatar? %>
+    <div class="row">
+        <div class="col s6 m3">
+            <strong>Current event logo:</strong><br/>
+            <%= image_tag @event.avatar.url(:thumb) %>
+        </div>
+    </div>
+    <% end %>
+</div>
 
 <!-- add radio to select teams and change create controller to add that team when event is created -->
-
 
 <br/>
 <div id="eventMap" style="height: 400px;"></div>
