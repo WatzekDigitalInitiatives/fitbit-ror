@@ -81,7 +81,6 @@
                 var bounds = new google.maps.LatLngBounds();
                 for (var i = 0; i < gon.mapArgs["markers"].length; i++) {
                     var data = gon.mapArgs["markers"][i];
-                    console.log(data);
                     var markerDistance = data["total_steps"];
                     var color = data["hexcolor"].slice(1);
                     var avatar = data["avatar"];
@@ -101,7 +100,6 @@
         });
     }
     function initialize() {
-        console.log(gon.mapArgs);
         initializeShow();
     }
 

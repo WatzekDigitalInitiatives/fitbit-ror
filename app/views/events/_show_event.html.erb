@@ -42,11 +42,14 @@
                     </p>
                 </div>
                 <div class="card-action">
+                    <% if @event.team_event %>
+                    <% if !current_user.events.include?(@event) && !@event.private %>
+                    <%= link_to 'Join', join_team_event_path(invitecode: @event.invitecode) %>
+                    <% end %>
+                <% else %>
                     <% if !@event.users.include?(current_user) && !@event.private %>
                     <%= link_to 'Join', user_events_create_path(invitecode: @event.invitecode), method: :create %>
                     <% end %>
-                    <% if @event.users.include?(current_user) %>
-                    <%= link_to 'Leave', user_events_destroy_path(event_id: event.id, user_id: current_user.id), method: :delete %>
                     <% end %>
                     <% if event.createdby == current_user.id %>
                     <%= link_to 'Update', edit_event_path(event) %>
@@ -120,7 +123,6 @@
                 min: new Date(gon.start_date),
                 max: new Date(gon.finish_date)
             });
-            $('.grid').masonry({itemSelector: '.grid-item', columnWidth: 400, gutter: 30});
             $("#fetch-date").change(function () {
                 if ($("#fetch-date").val()) {
                     var d = $("#fetch-date").val();

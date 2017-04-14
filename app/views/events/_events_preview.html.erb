@@ -1,4 +1,3 @@
-<%= link_to event do %>
 <% if event.avatar? %>
 <li class="collection-item avatar" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,0.1), rgba(255,255,255,0)), url(<%= event.avatar.url(:preview) %>) no-repeat;">
 <% else %>
@@ -38,4 +37,3 @@
             <%= event.end_location %>
         </p>
     </li>
-    <% end %>

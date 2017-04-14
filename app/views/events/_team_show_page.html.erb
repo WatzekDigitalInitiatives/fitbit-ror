@@ -1,15 +1,21 @@
 <div class="card-tabs">
     <ul class="tabs tabs-fixed-width">
-        <% @teams.each do |team| %>
+        <% @teams.each do |team, index| %>
+        <% if index == 0 %>
+        <li class="tab">
+            <a href="#team<%= team.id %>" class="active"><%= team.name %></a>
+        </li>
+    <% else %>
         <li class="tab">
             <a href="#team<%= team.id %>"><%= team.name %></a>
         </li>
+        <% end %>
         <% end %>
     </ul>
 </div>
 <div class="card-content">
     <% @teams.each do |team| %>
-    <div id="#team<%= team.id %>">
+    <div id="team<%= team.id %>">
         <ul class="collection with-header">
             <li class="collection-header" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url(<%= team.avatar.url(:preview) %>) no-repeat;">
                 <% if team.avatar? %>
