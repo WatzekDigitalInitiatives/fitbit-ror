@@ -88,9 +88,9 @@
                     if (markerDistance > totalDistance * 1000) {
                         markerDistance = (totalDistance * 1000) - 100;
                     }
-                    var percentCovered = (markerDistance / (totalDistance * 1000)) * 100;
+                    var percentCovered = Math.round((markerDistance / (totalDistance * 1000)) * 100);
                     var name = data["name"];
-                    createMarker(polyline.GetPointAtDistance(markerDistance), name + " " + (markerDistance / 1000) + "km", percentCovered.toFixed(2) + "% finished", color);
+                    createMarker(polyline.GetPointAtDistance(markerDistance), name + " " + (markerDistance / 1000) + "km", percentCovered + "% finished", color);
                     bounds.extend(polyline.GetPointAtDistance(markerDistance));
                 }
                 bounds.extend(startLocation.latlng);
