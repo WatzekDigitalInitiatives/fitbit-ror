@@ -15,7 +15,7 @@
             <% if @participating_events.present?%>
             <ul class="collection">
                 <% @participating_events.each do |event| %>
-                <%= render :partial=>"events/events_preview", :locals => {:event => event, :subset => 'participating_events'} %>
+                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event, :subset => 'participating_events'}), event %>
                 <% end %>
             </ul>
             <% end %>

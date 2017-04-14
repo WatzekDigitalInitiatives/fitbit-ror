@@ -21,7 +21,11 @@
                         <% if event.team_event? %>
                             <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_team_event_path(event) %>
                         <% else %>
+                          <% if !current_user.events.include?(event) %>
                             <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_event_path %>
+                          <% else %>
+                            <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
+                          <% end %>
                         <% end %>
                     <% end %>
                 <% end %>
