@@ -13,9 +13,11 @@
             <div class="feed-title">
                 My Teams
             </div>
-            <% @my_teams.each do |team| %>
-            <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
-            <% end %>
+            <ul class="collection">
+                <% @my_teams.each do |team| %>
+                <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
+                <% end %>
+            </ul>
         </div>
     </div>
 </div>

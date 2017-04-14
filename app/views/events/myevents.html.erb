@@ -13,9 +13,11 @@
                 My Events
             </div>
             <% if @participating_events.present?%>
-            <% @participating_events.each do |event| %>
-            <%= render :partial=>"events/events_preview", :locals => {:event => event, :subset => 'participating_events'} %>
-            <% end %>
+            <ul class="collection">
+                <% @participating_events.each do |event| %>
+                <%= render :partial=>"events/events_preview", :locals => {:event => event, :subset => 'participating_events'} %>
+                <% end %>
+            </ul>
             <% end %>
         </div>
     </div>

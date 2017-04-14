@@ -11,11 +11,13 @@
         </div>
         <div class="feed col s9 offset-s1">
             <div class="feed-title">
-                Public Events
+                All Events
             </div>
-            <% @events.each do |event| %>
-            <%= render :partial=>"events/events_preview", :locals => {:event => event} %>
-            <% end %>
+            <ul class="collection">
+                <% @events.each do |event| %>
+                <%= render :partial=>"events/events_preview", :locals => {:event => event} %>
+                <% end %>
+            </ul>
         </div>
     <% else %>
         <div class="feed col s12">

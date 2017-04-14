@@ -1,3 +1,16 @@
 // Place all the styles related to the Teams controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.collection a:hover {
+  color: initial;
+  background-color: initial;
+}
+
+.secondary-content i {
+  color: black;
+}
+
+.collection-item.avatar {
+  background-position-y: -7rem !important;
+}

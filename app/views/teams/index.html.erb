@@ -11,11 +11,13 @@
         </div>
         <div class="feed col s9 offset-s1">
             <div class="feed-title">
-                Leaderboard
+                All Teams
             </div>
-            <% @teams.each do |team| %>
-            <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
-            <% end %>
+            <ul class="collection">
+                <% @teams.each do |team| %>
+                <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
+                <% end %>
+            </ul>
         </div>
     <% else %>
         <div class="feed col s12">

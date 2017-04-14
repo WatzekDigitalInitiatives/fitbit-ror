@@ -9,15 +9,15 @@ class TeamsController < ApplicationController
         @user = current_user
         @teams = Team.all
         @teams.each do |team|
-          if current_user.present?
-            if team.createdby == current_user.id
-                team.is_current_user_admin = true
+            if current_user.present?
+                team.is_current_user_admin = if team.createdby == current_user.id
+                                                 true
+                                             else
+                                                 false
+                                             end
             else
                 team.is_current_user_admin = false
             end
-          else
-            team.is_current_user_admin = false
-          end
         end
     end
 
@@ -25,23 +25,24 @@ class TeamsController < ApplicationController
         @my_teams = current_user.teams
         @user = current_user
         @my_teams.each do |team|
-            if team.createdby == current_user.id
-                team.is_current_user_admin = true
-            else
-                team.is_current_user_admin = false
-            end
+            team.is_current_user_admin = if team.createdby == current_user.id
+                                             true
+                                         else
+                                             false
+                                         end
         end
     end
 
     # GET /teams/1
     # GET /teams/1.json
     def show
+        @user = current_user
         @users = @team.users
-        if @team.createdby == current_user.id
-            @current_user_admin = true
-          else
-            @current_user_admin = false
-        end
+        @current_user_admin = if @team.createdby == current_user.id
+                                  true
+                              else
+                                  false
+                              end
     end
 
     # GET /teams/new
