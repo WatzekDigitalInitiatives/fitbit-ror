@@ -43,8 +43,10 @@
                 </div>
                 <div class="card-action">
                     <% if @event.team_event %>
-                    <% if !current_user.events.include?(@event) && !@event.private %>
-                    <%= link_to 'Join', join_team_event_path(invitecode: @event.invitecode) %>
+                    <% if !@event.private %>
+                    <%= link_to 'Enroll Team', join_team_event_path(invitecode: @event.invitecode) %>
+                    <% else %>
+                    <%= link_to 'Enroll Team', join_team_event_path %>
                     <% end %>
                 <% else %>
                     <% if !@event.users.include?(current_user) && !@event.private %>
