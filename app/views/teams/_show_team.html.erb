@@ -71,7 +71,17 @@
                             <% end %>
                         </ul>
                     </div>
-                    <div id="events"></div>
+                    <div id="events">
+                        <ul class="collection">
+                        <% team.events.each do |event| %>
+                            <% if !event.private? %>
+                                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
+                            <% else %>
+                                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_team_event_path(event) %>
+                            <% end %>
+                        <% end %>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

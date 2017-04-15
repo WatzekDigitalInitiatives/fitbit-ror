@@ -4,7 +4,7 @@ class TeamEventsController < ApplicationController
 
     def new
         unless @event.team_event
-            flash[:notice] = 'Sorry, please select a team event to join'
+            flash[:notice] = 'Sorry, please select a team event.'
             return redirect_to events_path
         end
 
@@ -12,8 +12,8 @@ class TeamEventsController < ApplicationController
         @all_teams = Team.where(createdby: @user.id).all
 
         if @all_teams.empty?
-            flash[:notice] = "Sorry, you don't have any teams to join team event."
-            return redirect_to new_team_path
+            flash[:notice] = "Sorry, you don't have any teams to enroll."
+            return redirect_to @event
         end
 
         @teams = []
@@ -48,7 +48,7 @@ class TeamEventsController < ApplicationController
                     set_subscription_date(user.id, @event.start_date, @event.finish_date)
                     create_user_subscription(user) if user.events.count == 1
                 end
-                format.html { redirect_to @event, notice: 'Your team successfully joined the event!' }
+                format.html { redirect_to @event, notice: 'Successfully enrolled your team in the event.' }
                 format.json { render :show, status: :created, location: @user_event }
             else
                 format.html { redirect_to join_event_path, notice: 'Sorry, your team was not able to join the event.' }
