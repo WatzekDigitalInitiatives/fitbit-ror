@@ -40,6 +40,11 @@
                     <%= link_to 'Disband', @team, method: :delete, data: { confirm: 'Are you sure?' } %>
                     <% end %>
                 </div>
+                <script>
+                    if ($.trim($('.card-action').html()).length == 0) {
+                        $('.card-action').hide();
+                    }
+                </script>
             </div>
         </div>
     </div>
@@ -73,13 +78,13 @@
                     </div>
                     <div id="events">
                         <ul class="collection">
-                        <% team.events.each do |event| %>
+                            <% team.events.each do |event| %>
                             <% if !event.private? %>
-                                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
-                            <% else %>
-                                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_team_event_path(event) %>
+                            <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
+                        <% else %>
+                            <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_team_event_path(event) %>
                             <% end %>
-                        <% end %>
+                            <% end %>
                         </ul>
                     </div>
                 </div>

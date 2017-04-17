@@ -25,6 +25,11 @@
             <%= render :partial=>"teams/teams_preview", :locals => {:team => team} %>
             <% end %>
         </div>
+        <script>
+            if ($.trim($('.icon-space').html()).length == 0) {
+                $('.icon-space').hide();
+            }
+        </script>
         <% end %>
     </div>
 </div>

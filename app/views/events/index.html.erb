@@ -15,19 +15,19 @@
             </div>
             <ul class="collection">
                 <% @events.each do |event| %>
-                    <% if !event.private? %>
-                        <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
-                    <% else %>
-                        <% if !current_user.events.include?(event) %>
-                            <% if event.team_event?  %>
-                                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_team_event_path(event) %>
-                            <% else %>
-                                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_event_path %>
-                            <% end %>
-                        <% else %>
-                            <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
-                        <% end %>
-                    <% end %>
+                <% if !event.private? %>
+                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
+            <% else %>
+                <% if !current_user.events.include?(event) %>
+                <% if event.team_event?  %>
+                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_team_event_path(event) %>
+            <% else %>
+                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), join_event_path %>
+                <% end %>
+            <% else %>
+                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
+                <% end %>
+                <% end %>
                 <% end %>
             </ul>
         </div>
@@ -38,9 +38,9 @@
             </div>
             <ul class="collection">
                 <% @events.each do |event| %>
-                    <% if !event.private? %>
-                        <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
-                    <% end %>
+                <% if !event.private? %>
+                <%= link_to render(:partial=>"events/events_preview", :locals => {:event => event}), event %>
+                <% end %>
                 <% end %>
             </ul>
         </div>

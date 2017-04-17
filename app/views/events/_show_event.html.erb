@@ -45,7 +45,7 @@
                     <% if @event.team_event %>
                     <% if !@event.private %>
                     <%= link_to 'Enroll Team', join_team_event_path(invitecode: @event.invitecode) %>
-                    <% else %>
+                <% else %>
                     <%= link_to 'Enroll Team', join_team_event_path %>
                     <% end %>
                 <% else %>
@@ -58,6 +58,11 @@
                     <%= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure?' } %>
                     <% end %>
                 </div>
+                <script>
+                    if ($.trim($('.card-action').html()).length == 0) {
+                        $('.card-action').hide();
+                    }
+                </script>
             </div>
         </div>
     </div>
