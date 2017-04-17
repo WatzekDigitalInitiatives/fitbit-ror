@@ -3,6 +3,7 @@ class UserEventsController < ApplicationController
 
     def new
         @user = current_user
+        # flash[:notice] = 'This event is private.'
         @user_event = UserEvent.new
     end
 
