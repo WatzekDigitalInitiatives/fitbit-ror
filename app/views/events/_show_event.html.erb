@@ -33,9 +33,13 @@
                         <% if event.description? %>
                         <%= event.description %><br/>
                         <% end %>
-                        <%= event.start_date %>
+                        <% if event.private? %>
+                        code
+                        <%= event.invitecode %><br/>
+                        <% end %>
+                        <%= event.start_date.to_formatted_s(:long) %>
                         -
-                        <%= event.finish_date %><br/>
+                        <%= event.finish_date.to_formatted_s(:long) %><br/>
                         <%= event.start_location %>
                         -
                         <%= event.end_location %>
@@ -45,7 +49,7 @@
                     <% if @event.team_event %>
                     <% if !@event.private %>
                     <%= link_to 'Enroll Team', join_team_event_path(invitecode: @event.invitecode) %>
-                    <% else %>
+                <% else %>
                     <%= link_to 'Enroll Team', join_team_event_path %>
                     <% end %>
                 <% else %>

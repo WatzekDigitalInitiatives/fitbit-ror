@@ -38,8 +38,9 @@ class TeamsController < ApplicationController
     def show
         @user = current_user
         @users = @team.users
-        @markers = get_team_standings(@users, 4)
-        @stats = get_team_stats(@users, 4)
+        @range = 4
+        @standings = get_team_standings(@range)
+        @stats = get_team_stats(@range)
         @current_user_admin = if @team.createdby == current_user.id
                                   true
                               else
@@ -107,11 +108,11 @@ class TeamsController < ApplicationController
         end
     end
 
-    def get_team_stats(users, range)
+    def get_team_stats(range)
         finish_date = Date.today + range
         @stats = {}
         @stats['total_steps'] = 0
-        users.each do |user|
+        @team.users.each do |user|
             (Date.today..finish_date).each do |date|
                 @activity = Activity.find_by(entry_date: date, user_id: user.id)
                 if @activity
@@ -121,28 +122,30 @@ class TeamsController < ApplicationController
                 end
             end
         end
-        @stats['avg_steps'] = @stats['total_steps'] / users.count
+        @stats['avg_steps'] = @stats['total_steps'] / @users.count
         @stats
     end
 
-    def get_team_standings(users, range)
+    def get_team_standings(range)
         finish_date = Date.today + range
-        @markers = []
-        users.each do |user|
-            @data = { 'total_steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [], 'range' => range }
+        @standings = []
+        @team.users.each do |user|
+            @data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
             (Date.today..finish_date).each do |date|
                 @activity = Activity.find_by(entry_date: date, user_id: user.id)
                 if @activity
                     @data['total_steps'] += @activity.steps
+                    @data['steps'] = @activity.steps
                     @data['goals'].append(@activity.goal_met)
                 else
                     @data['total_steps'] += 0
+                    @data['steps'] = 0
                     @data['goals'].append(false)
                 end
             end
-            @markers << @data
+            @standings << @data
         end
-        @markers
+        @standings
     end
 
     private

@@ -255,6 +255,7 @@ class EventsController < ApplicationController
         @event = Event.find(event_id)
         @teams = @event.teams
         start_date = @event.start_date
+        @range = (finish_date - start_date).to_i
         @markers = []
         @teams.each do |team|
             @data = { 'total_steps' => 0, 'hexcolor' => team.hexcolor, 'name' => team.name, 'avatar' => team.avatar.url, 'id' => team.id }
@@ -278,16 +279,19 @@ class EventsController < ApplicationController
         @event = Event.find(event_id)
         @users = @event.users
         start_date = @event.start_date
+        @range = (finish_date - start_date).to_i
         @markers = []
         @users.each do |user|
-            @data = { 'total_steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
+            @data = { 'steps' => 0, 'total_steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
             (start_date..finish_date).each do |date|
                 @activity = Activity.find_by(entry_date: date, user_id: user.id)
                 if @activity
                     @data['total_steps'] += @activity.steps
+                    @data['steps'] = @activity.steps
                     @data['goals'].append(@activity.goal_met)
                 else
                     @data['total_steps'] += 0
+                    @data['steps'] = 0
                     @data['goals'].append(false)
                 end
             end
