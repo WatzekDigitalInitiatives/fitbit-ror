@@ -25,6 +25,10 @@
                             <% end %>
                         </span><br/>
                         <%= team.description %><br/>
+                        <% if team.private? %>
+                        code
+                        <%= team.invitecode %><br/>
+                        <% end %>
                         <!-- Team Color:
                     <span style="background-color: <%= team.hexcolor %>;"><%= team.hexcolor %></span><br/> -->
                         <%= @stats['avg_steps'] %>
