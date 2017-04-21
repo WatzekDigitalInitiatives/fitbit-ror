@@ -21,13 +21,8 @@ default: &default
   pool: 5
 
 development:
-  # <<: *default
-  # database: fitbit-ror_development
-  adapter: postgresql
-  database: ebdb
-  username: walklcproduction
-  password: h00ray!!
-  host: aaajpzj0p8j4xk.cokqkvgebhb8.us-west-2.rds.amazonaws.com
+  <<: *default
+  database: fitbit-ror_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
