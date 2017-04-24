@@ -25,6 +25,10 @@
                             <% end %>
                         </span><br/>
                         <%= team.description %><br/>
+                        <% if team.private? %>
+                        code
+                        <%= team.invitecode %><br/>
+                        <% end %>
                         <!-- Team Color:
                     <span style="background-color: <%= team.hexcolor %>;"><%= team.hexcolor %></span><br/> -->
                         <%= @stats['avg_steps'] %>
@@ -65,13 +69,8 @@
                     <div id="users">
                         <ul class="collection">
                             <% counter = 1 %>
-                            <% @markers.each do |marker| %>
-                            <% team.users.each do |user| %>
-                            <% if user.id == marker["id"] %>
-                            <% @this_user = user %>
-                            <% end %>
-                            <% end %>
-                            <%= render :partial=>"events/user_preview", :locals => {:this_user => @this_user, :marker => marker, :counter => counter} %>
+                            <% @standings.each do |standing| %>
+                            <%= render :partial=>"events/user_preview", :locals => {:marker => standing, :counter => counter, :range => @range} %>
                             <% counter += 1 %>
                             <% end %>
                         </ul>

@@ -29,9 +29,9 @@
             <% if event.description? %>
             <%= event.description %><br/>
             <% end %>
-            <%= event.start_date %>
+            <%= event.start_date.to_formatted_s(:long) %>
             -
-            <%= event.finish_date %><br/>
+            <%= event.finish_date.to_formatted_s(:long) %><br/>
             <%= event.start_location %>
             -
             <%= event.end_location %>

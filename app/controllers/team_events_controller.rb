@@ -13,7 +13,7 @@ class TeamEventsController < ApplicationController
 
         if @all_teams.empty?
             flash[:notice] = "Sorry, you don't have any teams to enroll."
-            return redirect_to @event
+            return redirect_to new_team_path
         end
 
         @teams = []

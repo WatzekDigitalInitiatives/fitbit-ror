@@ -3,6 +3,7 @@ class UserTeamsController < ApplicationController
 
     def new
         @user = current_user
+        # flash[:notice] = 'This team is private.'
     end
 
     def create
