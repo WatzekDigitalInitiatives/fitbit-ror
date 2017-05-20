@@ -17,6 +17,7 @@
 
     var map;
     var directionsDisplay;
+    var METERS_TO_MILES = 0.000621371192;
 
     function initialize() {
         directionsDisplay = new google.maps.DirectionsRenderer();
@@ -41,17 +42,17 @@
             origin: startLocation,
             destination: endLocation,
             optimizeWaypoints: true,
-            unitSystem: google.maps.UnitSystem.METRIC,
+            unitSystem: google.maps.UnitSystem.IMPERIAL,
             travelMode: google.maps.DirectionsTravelMode.WALKING
         };
         directionsService.route(request, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
                 var route = response.routes[0];
-                var totalDistanceStr = route.legs[0].distance["text"];
-                var totalDistance = totalDistanceStr.match(/\d/g);
-                totalDistance = parseInt(totalDistance.join(""));
-                $("#event_distance").attr('value', totalDistance * 1000);
+                console.log(route.legs[0]);
+                var totalDistance = Math.round(route.legs[0].distance["value"] * METERS_TO_MILES * 10) / 10;
+                totalDistance = parseFloat(totalDistance);
+                $("#event_distance").attr('value', totalDistance);
             } else {
                 alert("Cannot find origin and destination. Please try new values for origin and destination")
             }
