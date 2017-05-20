@@ -5,6 +5,7 @@
     var startLocation = null;
     var endLocation = null;
     var waypts = null;
+    var METERS_TO_MILES = 0.000621371192;
     function createMarker(latlng, label, html, color) {
         var contentString = '<b>' + label + '</b><br>' + html;
         var marker = new google.maps.Marker({
@@ -87,9 +88,10 @@
                     if (markerDistance > totalDistance * 1000) {
                         markerDistance = (totalDistance * 1000) - 100;
                     }
+                    var distanceInMiles = Math.round((markerDistance * METERS_TO_MILES * 10) / 10 );
                     var percentCovered = Math.round((markerDistance / (totalDistance * 1000)) * 100);
                     var name = data["name"];
-                    createMarker(polyline.GetPointAtDistance(markerDistance), name + " " + (markerDistance / 1000) + "km", percentCovered + "% finished", color);
+                    createMarker(polyline.GetPointAtDistance(markerDistance), name + " " + distanceInMiles + " mi", percentCovered + "% finished", color);
                     bounds.extend(polyline.GetPointAtDistance(markerDistance));
                 }
                 bounds.extend(startLocation.latlng);
