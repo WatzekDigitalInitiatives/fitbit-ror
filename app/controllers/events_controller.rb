@@ -178,6 +178,18 @@ class EventsController < ApplicationController
     def update
         respond_to do |format|
             if @event.update(event_params)
+              if @event.team_event
+                @teams = @event.teams
+                @teams.each do |team|
+                  team.users.each do |user|
+                    set_subscription_date(user.id, @event.start_date, @event.finish_date)
+                  end
+                end
+              else
+                @event.users.each do |user|
+                  set_subscription_date(user.id, @event.start_date, @event.finish_date)
+                end
+              end
                 format.html { redirect_to @event, notice: 'Event was successfully updated.' }
                 format.json { render :show, status: :ok, location: @event }
             else
