@@ -150,7 +150,7 @@ class EventsController < ApplicationController
                         @team = Team.find(params[:team_id])
                         @team.users.each do |user|
                             set_subscription_date(user.id, @event.start_date, @event.finish_date)
-                            create_user_subscription(user) if user.events.count == 1
+                            create_user_subscription(user) if user.events.count == 1 && Rails.env.production?
                         end
                         format.html { redirect_to @event, notice: 'Event was successfully created.' }
                         format.json { render :show, status: :created, location: @event }
@@ -161,9 +161,7 @@ class EventsController < ApplicationController
                     @user_event.event_id = @event.id
                     if @user_event.save
                         set_subscription_date(current_user.id, @event.start_date, @event.finish_date)
-                        if current_user.events.count == 1
-                            create_user_subscription(current_user)
-                        end
+                        create_user_subscription(current_user) if current_user.events.count == 1 && Rails.env.production?
                         format.html { redirect_to @event, notice: 'Event was successfully created.' }
                         format.json { render :show, status: :created, location: @event }
                     end
@@ -180,6 +178,18 @@ class EventsController < ApplicationController
     def update
         respond_to do |format|
             if @event.update(event_params)
+              if @event.team_event
+                @teams = @event.teams
+                @teams.each do |team|
+                  team.users.each do |user|
+                    set_subscription_date(user.id, @event.start_date, @event.finish_date)
+                  end
+                end
+              else
+                @event.users.each do |user|
+                  set_subscription_date(user.id, @event.start_date, @event.finish_date)
+                end
+              end
                 format.html { redirect_to @event, notice: 'Event was successfully updated.' }
                 format.json { render :show, status: :ok, location: @event }
             else
@@ -208,7 +218,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-        params.require(:event).permit(:name, :start_date, :finish_date, :start_location, :end_location, :private, :team_event, :team_id, :avatar, :description)
+        params.require(:event).permit(:name, :start_date, :finish_date, :start_location, :end_location, :private, :team_event, :team_id, :avatar, :description, :distance)
     end
 
     # Checks if user owns the event to edit and destroy event
