@@ -65,7 +65,7 @@
                         <ul class="collection">
                             <% counter = 1 %>
                             <% @standings.each do |standing| %>
-                            <%= render :partial=>"events/team/user_preview", :locals => {:marker => standing, :counter => counter, :range => @range} %>
+                            <%= render :partial=>"teams/user_preview", :locals => {:marker => standing, :counter => counter, :range => @range} %>
                             <% counter += 1 %>
                             <% end %>
                         </ul>

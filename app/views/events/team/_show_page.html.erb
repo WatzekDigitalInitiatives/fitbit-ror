@@ -18,8 +18,8 @@
     <div id="team<%= team.id %>">
         <ul class="collection with-header">
             <%= render :partial=>"events/team/team_preview", :locals => {:team => team, :index => index, :range => @range} %>
-            <% team.users.each.with_index(1) do |user, index| %>
-                <%= render :partial=>"events/team/user_preview", :locals => {:user => user, :index => index, :range => @range} %>
+            <% @standings[index-1].each.with_index(1) do |user, index| %>
+                <%= render :partial=>"events/team/user_preview", :locals => {:team => team, :user => user, :index => index, :range => @range} %>
             <% end %>
         </ul>
     </div>

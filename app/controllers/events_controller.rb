@@ -79,6 +79,9 @@ class EventsController < ApplicationController
 
             @teams = @teams.sort_by { |data| -data.total_steps }
 
+            # Get standings (used in user previews)
+            @standings = set_team_standings(@teams, @date, @event.finish_date)
+
         else
 
             # Set markers for data from start_date till date
@@ -181,18 +184,18 @@ class EventsController < ApplicationController
     def update
         respond_to do |format|
             if @event.update(event_params)
-              if @event.team_event
-                @teams = @event.teams
-                @teams.each do |team|
-                  team.users.each do |user|
-                    set_subscription_date(user.id, @event.start_date, @event.finish_date)
-                  end
+                if @event.team_event
+                    @teams = @event.teams
+                    @teams.each do |team|
+                        team.users.each do |user|
+                            set_subscription_date(user.id, @event.start_date, @event.finish_date)
+                        end
+                    end
+                else
+                    @event.users.each do |user|
+                        set_subscription_date(user.id, @event.start_date, @event.finish_date)
+                    end
                 end
-              else
-                @event.users.each do |user|
-                  set_subscription_date(user.id, @event.start_date, @event.finish_date)
-                end
-              end
                 format.html { redirect_to @event, notice: 'Event was successfully updated.' }
                 format.json { render :show, status: :ok, location: @event }
             else
@@ -286,6 +289,31 @@ class EventsController < ApplicationController
             @markers << @data
         end
         @markers
+    end
+
+    def set_team_standings(teams, start_date, finish_date)
+        team_standings = []
+        teams.each do |team|
+            standings = []
+            team.users.each do |user|
+                data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
+                (start_date..finish_date).each do |date|
+                    activity = Activity.find_by(entry_date: date, user_id: user.id)
+                    if activity
+                        data['total_steps'] += activity.steps
+                        data['steps'] = activity.steps
+                        data['goals'].append(activity.goal_met)
+                    else
+                        data['total_steps'] += 0
+                        data['steps'] = 0
+                        data['goals'].append(false)
+                    end
+                end
+                standings << data
+            end
+            team_standings << standings
+        end
+        team_standings
     end
 
     def set_user_standings(users, start_date, finish_date)
