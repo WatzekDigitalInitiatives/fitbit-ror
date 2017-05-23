@@ -1,5 +1,7 @@
-<li class="collection-header" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url(<%= team.avatar.url(:preview) %>) no-repeat;">
-    <% if team.avatar? %>
-    <% end %>
+<% if team.avatar? %>
+<li class="collection-item" style="background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8), rgba(255,255,255,0)), url(<%= team.avatar.url(:preview) %>) no-repeat;">
+<% else %>
+    <li class="collection-item" style="background: linear-gradient(to right, transparent, transparent, <%= team.hexcolor %>);">
+        <% end %>
     <h4><%= team.name %></h4>
 </li>
