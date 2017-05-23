@@ -98,25 +98,14 @@
         <div class="col s12">
             <div class="card z-depth-2">
                 <% if @event.team_event? %>
-                <%= render :partial=>"events/team_show_page" %>
+                <%= render :partial=>"events/team/show_page" %>
             <% else %>
-                <%= render :partial=>"events/individual_show_page" %>
+                <%= render :partial=>"events/individual/show_page" %>
                 <% end %>
             </div>
         </div>
     </div>
 
-    <!-- <div class="row">
-    <div class="col s12 standing">
-        <div class="dates center-align">Standings</div>
-        <div class="dates center-align">(<%= @date %>)</div><br/>
-        <% if @event.team_event? %>
-        <%= render :partial=>"events/team_show_page" %>
-    <% else %>
-        <%= render :partial=>"events/individual_show_page" %>
-        <% end %>
-    </div>
-</div> -->
     <!-- container closing div -->
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&callback=initialize', :type => "text/javascript", :async => true %>
     <!-- <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY'] %> -->

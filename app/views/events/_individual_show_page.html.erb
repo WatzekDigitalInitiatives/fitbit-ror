@@ -1,9 +1,0 @@
-<div class="card-content">
-    <ul class="collection">
-        <% counter = 1 %>
-        <% @markers.each do |marker| %>
-        <%= render :partial=>"events/user_preview", :locals => {:marker => marker, :counter => counter, :range => @range} %>
-        <% counter += 1 %>
-        <% end %>
-    </ul>
-</div>

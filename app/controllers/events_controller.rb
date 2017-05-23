@@ -101,6 +101,9 @@ class EventsController < ApplicationController
             end
             @users = @users.sort_by { |data| -data.steps }
 
+            # Get standings (used in user previews)
+            @standings = set_user_standings(@users, @date, @event.finish_date)
+
         end
 
         @event.static_map_preview = [
@@ -283,6 +286,27 @@ class EventsController < ApplicationController
             @markers << @data
         end
         @markers
+    end
+
+    def set_user_standings(users, start_date, finish_date)
+        user_standings = []
+        users.each do |user|
+            data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
+            (start_date..finish_date).each do |date|
+                activity = Activity.find_by(entry_date: date, user_id: user.id)
+                if activity
+                    data['total_steps'] += activity.steps
+                    data['steps'] = activity.steps
+                    data['goals'].append(activity.goal_met)
+                else
+                    data['total_steps'] += 0
+                    data['steps'] = 0
+                    data['goals'].append(false)
+                end
+            end
+            user_standings << data
+        end
+        user_standings
     end
 
     def set_user_markers(event_id, finish_date)

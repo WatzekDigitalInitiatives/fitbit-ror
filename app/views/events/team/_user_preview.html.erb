@@ -1,0 +1,39 @@
+<li class="collection-item avatar" style="background: linear-gradient(to right, transparent, transparent, <%= marker['hexcolor'] %>);">
+    <%= image_tag marker['avatar'], :class => 'circle z-depth-3' %>
+    <span class="title"><%= counter %>.
+        <%= marker['name'] %></span>
+    <p>
+        <% if @event && !@event.team_event && @date == @event.finish_date %>
+            <% if counter == 1 %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User finished <%=counter.ordinalize %>">looks_one</i>
+            <% end %>
+            <% if counter == 2 %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User finished <%=counter.ordinalize %>">looks_two</i>
+            <% end %>
+            <% if counter == 3 %>
+            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User finished <%=counter.ordinalize %>">looks_3</i>
+            <% end %>
+        <% end %>
+        <% if marker['goals'].last && @date < @event.finish_date %>
+        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Daily goal reached">assignment_turned_in</i>
+        <% end %>
+        <% if false %>
+        <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User is on a streak">trending_up</i>
+        <% end %>
+        <br/>
+        <b>Today: </b>
+        <%= number_with_delimiter(marker['steps']) %> steps<br/>
+        <b><%= range + 1 %> day total: </b>
+        <%= number_with_delimiter(marker["total_steps"]) %> steps<br/>
+        <b><%= range + 1 %> day streak:</b>
+        <% marker['goals'].each do |goal_met| %>
+            <% if goal_met %>
+            <span style="color: green;">&#10004;
+            </span>
+        <% else %>
+            <span style="color: red;">&#10007;
+            </span>
+            <% end %>
+        <% end %>
+    </p>
+</li>
