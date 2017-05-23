@@ -21,11 +21,11 @@
         <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="User is on a streak">trending_up</i>
         <% end %>
         <br/>
-        <b>Today: </b>
+        <b>Steps <%= @date.today? ? "today" : @date.strftime("on %b %d") %>: </b>
         <%= number_with_delimiter(user['steps']) %> steps<br/>
-        <b><%= range + 1 %> day total: </b>
+        <b><%= range + 1 %> day total<%= @date.today? ? "" : @date.strftime(" on %b %d") %>: </b>
         <%= number_with_delimiter(user['total_steps']) %> steps<br/>
-        <b><%= range + 1 %> day streak:</b>
+        <b><%= range + 1 %> day streak<%= @date.today? ? "" : @date.strftime(" on %b %d") %>:</b>
         <% user['goals'].each do |goal_met| %>
             <% if goal_met %>
             <span style="color: green;">&#10004;
