@@ -44,6 +44,11 @@
                     <%= link_to 'Disband', @team, method: :delete, data: { confirm: 'Are you sure?' } %>
                     <% end %>
                 </div>
+                <script>
+                    if ($.trim($('.card-action').html()).length == 0) {
+                        $('.card-action').hide();
+                    }
+                </script>
             </div>
         </div>
     </div>

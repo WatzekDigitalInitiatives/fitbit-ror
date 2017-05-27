@@ -19,7 +19,9 @@
                 <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="You are the owner">grade</i>
                 <% end %>
             </span><br/>
+            <% if team.description? %>
             <%= team.description %><br/>
+            <% end %>
             <%= team.avg_steps %>
             average steps
         </p>
