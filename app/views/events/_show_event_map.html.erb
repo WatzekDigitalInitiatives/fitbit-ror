@@ -53,9 +53,7 @@
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
                 var route = response.routes[0];
-                var totalDistanceStr = route.legs[0].distance["text"];
-                var totalDistance = totalDistanceStr.match(/\d/g);
-                totalDistance = parseInt(totalDistance.join(""));
+                var totalDistance = Math.round(route.legs[0].distance["value"] * 10) / 10;
                 startLocation = new Object();
                 endLocation = new Object();
                 var polyline = new google.maps.Polyline({path: [], strokeColor: '#FF0000', strokeWeight: 3});
@@ -82,14 +80,15 @@
                 var bounds = new google.maps.LatLngBounds();
                 for (var i = 0; i < gon.mapArgs["markers"].length; i++) {
                     var data = gon.mapArgs["markers"][i];
-                    var markerDistance = data["total_steps"];
+                    var markerDistance = data["total_steps"] * 0.762;
                     var color = data["hexcolor"].slice(1);
                     var avatar = data["avatar"];
-                    if (markerDistance > totalDistance * 1000) {
-                        markerDistance = (totalDistance * 1000) - 100;
+                    // making finish point 100 meters behind finish marker so we can see them
+                    if (markerDistance > totalDistance) {
+                        markerDistance = totalDistance - 10;
                     }
                     var distanceInMiles = Math.round((markerDistance * METERS_TO_MILES * 10) / 10 );
-                    var percentCovered = Math.round((markerDistance / (totalDistance * 1000)) * 100);
+                    var percentCovered = Math.round((markerDistance / (totalDistance)) * 100);
                     var name = data["name"];
                     createMarker(polyline.GetPointAtDistance(markerDistance), name + " " + distanceInMiles + " mi", percentCovered + "% finished", color);
                     bounds.extend(polyline.GetPointAtDistance(markerDistance));
