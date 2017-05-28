@@ -37,6 +37,7 @@ class TeamsController < ApplicationController
     # GET /teams/1.json
     def show
         @user = current_user
+        redirect_to join_team_path if !@user.teams.include?(@team) && @team.private
         @users = @team.users
         @range = 4
         @standings = get_team_standings(@range)

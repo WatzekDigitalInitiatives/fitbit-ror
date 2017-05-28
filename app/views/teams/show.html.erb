@@ -4,7 +4,6 @@
 
 <div class="container">
     <div class="row">
-        <% if current_user.present? %>
         <div class="profile col s2">
             <%= render :partial=>"layouts/profile", :locals => {:user => @user} %>
             <%= render :partial=>"layouts/sidenav" %>
@@ -15,13 +14,5 @@
             </div>
             <%= render :partial=>"teams/show_team", :locals => {:team => @team} %>
         </div>
-    <% else %>
-        <div class="feed col s12">
-            <div class="feed-title">
-                <%= @team.name %>
-            </div>
-            <%= render :partial=>"teams/show_team", :locals => {:team => @team} %>
-        </div>
-        <% end %>
     </div>
 </div>

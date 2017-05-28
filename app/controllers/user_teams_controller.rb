@@ -31,10 +31,9 @@ class UserTeamsController < ApplicationController
     end
 
     def destroy
-        # @user_team = UserTeam.find(user_id: params[user.id], team_id: params[team.id])
         UserTeam.find_by(user_id: params[:user_id], team_id: params[:team_id]).destroy
         respond_to do |format|
-            format.html { redirect_to :back, notice: 'User was successfully removed.' }
+            format.html { redirect_to teams_url, notice: 'You successfully left the team' }
             format.json { head :no_content }
         end
     end
