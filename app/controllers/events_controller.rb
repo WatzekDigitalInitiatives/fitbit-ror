@@ -153,7 +153,7 @@ class EventsController < ApplicationController
                     @team_event.team_id = params[:team_id]
                     @team_event.event_id = @event.id
                     if @team_event.save
-                        @team = Team.find(params[:team_id])
+                        @team = Team.where(id: params[:team_id]).first
                         @team.users.each do |user|
                             set_subscription_date(user.id, @event.start_date, @event.finish_date)
                             create_user_subscription(user) if user.events.count == 1 && Rails.env.production?
@@ -240,9 +240,16 @@ class EventsController < ApplicationController
             return redirect_to events_path, notice: 'You need to log in to access this event.'
         end
         if @event.private && current_user.id != @event.createdby
-            unless @event.users.include?(current_user)
-                return redirect_to events_path, notice: 'This event is private.'
+          if @event.team_event
+            @intersection = @event.teams && current_user.teams
+            if @intersection.empty?
+              return redirect_to events_path, notice: 'None of your teams are enrolled in this event.'
             end
+          else
+            unless @event.users.include?(current_user)
+              return redirect_to events_path, notice: 'This event is private.'
+            end
+          end
         end
     end
 
