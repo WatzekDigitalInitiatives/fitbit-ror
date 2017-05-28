@@ -1,0 +1,7 @@
+<div class="card-content">
+    <ul class="collection">
+        <% @standings.each.with_index(1) do |user, index| %>
+            <%= render :partial=>"events/individual/user_preview", :locals => {:user => user, :index => index, :range => @range} %>
+        <% end %>
+    </ul>
+</div>
