@@ -39,7 +39,7 @@
                     <% if !@team.users.include?(current_user) && !@team.private %>
                     <%= link_to 'Join', user_teams_create_path(invitecode: @team.invitecode), method: :create %>
                     <% else %>
-                    <%= link_to 'Leave team', leave_team_path(user_id: current_user.id, team_id: @team.id), method: :delete %>
+                    <%= link_to 'Leave team', leave_team_path(team_id: @team.id), method: :delete %>
                     <% end %>
                     <% if @current_user_admin %>
                     <%= link_to 'Update', edit_team_path(@team) %>
