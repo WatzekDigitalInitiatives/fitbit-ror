@@ -26,18 +26,20 @@
                         </span><br/>
                         <%= team.description %><br/>
                         <% if team.private? %>
-                        code
+                        Code:
                         <%= team.invitecode %><br/>
                         <% end %>
                         <!-- Team Color:
                     <span style="background-color: <%= team.hexcolor %>;"><%= team.hexcolor %></span><br/> -->
                         <%= @stats['avg_steps'] %>
-                        average steps
+                        Average steps
                     </p>
                 </div>
                 <div class="card-action">
                     <% if !@team.users.include?(current_user) && !@team.private %>
                     <%= link_to 'Join', user_teams_create_path(invitecode: @team.invitecode), method: :create %>
+                    <% else %>
+                    <%= link_to 'Leave team', leave_team_path(team_id: @team.id), method: :delete %>
                     <% end %>
                     <% if @current_user_admin %>
                     <%= link_to 'Update', edit_team_path(@team) %>
