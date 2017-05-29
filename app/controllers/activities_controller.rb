@@ -28,7 +28,7 @@ class ActivitiesController < ApplicationController
 
       if @user
 
-        refresh_user_token(user_id)
+        refresh_user_token(@user.id)
 
         client = @user.fitbit_client
         goal = daily_goal(client)
