@@ -32,7 +32,7 @@ class TeamEventsController < ApplicationController
 
         unless @event
             flash[:notice] = 'Sorry, no event found with that invite code.'
-            return redirect_to join_event_path
+            return redirect_to :back
         end
         if TeamEvent.find_by(team_id: params[:team_id], event_id: @event.id)
             flash[:notice] = 'You are already registered for this event.'
@@ -46,7 +46,7 @@ class TeamEventsController < ApplicationController
                 @team = Team.where(id: params[:team_id]).first
                 @team.users.each do |user|
                     set_subscription_date(user.id, @event.start_date, @event.finish_date)
-                    create_user_subscription(user) if user.events.count == 1
+                    create_user_subscription(user) if user.events.count == 1 && Rails.env.production?
                 end
                 format.html { redirect_to @event, notice: 'Successfully enrolled your team in the event.' }
                 format.json { render :show, status: :created, location: @user_event }

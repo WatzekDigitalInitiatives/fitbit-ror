@@ -1,6 +1,7 @@
 <div class="card-tabs">
     <ul class="tabs tabs-fixed-width">
-        <% @teams.each do |team, index| %>
+        <% @participating_teams = @teams.reject{ |team| !current_user.teams.include? team} # hide data of teams user is not member of %>
+        <% @participating_teams.each do |team, index| %>
         <% if index == 0 %>
         <li class="tab">
             <a href="#team<%= team.id %>" class="active"><%= team.name %></a>
@@ -14,7 +15,7 @@
     </ul>
 </div>
 <div class="card-content">
-    <% @teams.each.with_index(1) do |team, index| %>
+    <% @participating_teams.each.with_index(1) do |team, index| %>
     <div id="team<%= team.id %>">
         <ul class="collection with-header">
             <%= render :partial=>"events/team/team_preview", :locals => {:team => team, :index => index, :range => @range} %>
