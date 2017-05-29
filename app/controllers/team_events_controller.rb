@@ -46,7 +46,7 @@ class TeamEventsController < ApplicationController
                 @team = Team.where(id: params[:team_id]).first
                 @team.users.each do |user|
                     set_subscription_date(user.id, @event.start_date, @event.finish_date)
-                    create_user_subscription(user) if user.events.count == 1 && Rails.env.production?
+                    create_user_subscription(user) if Rails.env.production?
                 end
                 format.html { redirect_to @event, notice: 'Successfully enrolled your team in the event.' }
                 format.json { render :show, status: :created, location: @user_event }
