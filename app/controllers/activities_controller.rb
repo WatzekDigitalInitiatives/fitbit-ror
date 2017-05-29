@@ -22,8 +22,9 @@ class ActivitiesController < ApplicationController
   def update_activity(users)
     users.each do |user|
 
-      user_id = user["subscriptionId"]
-      @user = User.where(id: user_id).first
+      fitibt_id = user["subscriptionId"]
+      identity = Identity.where(uid: fitbit_id).first
+      @user = identity.user
 
       if @user
 

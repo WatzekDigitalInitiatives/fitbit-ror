@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 
    def create_user_subscription(user)
      client = user.fitbit_client
-     client.create_subscription(type: 'activities', subscription_id: user.id)
+     client.create_subscription(type: 'activities', subscription_id: client.user_id)
    end
 
    def refresh_user_token(user_id)
