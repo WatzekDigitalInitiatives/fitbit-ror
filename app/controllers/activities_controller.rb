@@ -22,7 +22,7 @@ class ActivitiesController < ApplicationController
   def update_activity(users)
     users.each do |user|
 
-      fitibt_id = user["subscriptionId"]
+      fitbit_id = user["subscriptionId"]
       identity = Identity.where(uid: fitbit_id).first
       @user = identity.user
 
