@@ -110,11 +110,11 @@ class TeamsController < ApplicationController
     end
 
     def get_team_stats(range)
-        finish_date = Date.today + range
+        start_date = Date.today - range
         @stats = {}
         @stats['total_steps'] = 0
         @team.users.each do |user|
-            (Date.today..finish_date).each do |date|
+            (start_date..Date.today).each do |date|
                 @activity = Activity.find_by(entry_date: date, user_id: user.id)
                 if @activity
                     @stats['total_steps'] += @activity.steps
@@ -128,11 +128,11 @@ class TeamsController < ApplicationController
     end
 
     def get_team_standings(range)
-        finish_date = Date.today + range
+        start_date = Date.today - range
         @standings = []
         @team.users.each do |user|
             @data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
-            (Date.today..finish_date).each do |date|
+            (start_date..Date.today).each do |date|
                 @activity = Activity.find_by(entry_date: date, user_id: user.id)
                 if @activity
                     @data['total_steps'] += @activity.steps
