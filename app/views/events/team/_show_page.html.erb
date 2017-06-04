@@ -1,7 +1,7 @@
 <div class="card-tabs">
     <ul class="tabs tabs-fixed-width">
         <% @participating_teams = @teams.reject{ |team| !current_user.teams.include? team} # hide data of teams user is not member of %>
-        <% @participating_teams.each do |team, index| %>
+        <% @teams.each do |team, index| %>
         <% if index == 0 %>
         <li class="tab">
             <a href="#team<%= team.id %>" class="active"><%= team.name %></a>
@@ -15,12 +15,16 @@
     </ul>
 </div>
 <div class="card-content">
-    <% @participating_teams.each.with_index(1) do |team, index| %>
+    <% @teams.each.with_index(1) do |team, index| %>
     <div id="team<%= team.id %>">
         <ul class="collection with-header">
             <%= render :partial=>"events/team/team_preview", :locals => {:team => team, :index => index, :range => @range} %>
-            <% @standings[index-1].each.with_index(1) do |user, index| %>
-                <%= render :partial=>"events/team/user_preview", :locals => {:team => team, :user => user, :index => index, :range => @range} %>
+            <% if @participating_teams.include?(team) %>
+              <% @standings[index-1].each.with_index(1) do |user, index| %>
+                  <%=  render :partial=>"events/team/user_preview", :locals => {:team => team, :user => user, :index => index, :range => @range} %>
+              <% end %>
+            <% else %>
+              <li class="collection-item" style="background: linear-gradient(to right, transparent, transparent, <%= team.hexcolor %>);">This team's data is private.</li>
             <% end %>
         </ul>
     </div>
