@@ -110,43 +110,46 @@ class TeamsController < ApplicationController
     end
 
     def get_team_stats(range)
-        start_date = Date.today - range
-        @stats = {}
-        @stats['total_steps'] = 0
-        @team.users.each do |user|
-            (start_date..Date.today).each do |date|
-                @activity = Activity.find_by(entry_date: date, user_id: user.id)
-                if @activity
-                    @stats['total_steps'] += @activity.steps
-                else
-                    @stats['total_steps'] += 0
-                end
-            end
-        end
-        @stats['avg_steps'] = @stats['total_steps'] / @users.count
-        @stats
+      # hardcoding range to 0 so we get average for that day only
+      # keeping the range functionality so we can calculate average of past days if needed
+      range = 0
+      start_date = Date.today - range
+      @stats = {}
+      @stats['total_steps'] = 0
+      @team.users.each do |user|
+          (start_date..Date.today).each do |date|
+              @activity = Activity.find_by(entry_date: date, user_id: user.id)
+              if @activity
+                  @stats['total_steps'] += @activity.steps
+              else
+                  @stats['total_steps'] += 0
+              end
+          end
+      end
+      @stats['avg_steps'] = @stats['total_steps'] / @users.count
+      @stats
     end
 
     def get_team_standings(range)
-        start_date = Date.today - range
-        @standings = []
-        @team.users.each do |user|
-            @data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
-            (start_date..Date.today).each do |date|
-                @activity = Activity.find_by(entry_date: date, user_id: user.id)
-                if @activity
-                    @data['total_steps'] += @activity.steps
-                    @data['steps'] = @activity.steps
-                    @data['goals'].append(@activity.goal_met)
-                else
-                    @data['total_steps'] += 0
-                    @data['steps'] = 0
-                    @data['goals'].append(false)
-                end
-            end
-            @standings << @data
-        end
-        @standings
+      start_date = Date.today - range
+      @standings = []
+      @team.users.each do |user|
+          @data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
+          (start_date..Date.today).each do |date|
+              @activity = Activity.find_by(entry_date: date, user_id: user.id)
+              if @activity
+                  @data['total_steps'] += @activity.steps
+                  @data['steps'] = @activity.steps
+                  @data['goals'].append(@activity.goal_met)
+              else
+                  @data['total_steps'] += 0
+                  @data['steps'] = 0
+                  @data['goals'].append(false)
+              end
+          end
+          @standings << @data
+      end
+      @standings
     end
 
     private
