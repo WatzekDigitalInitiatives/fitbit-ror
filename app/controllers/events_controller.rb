@@ -80,7 +80,7 @@ class EventsController < ApplicationController
             @teams = @teams.sort_by { |data| -data.total_steps }
 
             # Get standings (used in user previews)
-            @standings = set_team_standings(@teams, @date, @event.finish_date)
+            @standings = set_team_standings(@teams, @event.start_date, @event.finish_date, @date)
 
         else
 
@@ -105,7 +105,7 @@ class EventsController < ApplicationController
             @users = @users.sort_by { |data| -data.steps }
 
             # Get standings (used in user previews)
-            @standings = set_user_standings(@users, @date, @event.finish_date)
+            @standings = set_user_standings(@users, @event.start_date, @event.finish_date, @date)
 
         end
 
@@ -298,7 +298,7 @@ class EventsController < ApplicationController
         @markers
     end
 
-    def set_team_standings(teams, start_date, finish_date)
+    def set_team_standings(teams, start_date, finish_date, query_date)
         team_standings = []
         teams.each do |team|
             standings = []
@@ -308,13 +308,17 @@ class EventsController < ApplicationController
                     activity = Activity.find_by(entry_date: date, user_id: user.id)
                     if activity
                         data['total_steps'] += activity.steps
-                        data['steps'] = activity.steps
                         data['goals'].append(activity.goal_met)
                     else
                         data['total_steps'] += 0
-                        data['steps'] = 0
                         data['goals'].append(false)
                     end
+                end
+                activity = Activity.find_by(entry_date: query_date, user_id: user.id)
+                if activity
+                  data['steps'] = activity.steps
+                else
+                  data['steps'] = 0
                 end
                 standings << data
             end
@@ -323,7 +327,7 @@ class EventsController < ApplicationController
         team_standings
     end
 
-    def set_user_standings(users, start_date, finish_date)
+    def set_user_standings(users, start_date, finish_date, query_date)
         user_standings = []
         users.each do |user|
             data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
@@ -331,13 +335,17 @@ class EventsController < ApplicationController
                 activity = Activity.find_by(entry_date: date, user_id: user.id)
                 if activity
                     data['total_steps'] += activity.steps
-                    data['steps'] = activity.steps
                     data['goals'].append(activity.goal_met)
                 else
                     data['total_steps'] += 0
-                    data['steps'] = 0
                     data['goals'].append(false)
                 end
+            end
+            activity = Activity.find_by(entry_date: query_date, user_id: user.id)
+            if activity
+              data['steps'] = activity.steps
+            else
+              data['steps'] = 0
             end
             user_standings << data
         end
