@@ -304,7 +304,7 @@ class EventsController < ApplicationController
             standings = []
             team.users.each do |user|
                 data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
-                (start_date..finish_date).each do |date|
+                (start_date..query_date).each do |date|
                     activity = Activity.find_by(entry_date: date, user_id: user.id)
                     if activity
                         data['total_steps'] += activity.steps
@@ -331,7 +331,7 @@ class EventsController < ApplicationController
         user_standings = []
         users.each do |user|
             data = { 'total_steps' => 0, 'steps' => 0, 'hexcolor' => user.hexcolor, 'name' => user.name, 'avatar' => user.avatar.url, 'id' => user.id, 'goals' => [] }
-            (start_date..finish_date).each do |date|
+            (start_date..query_date).each do |date|
                 activity = Activity.find_by(entry_date: date, user_id: user.id)
                 if activity
                     data['total_steps'] += activity.steps
