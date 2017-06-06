@@ -13,11 +13,24 @@
         $("#event_team_event").change(function () {
             $(".teams").toggle("slow");
         });
+        $("#event_finish_date").change(toggleDateCheck);
+        $("#event_start_date").change(toggleDateCheck);
     });
 
     var map;
     var directionsDisplay;
     var METERS_TO_MILES = 0.000621371192;
+
+    function toggleDateCheck(){
+      if ($("#event_start_date").val()){
+        start_date = new Date($("#event_start_date").val());
+        finish_date = new Date($("#event_finish_date").val());
+        if (finish_date <= start_date){
+          alert("Please make sure the finish date is after start date.");
+          $(this).val("");
+        }
+      }
+    }
 
     function initialize() {
         directionsDisplay = new google.maps.DirectionsRenderer();

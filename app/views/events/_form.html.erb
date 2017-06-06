@@ -15,7 +15,7 @@
     <div class="col s6">
         <div class="field">
             <%= f.label :name %><br>
-            <%= f.text_field :name, :maxlength => 200 %>
+            <%= f.text_field :name, :maxlength => 200, :required => true %>
         </div>
     </div>
     <div class="col s6">
@@ -29,25 +29,25 @@
     <div class="col m3 s6">
         <div class="field">
             <%= f.label :start_location %><br>
-            <%= f.text_field :start_location %>
+            <%= f.text_field :start_location, :required => true %>
         </div>
     </div>
     <div class="col m3 s6">
         <div class="field">
             <%= f.label :end_location %><br>
-            <%= f.text_field :end_location %>
+            <%= f.text_field :end_location, :required => true %>
         </div>
     </div>
     <div class="col m3 s6">
         <div class="field">
             <%= f.label :start_date %><br>
-            <%= f.text_field :start_date, class: "datepicker"%>
+            <%= f.text_field :start_date, class: "datepicker", :required => true %>
         </div>
     </div>
     <div class="col m3 s6">
         <div class="field">
             <%= f.label :finish_date %><br>
-            <%= f.text_field :finish_date, class: "datepicker"%>
+            <%= f.text_field :finish_date, class: "datepicker", :required => true %>
         </div>
     </div>
 </div>
