@@ -32,6 +32,10 @@ class UserTeamsController < ApplicationController
 
     def destroy
         UserTeam.find_by(user_id: current_user.id, team_id: params[:team_id]).destroy
+        @team = Team.where(id: params[:team_id]).first
+        if @team.users.count == 0
+          @team.destroy
+        end
         respond_to do |format|
             format.html { redirect_to teams_url, notice: 'You successfully left the team' }
             format.json { head :no_content }
