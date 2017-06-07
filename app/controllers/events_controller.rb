@@ -241,7 +241,7 @@ class EventsController < ApplicationController
         end
         if @event.private && current_user.id != @event.createdby
           if @event.team_event
-            @intersection = @event.teams && current_user.teams
+            @intersection = @event.teams & current_user.teams
             if @intersection.empty?
               return redirect_to events_path, notice: 'None of your teams are enrolled in this event.'
             end
