@@ -3,7 +3,7 @@ language: ruby
 sudo: required
 
 notifications:
-  email: false
+  slack: watzekdi:3ePbwCVsfxG4hrbo0dtBLa0r
 
 branches:
   only:
@@ -23,9 +23,6 @@ before_install:
   - gem install bundler
   - gem update --system
   - bundle update rake
-
-before_script:
-  - psql -c 'create database "fitbit-ror_test";' -U postgres
 
 script:
   - rake db:create
