@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 20170520192016) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.float    "distance"
-    t.string   "event_type"
   end
 
   create_table "identities", force: :cascade do |t|

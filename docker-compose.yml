@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+
+  app:
+    image: watzek/walklc
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+
+  db:
+    image: postgres
+
+  migrate:
+    image: watzek/walklc
+    depends_on:
+      - db
+    command: bash -c "sleep 20 && rake db:migrate"
