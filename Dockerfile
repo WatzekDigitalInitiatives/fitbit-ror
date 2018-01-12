@@ -1,4 +1,4 @@
-FROM ruby:2.4
+FROM ruby:2.3
 
 # install nodejs runtime
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && apt-get install -y nodejs
@@ -10,9 +10,8 @@ RUN bundle install
 
 # configure app
 ENV RAILS_ENV production
-ENV DEVISE_SECRET_KEY "$(rake secret)"
-ENV SECRET_KEY_BASE "$(rake secret)"
+ENV DB_HOST db
 
 # run
 EXPOSE 3000
-CMD ["rails", "s"]
+CMD ["rails", "s", "-b", "0.0.0.0"]

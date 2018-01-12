@@ -8,6 +8,8 @@ services:
       - db
     ports:
       - 3000:3000
+    environment:
+      RAILS_ENV: development
 
   db:
     image: postgres
